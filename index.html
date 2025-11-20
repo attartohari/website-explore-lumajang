@@ -4,25 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Lumajang</title>
+
+    <!-- MY FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- FEATHER ICONS -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- MY STYLES -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
     <header>
-            <div class="navbar">
-                <img src="image/putih.png" alt="Logo Website">
+        <nav class="navbar">
+            <img class="navbar-logo" src="/image/ireng.png" alt="Logo Explore Lumajang">
+
+            <div class="navbar-nav">
+                <a href="#">Home</a>
+                <a href="#destination">Destinasi</a>
+                <a href="#tourism">Wisata</a>
+                <a href="#budkul">Budaya & Kuliner</a>
+                <a href="#contact">Kontak</a>
             </div>
-            <div>
-                <ul>
-                    <li>
-                        <a href="#">Home</a>
-                        <a href="destination">Destinasi</a>
-                        <a href="tourism">Wisata</a>
-                        <a href="budkul">Budaya & Kuliner</a>
-                        <a href="contact">Kontak</a>
-                    </li>
-                </ul>
+
+            <div class="div-extra">
+                <a href="#" id="search"><i data-feather="search"></i></a>
+                <a href="#" id="menu"><i data-feather="menu"></i></a>
             </div>
+        </nav>
     </header>
 
     <main>
@@ -37,5 +48,9 @@
 
     </footer>
 
+    <!-- FEATHER ICONS -->
+    <script>
+      feather.replace();
+    </script>
 </body>
 </html>
