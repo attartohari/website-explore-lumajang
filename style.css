@@ -94,27 +94,234 @@ body {
 
 
 /* HERO SECTION */
-
 .hero {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background-image: url('image/tumpak\ sewu\ 1.png');
+  background-image: url(image/tumpak\ sewu\ 1.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   position: relative;
+  padding-top: 5rem;
 }
 
 .hero::after {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(0deg, rgba(1, 1, 3, 1) 3%,rgba(255, 255, 255, 0) 25%);
+content: "";
+display: block;
+position: absolute;
+width: 100%;
+height: 100%;
+background: linear-gradient(
+0deg,
+rgba(1, 1, 3, 0.9) 5%,
+rgba(0, 0, 0, 0.3) 40%,
+rgba(255, 255, 255, 0) 80%
+);
 }
 
+.hero-inner {
+position: relative;
+z-index: 1;
+width: 100%;
+padding: 1.4rem 7%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 2rem;
+}
+
+.hero-text {
+max-width: 40rem;
+}
+
+.hero-label {
+font-size: 0.9rem;
+letter-spacing: 0.25em;
+text-transform: uppercase;
+color: #d0d0d0;
+margin-bottom: 0.8rem;
+}
+
+.hero-text h1 {
+font-size: 3.6rem;
+color: #ffffff;
+text-shadow: 1px 1px 3px rgba(1, 1, 3, 0.7);
+margin-bottom: 0.6rem;
+}
+
+.hero-desc {
+font-size: 1rem;
+color: #e0e0e0;
+margin-bottom: 1.5rem;
+max-width: 30rem;
+}
+
+.hero-actions {
+display: flex;
+flex-wrap: wrap;
+gap: 1rem;
+align-items: center;
+}
+
+.btn-primary {
+display: inline-block;
+padding: 0.9rem 1.8rem;
+border-radius: 999px;
+background-color: #f5b200;
+color: #000000;
+font-weight: 600;
+font-size: 0.95rem;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.btn-primary:hover {
+background-color: #ffcc3a;
+}
+
+.hero-actions #map {
+display: inline-flex;
+align-items: center;
+gap: 0.4rem;
+padding: 0.8rem 1.4rem;
+border-radius: 999px;
+background-color: rgba(17, 53, 94, 0.9);
+color: #ffffff;
+font-size: 0.85rem;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.hero-actions #map:hover {
+background-color: rgba(29, 84, 108, 1);
+}
+
+.hero-actions #map i {
+width: 18px;
+height: 18px;
+}
+
+.hero-card {
+  width: 190px;
+  height: 290px;
+  border-radius: 1.2rem;
+  -webkit-border-radius: 1.2rem;
+  -moz-border-radius: 1.2rem;
+  -ms-border-radius: 1.2rem;
+  -o-border-radius: 1.2rem;
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transform: translateY(18px) scale(0.9);
+  -webkit-transform: translateY(18px) scale(0.9);
+  -moz-transform: translateY(18px) scale(0.9);
+  -ms-transform: translateY(18px) scale(0.9);
+  -o-transform: translateY(18px) scale(0.9);
+  opacity: 0.45;
+  filter: blur(0.5px);
+  -webkit-filter: blur(0.5px);
+  transition: 
+    transform 0.35s ease,
+    opacity 0.35s ease,
+    filter 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.hero-card img {
+width: 100%;
+height: 68%;
+object-fit: cover;
+display: block;
+}
+
+.hero-card:not(.active):hover {
+  opacity: 0.8;
+  transform: translateY(10px) scale(0.95);
+  -webkit-transform: translateY(10px) scale(0.95);
+  -moz-transform: translateY(10px) scale(0.95);
+  -ms-transform: translateY(10px) scale(0.95);
+  -o-transform: translateY(10px) scale(0.95);
+}
+
+.hero-card-body {
+padding: 0.8rem 1rem;
+height: 32%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+.hero-card-body h3 {
+font-size: 1rem;
+color: #ffffff;
+margin-bottom: 0.3rem;
+}
+
+.hero-card-body p {
+font-size: 0.85rem;
+color: #d0d0d0;
+}
+
+/* kartu yang sedang aktif */
+.hero-card.active {
+  transform: translateY(0) scale(1.05);
+  opacity: 1;
+  filter: none;
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* kontrol slider di bawah kartu */
+.hero-slider-controls {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hero-prev,
+.hero-next {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hero-prev:hover,
+.hero-next:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.hero-progress-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.7);
+}
+
+.hero-progress-fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #f5b200, #ffdd55);
+  box-shadow: 0 0 18px rgba(245, 178, 0, 0.9);
+  transition: width 0.35s ease;
+}
+
+.hero-slide-index,
+.hero-slide-count {
+  font-size: 0.85rem;
+  color: #ffffff;
+} 
 
 
 /* MEDIA QUERIES */
@@ -179,4 +386,20 @@ body {
     html {
         font-size: 55%;
     }
+
+    .hero-inner {
+flex-direction: column;
+align-items: flex-start;
+}
+
+.hero-cards {
+width: 100%;
+justify-content: flex-start;
+overflow-x: auto;
+padding-bottom: 0.5rem;
+}
+
+.hero-card {
+flex: 0 0 180px;
+}
 }
