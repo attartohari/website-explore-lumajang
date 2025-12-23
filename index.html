@@ -4,28 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Explore Lumajang</title>
-
-    <!-- MY FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,400&display=swap"
       rel="stylesheet"
     />
-
-    <!-- FEATHER ICONS -->
     <script src="https://unpkg.com/feather-icons"></script>
-    <!-- MY STYLES -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header>
       <nav class="navbar" aria-label="Navigasi Utama">
-        <!-- LOGO -->
         <a href="#home" class="navbar-brand" aria-label="Beranda Explore Lumajang">
           <img src="image/putih.png" alt="Logo Explore Lumajang" class="navbar-logo">
         </a>
-        <!-- MAIN NAVIGASI -->
         <div class="navbar-nav" role="Navigation">
           <a href="#home" class="navbar-link active" aria-current="page">Home</a>
           <a href="#destination" class="navbar-link">Destinasi</a>
@@ -33,7 +26,6 @@
           <a href="#budkul" class="navbar-link">Budaya & Kuliner</a>
           <a href="#contact" class="navbar-link">Kontak</a>
         </div>
-        <!-- EXTRA ICONS BRO -->
         <div class="navbar-extra">
           <a href="#" id="search" class="nav-icon" aria-label="Cari">
             <i data-feather="search"></i>
@@ -44,109 +36,234 @@
         </div>
       </nav>
     </header>
-    <!-- MAIN CONTENT -->
     <main>
-      <!-- HERO SECTION START-->
       <section class="hero" id="home" aria-labelledby="hero-title">
         <div class="hero-inner">
-          <!-- HERO TEXT CONTENT -->
           <div class="hero-content">
             <p class="hero-label" aria-label="Brand Label">Explore Lumajang</p>
             <h1 id="hero-title" class="hero-title">Air Terjun Tumpak Sewu</h1>
             <p class="hero-description">
               Destinasi ikonik Lumajang dengan panorama air terjun berundak dan
-              lembah hijau
+              lembah hijau yang memukau mata dunia.
             </p>
             <div class="hero-actions">
-              <a href="#destination" class="btn btn-primary" aria-label="Jelajahi Semua Destinasi">Jelajahi Destinasi</a>
+              <a href="#destination" class="btn btn-primary" id="explore-btn" aria-label="Jelajahi Semua Destinasi">
+                <span class="btn-text">Jelajahi Destinasi</span>
+                <span class="btn-loading"><i data-feather="loader" class="spin"></i></span>
+              </a>
               <a href="https://maps.app.goo.gl/hX4nThyUpPWxX8eY7" class="btn btn-map" target="_blank" rel="nooper noreferrer" aria-label="Lihat Lokasi Di Google Maps">
                 <i data-feather="map-pin" aria-hidden="true"></i>
-                Sidomulyo, Pronojiwo, Lumajang
+                Lumajang, Jatim
               </a>
             </div>
           </div>
           
-          <!-- HERO CARD SLIDER -->
-          <div class="hero-cards-container" role="region" aria-label="Galeri Destinasi Populer">
-          <div class="hero-card-wrapper">
-            <!-- CARD TUMPAK SEWU -->
-            <article class="hero-card active" data-id="tumpak-sewu" data-bg="image/tumpak sewu 1.png" role="button" tabindex="0" aria-label="Tumpak Sewu - Wisata Alam, pilih untuk melihat detail">
-              <div class="card-image">
-                <img src="image/tumpak sewu 1.png" alt="Air Terjun Tumpak Sewu dengan air jernih mengalir di antara tebing hijau" loading="eager">
-                </div>
-                <div class="card-body">
+          <div class="hero-right-section">
+            <div class="hero-cards-container" role="region" aria-label="Galeri Destinasi Populer">
+              <div class="hero-card-wrapper">
+                <article class="hero-card active" 
+                  data-id="tumpak-sewu"
+                  data-bg="image/tumpak sewu 1.png" 
+                  data-title="Air Terjun Tumpak Sewu" 
+                  data-desc="Destinasi ikonik Lumajang dengan panorama air terjun berundak dan lembah hijau yang memukau mata dunia."
+                  role="button" tabindex="0" aria-label="Tumpak Sewu - Wisata Alam, pilih untuk melihat detail">
+                  <div class="card-image">
+                    <img src="image/tumpak sewu 1.png" alt="Air Terjun Tumpak Sewu">
+                  </div>
+                  <div class="card-body">
                     <h3 class="card-title">Tumpak Sewu</h3>
                     <p class="card-category">Wisata Alam</p>
-                </div>
-            </article>
-            <!-- CARD B29 -->
-            <article class="hero-card" data-id="b29" data-bg="image/b29.jpg" role="button" tabindex="0" aria-label="B29 Argosari - Spot Sunrise, pilih untuk melihat detail">
-              <div class="card-image">
-                <img src="image/b29.jpg" alt="Pesawat B29 di Argosari dengan latar sunrise di pegunungan" loading="lazy">
-                </div>
-                <div class="card-body">
+                  </div>
+                </article>
+
+                <article class="hero-card" 
+                  data-id="b29"
+                  data-bg="image/b29.jpg" 
+                  data-title="Puncak B29 Argosari" 
+                  data-desc="Negeri di atas awan. Nikmati sensasi matahari terbit dengan latar belakang megahnya Gunung Bromo dan Semeru."
+                  role="button" tabindex="0" aria-label="B29 Argosari - Spot Sunrise, pilih untuk melihat detail">
+                  <div class="card-image">
+                    <img src="image/b29.jpg" alt="B29 Argosari">
+                  </div>
+                  <div class="card-body">
                     <h3 class="card-title">B29 Argosari</h3>
                     <p class="card-category">Spot Sunrise</p>
-                </div>
-            </article>
-            
-            <!-- CARD RANUPANI -->
-            <article class="hero-card" data-id="ranupani" data-bg="image/ranupani.jpg" role="button" tabindex="0" aria-label="Ranu Pani - Danau Pegunungan, pilih untuk melihat detail">
-              <div class="card-image">
-                <img src="image/ranupani.jpg" alt="Danau Ranu Pani yang tenang dengan latar Gunung Semeru" loading="lazy">
-                </div>
-                <div class="card-body">
+                  </div>
+                </article>
+
+                <article class="hero-card" 
+                  data-id="ranupani"
+                  data-bg="image/ranupani.jpg" 
+                  data-title="Danau Ranu Pani" 
+                  data-desc="Keheningan danau pegunungan yang menjadi gerbang pendakian Semeru. Tempat sempurna untuk mencari ketenangan."
+                  role="button" tabindex="0" aria-label="Ranu Pani - Danau Pegunungan, pilih untuk melihat detail">
+                  <div class="card-image">
+                    <img src="image/ranupani.jpg" alt="Danau Ranu Pani">
+                  </div>
+                  <div class="card-body">
                     <h3 class="card-title">Ranu Pani</h3>
                     <p class="card-category">Danau Pegunungan</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="hero-slider-controls" aria-label="Kontrol Slider Destinasi">
+              <button class="slider-btn prev-btn" aria-label="Destinasi Sebelumnya">
+                <i data-feather="chevron-left" aria-hidden="true"></i>
+              </button>
+              
+              <div class="slider-progress" role="progressbar"
+                aria-valuemin="1"
+                aria-valuemax="3"
+                aria-valuenow="1"
+                aria-label="Progres slider 1 dari 3">
+                <div class="progress-bar">
+                  <div class="progress-fill"></div>
                 </div>
-            </article>
+                <span>
+                  <span class="current-slide">1</span>
+                  <span class="total-slide">/3</span>
+                </span>
+              </div>
+
+              <button class="slider-btn next-btn" aria-label="Destinasi berikutnya">
+                <i data-feather="chevron-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div> </div>
+        
+        <div class="scroll-indikator" aria-hidden="true">
+          <i data-feather="chevron-down"></i>
         </div>
-    </div>
-    </div>
-    </div>
-
-    <!-- SLIDER CONTROLS-->
-    <div class="hero-slider-controls" aria-label="Kontrol Slider Destinasi">
-      <button class="slider-btn prev-btn" aria-label="Destinasi Sebelumnya">
-        <i data-feather="chevron-left" aria-hidden="true"></i>
-      </button>
-      
-      <div class="slider-progress" role="progressbar"
-      aria-valuemin="1"
-      aria-valuemax="3"
-      aria-valuenow="1"
-      aria-label="Progres slider 1 dari 3">
-      <div class="progress-bar">
-        <div class="progress-fill"></div>
-      </div>
-      <span>
-        <span class="current-slide">1</span>
-        <span class="total-slide">/3</span>
-      </span>
-      </div>
-
-      <button class="slider-btn next-btn" aria-label="Destinasi berikutnya">
-        <i data-feather="chevron-right" aria-hidden="true"></i>
-      </button>
-
-      <!-- scroll indikator -->
-      <div class="scroll-indikator" aria-hidden="true">
-        <i data-feather="chevron-down"></i>
-      </div>
-      </div>
       </section>
-      <!-- HERO SECTION END -->
-    </main>
 
-    <footer></footer>
+      <section id="about" class="section about-section">
+        <div class="container text-center">
+          <span class="section-label">Selamat Datang</span>
+          <h2 class="section-title">Eksotisme Kaki Semeru</h2>
+          <p class="section-desc mx-auto">
+            Lumajang bukan sekadar kota transit. Ini adalah rumah bagi gunung tertinggi di Jawa, 
+            air terjun seribu aliran, dan tradisi yang tak lekang oleh waktu. 
+            Siapkan dirimu untuk petualangan yang tak terlupakan.
+          </p>
+        </div>
+      </section>
 
-    <!-- FEATHER ICONS -->
-     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            feather.replace();
-        });
-    </script>
-    <!-- MY JAVASCRIPT -->
+      <section id="tourism" class="section">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-label">Jelajahi Minatmu</span>
+            <h2 class="section-title">Kategori Wisata</h2>
+          </div>
+          
+          <div class="category-grid">
+            <div class="cat-card glass-effect" tabindex="0">
+              <div class="cat-icon">
+                <i data-feather="mountain"></i>
+              </div>
+              <h3>Wisata Alam</h3>
+              <p>Jelajahi pegunungan, bukit, dan hutan tropis.</p>
+              <a href="destinasi.html" class="link-arrow">Lihat <i data-feather="arrow-right"></i></a>
+            </div>
+
+            <div class="cat-card glass-effect" tabindex="0">
+              <div class="cat-icon">
+                <i data-feather="droplet"></i>
+              </div>
+              <h3>Air Terjun</h3>
+              <p>Surga air terjun tersembunyi yang memukau.</p>
+              <a href="destinasi.html" class="link-arrow">Lihat <i data-feather="arrow-right"></i></a>
+            </div>
+
+            <div class="cat-card glass-effect" tabindex="0">
+              <div class="cat-icon">
+                <i data-feather="sun"></i>
+              </div>
+              <h3>Pesisir Pantai</h3>
+              <p>Deburan ombak selatan yang eksotis dan menenangkan.</p>
+              <a href="destinasi.html" class="link-arrow">Lihat <i data-feather="arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="budkul" class="section">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="section-label">Kearifan Lokal</span>
+            <h2 class="section-title">Budaya & Kuliner</h2>
+          </div>
+
+          <div class="feature-row">
+            <div class="feature-img">
+              <img src="image/b29.jpg" alt="Pisang Agung Lumajang" loading="lazy">
+            </div>
+            <div class="feature-text">
+              <h3>Pisang Agung Semeru</h3>
+              <p>
+                Identitas kota Lumajang. Pisang berukuran raksasa dengan rasa manis legit 
+                dan tekstur lembut. Wajib dibawa pulang sebagai oleh-oleh khas.
+              </p>
+              <ul class="feature-list">
+                <li><i data-feather="check-circle"></i> Ukuran Jumbo</li>
+                <li><i data-feather="check-circle"></i> Rasa Manis Khas</li>
+                <li><i data-feather="check-circle"></i> Olahan Keripik</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="feature-row reverse">
+            <div class="feature-img">
+              <img src="image/ranupani.jpg" alt="Tari Jaran Kencak" loading="lazy">
+            </div>
+            <div class="feature-text">
+              <h3>Jaran Kencak</h3>
+              <p>
+                Kesenian kuda menari yang dihias dengan kostum warna-warni dan aksesoris 
+                megah. Sebuah warisan budaya tak benda yang penuh semangat.
+              </p>
+              <a href="#" class="btn btn-primary mt-1">Pelajari Sejarah</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="section cta-section text-center">
+        <div class="cta-content glass-effect">
+          <h2>Siap Menjelajahi Lumajang?</h2>
+          <p>Jangan hanya melihat dari layar. Rasakan sendiri kesejukannya.</p>
+          <a href="destinasi.html" class="btn btn-primary">Mulai Petualangan</a>
+        </div>
+      </section>
+      </main>
+    <footer>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="image/putih.png" alt="Logo Explore Lumajang">
+          <p>Portal wisata terbaik untuk menjelajahi keindahan Lumajang, Jawa Timur.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navigasi</h4>
+          <a href="#home">Home</a>
+          <a href="destinasi.html">Destinasi</a>
+          <a href="#tourism">Wisata</a>
+          <a href="#contact">Kontak</a>
+        </div>
+        <div class="footer-social">
+          <h4>Ikuti Kami</h4>
+          <div class="social-icons">
+            <a href="#"><i data-feather="instagram"></i></a>
+            <a href="#"><i data-feather="facebook"></i></a>
+            <a href="#"><i data-feather="youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Explore Lumajang. Created with code & coffee.</p>
+      </div>
+    </footer>
     <script src="script.js"></script>
   </body>
 </html>
