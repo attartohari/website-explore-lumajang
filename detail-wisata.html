@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Wisata | Explore Lumajang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar" aria-label="Navigasi Utama">
+        <a href="index.html" class="navbar-brand" aria-label="Beranda Explore Lumajang">
+          <img src="image/putih.png" alt="Logo Explore Lumajang" class="navbar-logo" data-logo>
+        </a>
+        <div class="navbar-nav" role="navigation">
+          <a href="index.html" class="navbar-link">Home</a>
+          <a href="destinasi.html" class="navbar-link">Destinasi</a>
+          <a href="detail-wisata.html" class="navbar-link active" aria-current="page">Detail Wisata</a>
+          <a href="budaya-kuliner.html" class="navbar-link">Budaya & Kuliner</a>
+          <a href="tips.html" class="navbar-link">Tips</a>
+          <a href="index.html#contact" class="navbar-link">Kontak</a>
+        </div>
+        <div class="navbar-extra">
+          <a href="#" id="search" class="nav-icon" aria-label="Cari">
+            <i data-feather="search"></i>
+          </a>
+          <button id="theme-toggle" class="nav-icon" aria-label="Toggle Tema" aria-pressed="false">
+            <i data-feather="moon"></i>
+          </button>
+          <button id="menu-toggle" class="nav-icon menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+            <i data-feather="menu"></i>
+          </button>
+        </div>
+      </nav>
+      <div class="mobile-menu" aria-hidden="true">
+        <div class="mobile-menu-header">
+          <span>Menu</span>
+          <button class="mobile-menu-close" aria-label="Tutup Menu">
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <nav class="mobile-menu-links" aria-label="Navigasi Mobile">
+          <a href="index.html">Home</a>
+          <a href="destinasi.html">Destinasi</a>
+          <a href="detail-wisata.html">Detail Wisata</a>
+          <a href="budaya-kuliner.html">Budaya & Kuliner</a>
+          <a href="tips.html">Tips</a>
+          <a href="index.html#contact">Kontak</a>
+        </nav>
+      </div>
+      <div class="search-panel" aria-hidden="true">
+        <div class="search-panel-content">
+          <div class="search-panel-header">
+            <h3>Cari Wisata Lumajang</h3>
+            <button class="search-close" aria-label="Tutup Pencarian">
+              <i data-feather="x"></i>
+            </button>
+          </div>
+          <input id="search-input" type="text" placeholder="Cari destinasi, air terjun, pantai..." aria-label="Cari wisata">
+          <div class="search-results" aria-live="polite">
+            <p class="search-hint">Ketik kata kunci untuk melihat hasil.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div>
+          <span class="section-label">Detail Wisata</span>
+          <h1>Informasi Lengkap Setiap Destinasi</h1>
+          <p>Temukan detail akses, waktu terbaik berkunjung, dan aktivitas unggulan di Lumajang.</p>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Air Terjun Tumpak Sewu</h3>
+            <p>Waktu terbaik: pagi hari. Akses: 1 jam dari pusat kota, tersedia pemandu lokal.</p>
+          </div>
+          <div class="info-card">
+            <h3>Puncak B29</h3>
+            <p>Waktu terbaik: dini hari. Akses: jeep atau motor trail, jalur menanjak.</p>
+          </div>
+          <div class="info-card">
+            <h3>Ranu Pani</h3>
+            <p>Waktu terbaik: siang hingga sore. Akses: kendaraan umum hingga Ranupani.</p>
+          </div>
+          <div class="info-card">
+            <h3>Pantai Watu Pecak</h3>
+            <p>Waktu terbaik: sore. Akses: 45 menit dari kota, cocok untuk menikmati sunset.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="image/putih.png" alt="Logo Explore Lumajang" data-logo>
+          <p>Portal wisata terbaik untuk menjelajahi keindahan Lumajang, Jawa Timur.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navigasi</h4>
+          <a href="index.html">Home</a>
+          <a href="destinasi.html">Destinasi</a>
+          <a href="detail-wisata.html">Detail Wisata</a>
+          <a href="budaya-kuliner.html">Budaya & Kuliner</a>
+          <a href="tips.html">Tips</a>
+        </div>
+        <div class="footer-social">
+          <h4>Ikuti Kami</h4>
+          <div class="social-icons">
+            <a href="#"><i data-feather="instagram"></i></a>
+            <a href="#"><i data-feather="facebook"></i></a>
+            <a href="#"><i data-feather="youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Explore Lumajang. Created with code & coffee.</p>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
