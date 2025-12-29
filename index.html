@@ -19,18 +19,19 @@
         <a href="#home" class="navbar-brand" aria-label="Beranda Explore Lumajang">
           <img src="image/putih.png" alt="Logo Explore Lumajang" class="navbar-logo">
         </a>
-        <div class="navbar-nav" role="Navigation">
+        <div class="navbar-nav" role="navigation">
           <a href="#home" class="navbar-link active" aria-current="page">Home</a>
-          <a href="#destination" class="navbar-link">Destinasi</a>
-          <a href="#tourism" class="navbar-link">Wisata</a>
-          <a href="#budkul" class="navbar-link">Budaya & Kuliner</a>
+          <a href="destinasi.html" class="navbar-link">Destinasi</a>
+          <a href="detail-wisata.html" class="navbar-link">Detail Wisata</a>
+          <a href="budaya-kuliner.html" class="navbar-link">Budaya & Kuliner</a>
+          <a href="tips.html" class="navbar-link">Tips</a>
           <a href="#contact" class="navbar-link">Kontak</a>
         </div>
         <div class="navbar-extra">
           <a href="#" id="search" class="nav-icon" aria-label="Cari">
             <i data-feather="search"></i>
           </a>
-          <button id="menu-toogle" class="nav-icon menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+          <button id="menu-toggle" class="nav-icon menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
           <i data-feather="menu"></i>
           </button>
         </div>
@@ -138,15 +139,87 @@
         </div>
       </section>
 
-      <section id="about" class="section about-section">
-        <div class="container text-center">
-          <span class="section-label">Selamat Datang</span>
-          <h2 class="section-title">Eksotisme Kaki Semeru</h2>
-          <p class="section-desc mx-auto">
-            Lumajang bukan sekadar kota transit. Ini adalah rumah bagi gunung tertinggi di Jawa, 
-            air terjun seribu aliran, dan tradisi yang tak lekang oleh waktu. 
-            Siapkan dirimu untuk petualangan yang tak terlupakan.
-          </p>
+      <section id="about" class="section about-section welcome-section">
+        <div class="container welcome-grid">
+          <div class="welcome-text">
+            <span class="section-label">Selamat Datang</span>
+            <h2 class="welcome-title">Selamat Datang di Eksotisme Lumajang</h2>
+            <p class="section-desc">
+              Lumajang bukan sekadar kota transit. Ini adalah rumah bagi gunung tertinggi di Jawa,
+              air terjun seribu aliran, dan tradisi yang tak lekang oleh waktu.
+              Siapkan dirimu untuk petualangan yang tak terlupakan.
+            </p>
+            <div class="welcome-highlights">
+              <div>
+                <h3>50+ Destinasi</h3>
+                <p>Jelajah alam, budaya, hingga pesisir.</p>
+              </div>
+              <div>
+                <h3>1000+ Cerita</h3>
+                <p>Legenda lokal yang memperkaya perjalanan.</p>
+              </div>
+            </div>
+          </div>
+          <div class="welcome-map">
+            <div class="map-card glass-effect">
+              <div class="map-header">
+                <h3>Peta Interaktif Lumajang</h3>
+                <p>Klik salah satu daerah untuk melihat lokasinya.</p>
+              </div>
+              <div class="map-body">
+                <iframe
+                  title="Peta Lumajang"
+                  class="map-iframe"
+                  src="https://www.google.com/maps?q=Lumajang%2C%20Jawa%20Timur&output=embed"
+                  loading="lazy"
+                ></iframe>
+                <p class="map-selected" aria-live="polite">Lokasi dipilih: Lumajang</p>
+              </div>
+              <div class="map-actions" role="list">
+                <a class="map-button active" href="https://maps.app.goo.gl/hX4nThyUpPWxX8eY7" target="_blank" rel="noopener noreferrer" data-map="https://www.google.com/maps?q=Lumajang%2C%20Jawa%20Timur&output=embed" data-label="Lumajang" role="listitem">Lumajang Kota</a>
+                <a class="map-button" href="https://maps.app.goo.gl/Ch6btoUo4nCShdTGA" target="_blank" rel="noopener noreferrer" data-map="https://www.google.com/maps?q=Senduro%2C%20Lumajang&output=embed" data-label="Senduro" role="listitem">Senduro</a>
+                <a class="map-button" href="https://maps.app.goo.gl/Rw6MaoVQk2QoK7p18" target="_blank" rel="noopener noreferrer" data-map="https://www.google.com/maps?q=Tempeh%2C%20Lumajang&output=embed" data-label="Tempeh" role="listitem">Tempeh</a>
+                <a class="map-button" href="https://maps.app.goo.gl/KDRGE8eGhV1yqfHw8" target="_blank" rel="noopener noreferrer" data-map="https://www.google.com/maps?q=Pronojiwo%2C%20Lumajang&output=embed" data-label="Pronojiwo" role="listitem">Pronojiwo</a>
+                <a class="map-button" href="https://maps.app.goo.gl/hoY2g6jAG8dQh9o48" target="_blank" rel="noopener noreferrer" data-map="https://www.google.com/maps?q=Ranuyoso%2C%20Lumajang&output=embed" data-label="Ranuyoso" role="listitem">Ranuyoso</a>
+                <a class="map-button" href="https://maps.app.goo.gl/1L7S8fSnBbsPTMdBA" target="_blank" rel="noopener noreferrer" data-map="https://www.google.com/maps?q=Klakah%2C%20Lumajang&output=embed" data-label="Klakah" role="listitem">Klakah</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="destination" class="section">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-label">Destinasi Unggulan</span>
+            <h2 class="section-title">Spot Terbaik Lumajang</h2>
+          </div>
+          <div class="destination-grid">
+            <article class="destination-card">
+              <img src="image/tumpak sewu 1.png" alt="Air Terjun Tumpak Sewu" loading="lazy">
+              <div class="destination-body">
+                <h3>Air Terjun Tumpak Sewu</h3>
+                <p>Surga air terjun berundak dengan panorama lembah hijau.</p>
+                <a href="detail-wisata.html" class="link-arrow">Detail wisata <i data-feather="arrow-right"></i></a>
+              </div>
+            </article>
+            <article class="destination-card">
+              <img src="image/b29.jpg" alt="Puncak B29" loading="lazy">
+              <div class="destination-body">
+                <h3>Puncak B29</h3>
+                <p>Negeri di atas awan dengan sunrise terbaik.</p>
+                <a href="detail-wisata.html" class="link-arrow">Detail wisata <i data-feather="arrow-right"></i></a>
+              </div>
+            </article>
+            <article class="destination-card">
+              <img src="image/ranupani.jpg" alt="Danau Ranu Pani" loading="lazy">
+              <div class="destination-body">
+                <h3>Ranu Pani</h3>
+                <p>Gerbang pendakian Semeru dengan nuansa damai.</p>
+                <a href="detail-wisata.html" class="link-arrow">Detail wisata <i data-feather="arrow-right"></i></a>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -223,10 +296,65 @@
                 Kesenian kuda menari yang dihias dengan kostum warna-warni dan aksesoris 
                 megah. Sebuah warisan budaya tak benda yang penuh semangat.
               </p>
-              <a href="#" class="btn btn-primary mt-1">Pelajari Sejarah</a>
+              <a href="budaya-kuliner.html" class="btn btn-primary mt-1">Pelajari Sejarah</a>
             </div>
           </div>
 
+        </div>
+      </section>
+
+      <section class="section stats-section">
+        <div class="container stats-grid">
+          <div class="stat-card glass-effect">
+            <h3>60+ Air Terjun</h3>
+            <p>Eksplorasi aliran air tersembunyi di lereng Semeru.</p>
+          </div>
+          <div class="stat-card glass-effect">
+            <h3>20+ Desa Wisata</h3>
+            <p>Rasakan keramahan warga dan budaya lokal.</p>
+          </div>
+          <div class="stat-card glass-effect">
+            <h3>10+ Festival</h3>
+            <p>Agenda budaya yang meriah sepanjang tahun.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section testimonial-section">
+        <div class="container">
+          <div class="section-header text-center">
+            <span class="section-label">Cerita Pengunjung</span>
+            <h2 class="section-title">Apa Kata Mereka</h2>
+          </div>
+          <div class="testimonial-grid">
+            <article class="testimonial-card">
+              <p>“Sunrise di B29 bikin merinding. Pemandu lokalnya ramah dan informatif!”</p>
+              <h4>Rina, Surabaya</h4>
+            </article>
+            <article class="testimonial-card">
+              <p>“Tumpak Sewu benar-benar memukau. Trekkingnya menantang tapi worth it.”</p>
+              <h4>Aditya, Jakarta</h4>
+            </article>
+            <article class="testimonial-card">
+              <p>“Kuliner Pisang Agung wajib dicoba. Manisnya pas dan legit.”</p>
+              <h4>Putri, Malang</h4>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section tips-preview">
+        <div class="container tips-content">
+          <div>
+            <span class="section-label">Tips Perjalanan</span>
+            <h2 class="section-title">Persiapkan Petualanganmu</h2>
+            <p class="section-desc">
+              Dapatkan panduan singkat soal cuaca, transportasi, dan etika wisata agar perjalanan lebih aman.
+            </p>
+          </div>
+          <div>
+            <a href="tips.html" class="btn btn-primary">Lihat Tips Lengkap</a>
+          </div>
         </div>
       </section>
 
@@ -235,6 +363,38 @@
           <h2>Siap Menjelajahi Lumajang?</h2>
           <p>Jangan hanya melihat dari layar. Rasakan sendiri kesejukannya.</p>
           <a href="destinasi.html" class="btn btn-primary">Mulai Petualangan</a>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div class="container contact-grid">
+          <div class="contact-info">
+            <span class="section-label">Kontak</span>
+            <h2 class="section-title">Hubungi Kami</h2>
+            <p class="section-desc">
+              Punya pertanyaan atau ingin kolaborasi promosi wisata? Hubungi tim Explore Lumajang.
+            </p>
+            <ul>
+              <li><i data-feather="mail"></i> info@explorelumajang.id</li>
+              <li><i data-feather="phone"></i> +62 812-3456-7890</li>
+              <li><i data-feather="map-pin"></i> Lumajang, Jawa Timur</li>
+            </ul>
+          </div>
+          <form class="contact-form">
+            <div class="form-group">
+              <label for="name">Nama</label>
+              <input type="text" id="name" name="name" placeholder="Nama kamu">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="email@contoh.com">
+            </div>
+            <div class="form-group">
+              <label for="message">Pesan</label>
+              <textarea id="message" name="message" rows="4" placeholder="Tulis pesanmu..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+          </form>
         </div>
       </section>
       </main>
@@ -248,7 +408,9 @@
           <h4>Navigasi</h4>
           <a href="#home">Home</a>
           <a href="destinasi.html">Destinasi</a>
-          <a href="#tourism">Wisata</a>
+          <a href="detail-wisata.html">Detail Wisata</a>
+          <a href="budaya-kuliner.html">Budaya & Kuliner</a>
+          <a href="tips.html">Tips</a>
           <a href="#contact">Kontak</a>
         </div>
         <div class="footer-social">

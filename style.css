@@ -56,6 +56,11 @@ body {
   display: block;
 }
 
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
 .navbar .navbar-nav a {
   color: var(--text-white);
   display: inline-block;
@@ -105,7 +110,7 @@ body {
   color: var(--accent);
 }
 
-#menu-toogle {
+#menu-toggle {
   display: none;
 }
 
@@ -186,7 +191,7 @@ body {
 
 .hero-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 4rem;
+  font-size: clamp(2.4rem, 5vw, 4rem);
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 1.5rem;
@@ -417,10 +422,293 @@ body {
 .text-center { text-align: center; }
 .mx-auto { margin-left: auto; margin-right: auto; }
 .mt-1 { margin-top: 1rem; }
+.glass-effect {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
 
 /* --- SECTION ABOUT --- */
 .about-section {
   padding-top: 8rem; /* Jarak dari hero */
+}
+
+/* --- WELCOME SECTION --- */
+.welcome-section .section-desc {
+  max-width: 600px;
+}
+
+.welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  align-items: center;
+}
+
+.welcome-title {
+  font-size: clamp(2.6rem, 4vw, 3.6rem);
+  margin-bottom: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+}
+
+.welcome-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.welcome-highlights h3 {
+  color: var(--accent);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.map-card {
+  padding: 2rem;
+  border-radius: 24px;
+}
+
+.map-header h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.map-body {
+  margin-top: 1.5rem;
+}
+
+.map-iframe {
+  width: 100%;
+  height: 280px;
+  border: none;
+  border-radius: 16px;
+}
+
+.map-selected {
+  margin-top: 1rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.map-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.06);
+  transition: var(--transition);
+}
+
+.map-button:hover,
+.map-button.active {
+  background: var(--accent);
+  color: #000;
+}
+
+/* --- DESTINATION GRID --- */
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.destination-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.destination-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.destination-body {
+  padding: 1.5rem;
+}
+
+.destination-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent);
+}
+
+/* --- STATS --- */
+.stats-section {
+  padding: 2rem 7%;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  padding: 2rem;
+  border-radius: 20px;
+}
+
+/* --- TESTIMONIAL --- */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 20px;
+}
+
+.testimonial-card h4 {
+  margin-top: 1.5rem;
+  color: var(--accent);
+}
+
+/* --- TIPS PREVIEW --- */
+.tips-preview {
+  background: rgba(17, 53, 94, 0.6);
+}
+
+.tips-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* --- CONTACT --- */
+.contact-section {
+  background: rgba(10, 25, 47, 0.6);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.contact-info ul {
+  list-style: none;
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.contact-info li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #ddd;
+}
+
+.contact-form {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 20px;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  color: #fff;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- INNER PAGES --- */
+.page-hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 7% 4rem;
+  background: linear-gradient(120deg, rgba(17, 53, 94, 0.9), rgba(0, 0, 0, 0.7));
+}
+
+.page-hero h1 {
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 1rem;
+}
+
+.page-hero p {
+  max-width: 600px;
+  color: #ddd;
+}
+
+.page-section {
+  padding: 4rem 7%;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-card {
+  padding: 1.8rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tips-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.tips-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.2rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tips-item i {
+  color: var(--accent);
 }
 
 /* --- CATEGORY GRID (Wisata) --- */
@@ -660,6 +948,28 @@ footer {
   
   .navbar { padding: 1rem 5%; }
 
+  .navbar-nav {
+    position: absolute;
+    top: 100%;
+    right: 5%;
+    background: rgba(18, 30, 48, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 1rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 200px;
+  }
+
+  .navbar-nav.active {
+    display: flex;
+  }
+
+  #menu-toggle {
+    display: inline-flex;
+  }
+
   .hero-card-wrapper {
     gap: 1rem;
     overflow-x: auto; /* Scroll horizontal di HP */
@@ -669,9 +979,10 @@ footer {
     /* Sembunyikan scrollbar jelek */
     -ms-overflow-style: none; 
     scrollbar-width: none;
+    scroll-snap-type: x mandatory;
   }
   .hero-card-wrapper::-webkit-scrollbar { display: none; }
   
-  .hero-card { flex: 0 0 140px; height: 200px; }
+  .hero-card { flex: 0 0 140px; height: 200px; scroll-snap-align: center; }
   .hero-card.active { flex: 0 0 160px; height: 240px; }
 }
