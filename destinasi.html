@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Destinasi | Explore Lumajang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar" aria-label="Navigasi Utama">
+        <a href="index.html" class="navbar-brand" aria-label="Beranda Explore Lumajang">
+          <img src="image/putih.png" alt="Logo Explore Lumajang" class="navbar-logo">
+        </a>
+        <div class="navbar-nav" role="navigation">
+          <a href="index.html" class="navbar-link">Home</a>
+          <a href="destinasi.html" class="navbar-link active" aria-current="page">Destinasi</a>
+          <a href="detail-wisata.html" class="navbar-link">Detail Wisata</a>
+          <a href="budaya-kuliner.html" class="navbar-link">Budaya & Kuliner</a>
+          <a href="tips.html" class="navbar-link">Tips</a>
+          <a href="index.html#contact" class="navbar-link">Kontak</a>
+        </div>
+        <div class="navbar-extra">
+          <a href="#" id="search" class="nav-icon" aria-label="Cari">
+            <i data-feather="search"></i>
+          </a>
+          <button id="menu-toggle" class="nav-icon menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+            <i data-feather="menu"></i>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div>
+          <span class="section-label">Destinasi</span>
+          <h1>Destinasi Populer Lumajang</h1>
+          <p>Rangkuman spot terbaik untuk jelajah alam, sunrise, hingga danau tenang di kaki Semeru.</p>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="destination-grid">
+          <article class="destination-card">
+            <img src="image/tumpak sewu 1.png" alt="Air Terjun Tumpak Sewu" loading="lazy">
+            <div class="destination-body">
+              <h3>Air Terjun Tumpak Sewu</h3>
+              <p>Panorama air terjun berundak dengan jalur tracking menantang.</p>
+              <a href="detail-wisata.html" class="link-arrow">Detail wisata <i data-feather="arrow-right"></i></a>
+            </div>
+          </article>
+          <article class="destination-card">
+            <img src="image/b29.jpg" alt="Puncak B29" loading="lazy">
+            <div class="destination-body">
+              <h3>Puncak B29</h3>
+              <p>Spot sunrise terbaik dengan lanskap Bromo-Semeru.</p>
+              <a href="detail-wisata.html" class="link-arrow">Detail wisata <i data-feather="arrow-right"></i></a>
+            </div>
+          </article>
+          <article class="destination-card">
+            <img src="image/ranupani.jpg" alt="Danau Ranu Pani" loading="lazy">
+            <div class="destination-body">
+              <h3>Ranu Pani</h3>
+              <p>Danau tenang dengan udara sejuk di gerbang Semeru.</p>
+              <a href="detail-wisata.html" class="link-arrow">Detail wisata <i data-feather="arrow-right"></i></a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="image/putih.png" alt="Logo Explore Lumajang">
+          <p>Portal wisata terbaik untuk menjelajahi keindahan Lumajang, Jawa Timur.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navigasi</h4>
+          <a href="index.html">Home</a>
+          <a href="destinasi.html">Destinasi</a>
+          <a href="detail-wisata.html">Detail Wisata</a>
+          <a href="budaya-kuliner.html">Budaya & Kuliner</a>
+          <a href="tips.html">Tips</a>
+        </div>
+        <div class="footer-social">
+          <h4>Ikuti Kami</h4>
+          <div class="social-icons">
+            <a href="#"><i data-feather="instagram"></i></a>
+            <a href="#"><i data-feather="facebook"></i></a>
+            <a href="#"><i data-feather="youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Explore Lumajang. Created with code & coffee.</p>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
