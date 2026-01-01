@@ -33,6 +33,9 @@
     rgba(255, 255, 255, 0.5) 0%,
     rgba(255, 255, 255, 0.2) 50%,
     rgba(255, 255, 255, 0.05) 100%
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.3) 100%
   );
 }
 
@@ -487,6 +490,13 @@ body {
   max-width: 600px;
 }
 
+.welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  align-items: center;
+}
+
 .welcome-title {
   font-size: clamp(2.6rem, 4vw, 3.6rem);
   margin-bottom: 1rem;
@@ -549,6 +559,8 @@ body {
   border-radius: 999px;
   border: 1px solid var(--border);
   color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
   font-weight: 600;
   background: rgba(255, 255, 255, 0.06);
   transition: var(--transition);
@@ -571,6 +583,7 @@ body {
 .destination-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   overflow: hidden;
   display: flex;
@@ -654,6 +667,17 @@ body {
 .testimonial-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: 20px;
 }
@@ -777,11 +801,13 @@ body {
   align-items: center;
   gap: 0.6rem;
   color: var(--text-muted);
+  color: #ddd;
 }
 
 .contact-form {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: 20px;
 }
@@ -799,6 +825,10 @@ body {
   border-radius: 12px;
   padding: 0.8rem 1rem;
   color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  color: #fff;
 }
 
 .form-group input::placeholder,
@@ -824,6 +854,7 @@ body {
 .page-hero p {
   max-width: 600px;
   color: var(--text-muted);
+  color: #ddd;
 }
 
 .page-section {
@@ -840,6 +871,7 @@ body {
   padding: 1.8rem;
   border-radius: 20px;
   border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.05);
 }
 
@@ -857,6 +889,7 @@ body {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tips-item i {
@@ -1207,6 +1240,8 @@ footer {
 
   .hero-right-section {
     width: 100%;
+  .navbar-nav {
+    display: none;
   }
 
   .hero-content {
@@ -1250,6 +1285,28 @@ footer {
   html { font-size: 70%; }
   
   .navbar { padding: 1rem 5%; }
+
+  .navbar-nav {
+    position: absolute;
+    top: 100%;
+    right: 5%;
+    background: rgba(18, 30, 48, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 1rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 200px;
+  }
+
+  .navbar-nav.active {
+    display: flex;
+  }
+
+  #menu-toggle {
+    display: inline-flex;
+  }
 
   .hero-card-wrapper {
     gap: 1rem;
@@ -1297,3 +1354,9 @@ footer {
   max-width: 1100px;
   margin: 0 auto;
 }
+  .hero-card { flex: 0 0 140px; height: 200px; scroll-snap-align: center; }
+  .hero-card.active { flex: 0 0 160px; height: 240px; }
+}
+  #menu-toggle {
+    display: inline-flex;
+  }

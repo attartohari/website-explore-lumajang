@@ -26,6 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchResults = document.querySelector(".search-results");
   const themeToggle = document.getElementById("theme-toggle");
   const logos = Array.from(document.querySelectorAll("[data-logo]"));
+  const destinationGrid = document.getElementById("destination-grid");
+  const destinationSearch = document.getElementById("destination-search");
+  const destinationCount = document.querySelector(".destination-count");
 
   // STATE
   let isAnimating = false;
@@ -50,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Tumpak Sewu terkenal dengan aliran berundak seperti tirai. Trek menuju dasar air terjun cukup menantang, namun aman dengan pemandu lokal dan cerita budaya sekitar.",
       map: "https://maps.app.goo.gl/8Yt7hR1mnw5WZetF6",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/8Yt7hR1mnw5WZetF6",
     },
     {
       name: "Air Terjun Kapas Biru",
@@ -61,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Kapas Biru menawarkan suasana hutan yang sejuk dan air jernih. Banyak wisatawan menyebut tempat ini cocok untuk healing sambil mendengarkan suara alam.",
       map: "https://maps.app.goo.gl/JuSmtVj7AeQn2g4d6",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/JuSmtVj7AeQn2g4d6",
     },
     {
       name: "Goa Tetes",
@@ -72,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Goa Tetes memiliki stalaktit alami dan udara lembap yang segar. Warga lokal sering berbagi kisah sejarah kawasan ini kepada pengunjung.",
       map: "https://maps.app.goo.gl/9x6ju7s2CXVccvPp6",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/9x6ju7s2CXVccvPp6",
     },
     {
       name: "Puncak B29",
@@ -83,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "B29 sering disebut negeri di atas awan. Banyak reviewer menyoroti sunrise yang dramatis, jalur menanjak, dan keramahan warga Argosari.",
       map: "https://maps.app.goo.gl/dP7q9FJc8da4pR9t7",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/dP7q9FJc8da4pR9t7",
     },
     {
       name: "Ranu Pani",
@@ -94,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Ranu Pani adalah pintu gerbang Semeru dengan suasana desa yang tenang. Banyak pengunjung merekomendasikan datang pagi untuk kabut tipis di permukaan danau.",
       map: "https://maps.app.goo.gl/4e5B1abpyRWt4M1a9",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/4e5B1abpyRWt4M1a9",
     },
     {
       name: "Ranu Regulo",
@@ -105,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Ranu Regulo cocok untuk camping. Pengunjung menyukai suasana tenang, hawa dingin yang nyaman, dan panorama pinus yang fotogenik.",
       map: "https://maps.app.goo.gl/5jK9v7K8bH8v1sqt7",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/5jK9v7K8bH8v1sqt7",
     },
     {
       name: "Ranu Kumbolo",
@@ -116,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Ranu Kumbolo terkenal di kalangan pendaki. Review menyebut sunrise di tepi danau sangat indah dan suasananya cocok untuk refleksi diri.",
       map: "https://maps.app.goo.gl/8WgQ3zV4CQrW5xXx6",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/8WgQ3zV4CQrW5xXx6",
     },
     {
       name: "Pantai Watu Pecak",
@@ -127,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Watu Pecak jadi favorit untuk sunset. Pengunjung menyukai suara ombak besar dan area pantai yang luas untuk bersantai bersama keluarga.",
       map: "https://maps.app.goo.gl/1i2gqEaqG7QjmiAA9",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/1i2gqEaqG7QjmiAA9",
     },
     {
       name: "Pantai Bambang",
@@ -138,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Pantai Bambang menawarkan pasir halus dan suasana lebih sepi. Banyak wisatawan menyarankan membawa bekal untuk piknik kecil di tepi pantai.",
       map: "https://maps.app.goo.gl/LAh2o5Xo8WgCHnVZA",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/LAh2o5Xo8WgCHnVZA",
     },
     {
       name: "Pantai Dampar",
@@ -149,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Dampar dikenal sebagai pantai yang tenang. Review menyebut tempat ini cocok untuk menikmati senja dan suasana alami tanpa keramaian.",
       map: "https://maps.app.goo.gl/F6otcDj7jQj49SwR6",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/F6otcDj7jQj49SwR6",
     },
     {
       name: "Bukit Cinta B29",
@@ -160,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Bukit Cinta menawarkan spot romantis untuk melihat matahari terbit. Banyak pasangan menyebut tempat ini nyaman untuk menikmati kopi pagi.",
       map: "https://maps.app.goo.gl/6oMFbE8Ew6R3W9XK7",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/6oMFbE8Ew6R3W9XK7",
     },
     {
       name: "Gunung Semeru",
@@ -171,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Semeru adalah ikon pendakian Jawa. Pendaki menyukai lanskap savana dan pengalaman menantang menuju puncak Mahameru.",
       map: "https://maps.app.goo.gl/5a6xmd4qmfFKAZWw7",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/5a6xmd4qmfFKAZWw7",
     },
     {
       name: "Pemandian Alam Selokambang",
@@ -182,6 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Selokambang terkenal dengan airnya yang jernih. Review menyebut tempat ini cocok untuk keluarga karena area bersih dan rindang.",
       map: "https://maps.app.goo.gl/KyDYiQdJazVt5y1EA",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/KyDYiQdJazVt5y1EA",
     },
     {
       name: "Hutan Pinus Sumberwuluh",
@@ -193,6 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Hutan pinus cocok untuk wisata santai. Banyak yang menyarankan datang pagi karena cahaya matahari masuk cantik di sela pepohonan.",
       map: "https://maps.app.goo.gl/S1w6qXDr7wRrC8TQ7",
       link: "detail-wisata.html",
+      map: "https://maps.app.goo.gl/S1w6qXDr7wRrC8TQ7",
     },
     {
       name: "Kebun Teh Kertowono",
@@ -214,6 +231,48 @@ document.addEventListener("DOMContentLoaded", () => {
         .toLowerCase()
         .includes(normalized)
     );
+      map: "https://maps.app.goo.gl/2vQhM4V6T3G3w3r88",
+    },
+  ];
+
+  const renderDestinations = (items) => {
+    if (!destinationGrid) return;
+    destinationGrid.innerHTML = items
+      .map(
+        (place) => `
+        <article class="destination-card">
+          <img src="${place.image}" alt="${place.name}" loading="lazy">
+          <div class="destination-body">
+            <h3>${place.name}</h3>
+            <p>${place.description}</p>
+            <div class="destination-meta">
+              <span>${place.category}</span>
+              <a href="${place.map}" target="_blank" rel="noopener noreferrer" class="link-arrow">
+                Lihat Maps <i data-feather="map-pin"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+      `
+      )
+      .join("");
+
+    if (destinationCount) {
+      destinationCount.textContent = `Menampilkan ${items.length} destinasi`;
+    }
+
+    feather.replace();
+  };
+
+  const filterDestinations = (query) => {
+    const normalized = query.toLowerCase();
+    const filtered = destinations.filter((place) =>
+      `${place.name} ${place.category} ${place.description}`
+        .toLowerCase()
+        .includes(normalized)
+    );
+    renderDestinations(filtered);
+    return filtered;
   };
 
   // --- FUNGSI UTAMA: GANTI KONTEN HERO ---
@@ -390,6 +449,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>${place.detail}</p>
           <a href="${place.link}" class="link-arrow">
             Baca Cerita Lengkap <i data-feather="arrow-right"></i>
+          <p>${place.description}</p>
+          <a href="${place.map}" target="_blank" rel="noopener noreferrer" class="link-arrow">
+            Buka Maps <i data-feather="map-pin"></i>
           </a>
         </div>
       `
@@ -406,6 +468,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       renderSearchResults(filterDestinations(value));
+      const filtered = filterDestinations(value);
+      renderSearchResults(filtered);
+    });
+  }
+
+  if (destinationSearch) {
+    destinationSearch.addEventListener("input", (event) => {
+      filterDestinations(event.target.value.trim());
     });
   }
 
@@ -435,6 +505,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  if (destinationGrid) {
+    renderDestinations(destinations);
+  }
 
   if (mapButtons.length && mapFrame && mapSelected) {
     mapButtons.forEach((button) => {
