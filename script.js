@@ -49,6 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
       description: "Air terjun megah dengan panorama lembah hijau.",
+      detail:
+        "Tumpak Sewu terkenal dengan aliran berundak seperti tirai. Trek menuju dasar air terjun cukup menantang, namun aman dengan pemandu lokal dan cerita budaya sekitar.",
+      map: "https://maps.app.goo.gl/8Yt7hR1mnw5WZetF6",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/8Yt7hR1mnw5WZetF6",
     },
     {
@@ -57,6 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
       description: "Air terjun tinggi dengan gradasi biru yang menyejukkan.",
+      detail:
+        "Kapas Biru menawarkan suasana hutan yang sejuk dan air jernih. Banyak wisatawan menyebut tempat ini cocok untuk healing sambil mendengarkan suara alam.",
+      map: "https://maps.app.goo.gl/JuSmtVj7AeQn2g4d6",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/JuSmtVj7AeQn2g4d6",
     },
     {
@@ -65,6 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80",
       description: "Goa eksotis dengan tetesan air dan lumut hijau.",
+      detail:
+        "Goa Tetes memiliki stalaktit alami dan udara lembap yang segar. Warga lokal sering berbagi kisah sejarah kawasan ini kepada pengunjung.",
+      map: "https://maps.app.goo.gl/9x6ju7s2CXVccvPp6",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/9x6ju7s2CXVccvPp6",
     },
     {
@@ -73,6 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
       description: "Spot sunrise terbaik dengan lautan awan.",
+      detail:
+        "B29 sering disebut negeri di atas awan. Banyak reviewer menyoroti sunrise yang dramatis, jalur menanjak, dan keramahan warga Argosari.",
+      map: "https://maps.app.goo.gl/dP7q9FJc8da4pR9t7",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/dP7q9FJc8da4pR9t7",
     },
     {
@@ -81,6 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
       description: "Danau tenang di kaki Semeru.",
+      detail:
+        "Ranu Pani adalah pintu gerbang Semeru dengan suasana desa yang tenang. Banyak pengunjung merekomendasikan datang pagi untuk kabut tipis di permukaan danau.",
+      map: "https://maps.app.goo.gl/4e5B1abpyRWt4M1a9",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/4e5B1abpyRWt4M1a9",
     },
     {
@@ -89,6 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1465146633011-14f8e078109e?auto=format&fit=crop&w=1200&q=80",
       description: "Danau sunyi dengan panorama hutan pinus.",
+      detail:
+        "Ranu Regulo cocok untuk camping. Pengunjung menyukai suasana tenang, hawa dingin yang nyaman, dan panorama pinus yang fotogenik.",
+      map: "https://maps.app.goo.gl/5jK9v7K8bH8v1sqt7",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/5jK9v7K8bH8v1sqt7",
     },
     {
@@ -97,6 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1200&q=80",
       description: "Danau ikonik untuk pendaki Semeru.",
+      detail:
+        "Ranu Kumbolo terkenal di kalangan pendaki. Review menyebut sunrise di tepi danau sangat indah dan suasananya cocok untuk refleksi diri.",
+      map: "https://maps.app.goo.gl/8WgQ3zV4CQrW5xXx6",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/8WgQ3zV4CQrW5xXx6",
     },
     {
@@ -105,6 +133,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
       description: "Pantai dengan ombak selatan yang dramatis.",
+      detail:
+        "Watu Pecak jadi favorit untuk sunset. Pengunjung menyukai suara ombak besar dan area pantai yang luas untuk bersantai bersama keluarga.",
+      map: "https://maps.app.goo.gl/1i2gqEaqG7QjmiAA9",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/1i2gqEaqG7QjmiAA9",
     },
     {
@@ -113,6 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80",
       description: "Pantai luas dengan pasir halus dan horizon terbuka.",
+      detail:
+        "Pantai Bambang menawarkan pasir halus dan suasana lebih sepi. Banyak wisatawan menyarankan membawa bekal untuk piknik kecil di tepi pantai.",
+      map: "https://maps.app.goo.gl/LAh2o5Xo8WgCHnVZA",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/LAh2o5Xo8WgCHnVZA",
     },
     {
@@ -121,6 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1473116763249-2faaef81cc85?auto=format&fit=crop&w=1200&q=80",
       description: "Pantai sepi cocok untuk menikmati sunset.",
+      detail:
+        "Dampar dikenal sebagai pantai yang tenang. Review menyebut tempat ini cocok untuk menikmati senja dan suasana alami tanpa keramaian.",
+      map: "https://maps.app.goo.gl/F6otcDj7jQj49SwR6",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/F6otcDj7jQj49SwR6",
     },
     {
@@ -129,6 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=1200&q=80",
       description: "Panorama sunrise romantis di ketinggian.",
+      detail:
+        "Bukit Cinta menawarkan spot romantis untuk melihat matahari terbit. Banyak pasangan menyebut tempat ini nyaman untuk menikmati kopi pagi.",
+      map: "https://maps.app.goo.gl/6oMFbE8Ew6R3W9XK7",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/6oMFbE8Ew6R3W9XK7",
     },
     {
@@ -137,6 +181,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
       description: "Puncak tertinggi di Jawa dengan jalur pendakian epik.",
+      detail:
+        "Semeru adalah ikon pendakian Jawa. Pendaki menyukai lanskap savana dan pengalaman menantang menuju puncak Mahameru.",
+      map: "https://maps.app.goo.gl/5a6xmd4qmfFKAZWw7",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/5a6xmd4qmfFKAZWw7",
     },
     {
@@ -145,6 +193,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1494783367193-149034c05e8f?auto=format&fit=crop&w=1200&q=80",
       description: "Kolam alami jernih di tengah pepohonan rindang.",
+      detail:
+        "Selokambang terkenal dengan airnya yang jernih. Review menyebut tempat ini cocok untuk keluarga karena area bersih dan rindang.",
+      map: "https://maps.app.goo.gl/KyDYiQdJazVt5y1EA",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/KyDYiQdJazVt5y1EA",
     },
     {
@@ -153,6 +205,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1455218873509-8097305ee378?auto=format&fit=crop&w=1200&q=80",
       description: "Hutan pinus sejuk untuk piknik dan foto.",
+      detail:
+        "Hutan pinus cocok untuk wisata santai. Banyak yang menyarankan datang pagi karena cahaya matahari masuk cantik di sela pepohonan.",
+      map: "https://maps.app.goo.gl/S1w6qXDr7wRrC8TQ7",
+      link: "detail-wisata.html",
       map: "https://maps.app.goo.gl/S1w6qXDr7wRrC8TQ7",
     },
     {
@@ -161,6 +217,20 @@ document.addEventListener("DOMContentLoaded", () => {
       image:
         "https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=1200&q=80",
       description: "Hamparan hijau kebun teh dengan udara segar.",
+      detail:
+        "Kebun Teh Kertowono menghadirkan panorama hijau luas. Pengunjung menyukai udara segar, spot foto, dan suasana damai.",
+      map: "https://maps.app.goo.gl/2vQhM4V6T3G3w3r88",
+      link: "detail-wisata.html",
+    },
+  ];
+
+  const filterDestinations = (query) => {
+    const normalized = query.toLowerCase();
+    return destinations.filter((place) =>
+      `${place.name} ${place.category} ${place.description} ${place.detail}`
+        .toLowerCase()
+        .includes(normalized)
+    );
       map: "https://maps.app.goo.gl/2vQhM4V6T3G3w3r88",
     },
   ];
@@ -376,6 +446,9 @@ document.addEventListener("DOMContentLoaded", () => {
         (place) => `
         <div class="search-result-item">
           <h4>${place.name}</h4>
+          <p>${place.detail}</p>
+          <a href="${place.link}" class="link-arrow">
+            Baca Cerita Lengkap <i data-feather="arrow-right"></i>
           <p>${place.description}</p>
           <a href="${place.map}" target="_blank" rel="noopener noreferrer" class="link-arrow">
             Buka Maps <i data-feather="map-pin"></i>
@@ -394,6 +467,7 @@ document.addEventListener("DOMContentLoaded", () => {
         searchResults.innerHTML = "<p class=\"search-hint\">Ketik kata kunci untuk melihat hasil.</p>";
         return;
       }
+      renderSearchResults(filterDestinations(value));
       const filtered = filterDestinations(value);
       renderSearchResults(filtered);
     });

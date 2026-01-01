@@ -30,6 +30,9 @@
 [data-theme="light"] .hero::after {
   background: linear-gradient(
     90deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.05) 100%
     rgba(255, 255, 255, 0.9) 0%,
     rgba(255, 255, 255, 0.6) 50%,
     rgba(255, 255, 255, 0.3) 100%
@@ -165,7 +168,7 @@ body {
   background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
-  padding-top: 100px; /* Tambah padding atas agar tidak terlalu mepet navbar */
+  padding: 120px 0 80px; /* Ruang agar tidak mepet navbar */
   transition: background-image 0.8s ease-in-out;
 }
 
@@ -193,7 +196,7 @@ body {
   display: flex; /* Menggunakan Flexbox */
   align-items: center; /* Vertikal tengah */
   justify-content: space-between; /* Jarak antar elemen */
-  gap: 4rem; /* Jarak antara teks dan bagian kanan */
+  gap: 6rem; /* Jarak antara teks dan bagian kanan */
 }
 
 @keyframes fadeUp {
@@ -298,23 +301,31 @@ body {
     gap: 2rem; /* Jarak antara kartu dan kontrol */
     opacity: 0;
     animation: fadeUp 1s ease-out 0.5s forwards;
+    position: relative;
+    overflow: hidden;
+    width: 55%;
 }
 
 .hero-cards-container {
   display: flex;
-  /* Tidak perlu padding-bottom atau alignment aneh di sini */
+  width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .hero-card-wrapper {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  width: max-content;
+  padding-right: 6rem;
+  animation: drift 14s ease-in-out infinite alternate;
 }
 
 /* Base Card Style */
 .hero-card {
-  width: 160px;
-  height: 240px;
+  width: 200px;
+  aspect-ratio: 9 / 16;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--border);
@@ -339,8 +350,8 @@ body {
 
 /* Active State - Lebih Besar */
 .hero-card.active {
-  width: 220px;
-  height: 320px;
+  width: 240px;
+  aspect-ratio: 9 / 16;
   border-color: var(--accent);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   z-index: 10;
@@ -653,6 +664,9 @@ body {
 }
 
 /* --- TESTIMONIAL --- */
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
 .testimonial-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -671,6 +685,63 @@ body {
 .testimonial-card h4 {
   margin-top: 1.5rem;
   color: var(--accent);
+}
+
+.testimonial-marquee {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.testimonial-row {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x mandatory;
+}
+
+.testimonial-row::-webkit-scrollbar {
+  height: 6px;
+}
+
+.testimonial-row::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
+
+.testimonial-row .testimonial-card {
+  min-width: 320px;
+  scroll-snap-align: start;
+}
+
+.marquee-right {
+  animation: marqueeRight 18s linear infinite;
+}
+
+.marquee-left {
+  animation: marqueeLeft 18s linear infinite;
+}
+
+.testimonial-row:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeRight {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-120px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes marqueeLeft {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(120px); }
+  100% { transform: translateX(0); }
+}
+
+.testimonial-cta {
+  margin-top: 2.5rem;
+  text-align: center;
 }
 
 /* --- TIPS PREVIEW --- */
@@ -703,6 +774,26 @@ body {
   margin-top: 1.5rem;
   display: grid;
   gap: 0.8rem;
+}
+
+.contact-cards {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.contact-card h4 {
+  margin-bottom: 0.2rem;
 }
 
 .contact-info li {
@@ -1061,6 +1152,11 @@ footer {
   color: var(--text); margin-bottom: 1.5rem; font-size: 1.1rem;
 }
 
+.footer-link-grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
 .footer-links a {
   display: block; color: var(--text-muted); margin-bottom: 0.8rem; transition: 0.3s;
 }
@@ -1073,6 +1169,12 @@ footer {
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   color: var(--text); transition: 0.3s;
+}
+
+.footer-note {
+  margin-top: 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 .social-icons a:hover {
   background: var(--accent); color: #000; border-color: var(--accent);
@@ -1136,6 +1238,8 @@ footer {
     gap: 3rem;
   }
 
+  .hero-right-section {
+    width: 100%;
   .navbar-nav {
     display: none;
   }
@@ -1163,6 +1267,16 @@ footer {
   
   .hero-slider-controls {
       padding-left: 0; /* Hapus padding saat di tengah */
+  }
+}
+
+@media (max-width: 820px) {
+  .navbar-nav {
+    display: none;
+  }
+
+  #menu-toggle {
+    display: inline-flex;
   }
 }
 
@@ -1207,6 +1321,39 @@ footer {
   }
   .hero-card-wrapper::-webkit-scrollbar { display: none; }
   
+  .hero-card { flex: 0 0 160px; scroll-snap-align: center; }
+  .hero-card.active { flex: 0 0 180px; }
+}
+.hero-right-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, var(--bg) 100%);
+  pointer-events: none;
+}
+
+@keyframes drift {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-120px); }
+  100% { transform: translateX(0); }
+}
+
+.hero-card-wrapper:hover {
+  animation-play-state: paused;
+}
+.welcome-center {
+  text-align: center;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.welcome-map {
+  max-width: 1100px;
+  margin: 0 auto;
+}
   .hero-card { flex: 0 0 140px; height: 200px; scroll-snap-align: center; }
   .hero-card.active { flex: 0 0 160px; height: 240px; }
 }
