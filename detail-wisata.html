@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Wisata - Explore Lumajang</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <!-- Main Style -->
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      /* Inline specific styles for details page to ensure immediate visual result, 
+         can be moved to style.css later */
+
+      .detail-hero {
+        height: 100vh;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: 4rem;
+        color: white;
+        overflow: hidden;
+      }
+
+      .detail-overlay-info {
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+      }
+
+      .detail-hero-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 5%;
+      }
+
+      .hero-badges {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .badge-glass {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .section-nav {
+        position: sticky;
+        top: 80px; /* Adjust based on navbar height */
+        background: var(--surface);
+        z-index: 90;
+        border-bottom: 1px solid var(--border);
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 1rem 0;
+      }
+
+      .section-nav ul {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        padding: 0 5%;
+        margin: 0;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .section-nav a {
+        font-weight: 500;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .section-nav a.active {
+        color: var(--accent);
+      }
+
+      /* LOGISTICS GRID */
+      .logistics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .log-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 1.5rem;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .log-card i {
+        font-size: 1.5rem;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      .log-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+      }
+
+      .log-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      /* TIMELINE VISIT FLOW */
+      .timeline-container {
+        position: relative;
+        padding-left: 2rem;
+        margin-top: 2rem;
+      }
+
+      .timeline-container::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10px;
+        bottom: 10px;
+        width: 2px;
+        background: var(--border);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 2.5rem;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: -2rem;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        background: var(--accent);
+        border-radius: 50%;
+        border: 4px solid var(--bg);
+        transform: translateX(-50%); /* Center on line */
+        margin-left: 1px;
+      }
+
+      .timeline-content h4 {
+        margin-bottom: 0.5rem;
+        font-family: var(--font-display);
+      }
+
+      /* SPOT PHOTOS */
+      .spot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .spot-card {
+        border-radius: 20px;
+        overflow: hidden;
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+
+      .spot-img {
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .spot-info {
+        padding: 1.5rem;
+      }
+
+      .tips-list li {
+        margin-bottom: 1rem;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .tips-list i {
+        color: var(--accent);
+        margin-top: 5px;
+      }
+
+      /* Skeleton Loading */
+      .skeleton {
+        background: rgba(255, 255, 255, 0.05);
+        animation: pulse 1.5s infinite;
+        border-radius: 4px;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.6;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header>
+      <nav class="navbar" aria-label="Navigasi Utama">
+        <a href="index.html" class="navbar-brand">
+          <img
+            src="image/putih.png"
+            alt="Explore Lumajang"
+            class="navbar-logo"
+            data-logo
+          />
+        </a>
+        <div class="navbar-nav desktop-only">
+          <a href="index.html" class="nav-link">Beranda</a>
+          <a href="destinasi.html" class="nav-link">Destinasi</a>
+          <a href="detail-wisata.html" class="nav-link active">Detail Wisata</a>
+          <a href="tips.html" class="nav-link">Tips</a>
+          <a href="index.html#contact" class="nav-link">Kontak</a>
+        </div>
+        <div class="navbar-extra">
+          <button id="search-btn" class="nav-icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <button id="theme-toggle" class="nav-icon">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button id="menu-toggle" class="nav-icon mobile-only">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu Overlay -->
+      <div class="mobile-menu-overlay">
+        <div class="mobile-menu-content">
+          <div class="mobile-header">
+            <h3>Menu</h3>
+            <button class="close-menu">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="mobile-links">
+            <a href="index.html">Beranda</a>
+            <a href="destinasi.html">Destinasi</a>
+            <a href="detail-wisata.html">Detail Wisata</a>
+            <a href="tips.html">Tips</a>
+            <a href="index.html#contact">Kontak</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="detail-main">
+      <!-- SECTION 1: HERO DESTINASI -->
+      <section id="hero-detail" class="detail-hero">
+        <div class="hero-bg-layer" id="detail-hero-bg"></div>
+        <div class="detail-overlay-info"></div>
+
+        <div class="detail-hero-content">
+          <a
+            href="destinasi.html"
+            class="btn btn-outline"
+            style="
+              margin-bottom: 2rem;
+              border-radius: 50px;
+              padding: 0.5rem 1.5rem;
+              font-size: 0.8rem;
+              backdrop-filter: blur(5px);
+            "
+            ><i class="fa-solid fa-arrow-left"></i> Kembali</a
+          >
+
+          <div id="hero-data">
+            <!-- Data Injected Here -->
+            <div
+              class="skeleton"
+              style="height: 60px; width: 60%; margin-bottom: 1rem"
+            ></div>
+            <div
+              class="skeleton"
+              style="height: 20px; width: 40%; margin-bottom: 2rem"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: RINGKASAN NILAI UTAMA -->
+      <section class="section">
+        <div class="container">
+          <div class="text-center" style="max-width: 800px; margin: 0 auto">
+            <span class="section-tag">Ringkasan</span>
+            <h2 class="section-title">Kenapa Wajib Kesini?</h2>
+            <div id="summary-content">
+              <div class="skeleton" style="height: 100px; width: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: DESKRIPSI LENGKAP -->
+      <section class="section" style="background: var(--surface)">
+        <div class="container">
+          <div
+            id="detailed-desc"
+            class="glass-effect"
+            style="padding: 3rem; border-radius: 20px"
+          >
+            <!-- Injected -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: LOGISTIK CEPAT -->
+      <section class="section">
+        <div class="container">
+          <h3
+            class="section-title"
+            style="font-size: 2rem; margin-bottom: 2rem"
+          >
+            Info Penting
+          </h3>
+          <div id="logistics-container" class="logistics-grid">
+            <!-- Injected -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: SPOT FOTO -->
+      <section class="section">
+        <div class="container">
+          <div class="section-header">
+            <span class="section-tag">Instagramable</span>
+            <h2 class="section-title">Spot Foto Terbaik</h2>
+          </div>
+          <div id="spots-container" class="spot-grid mt-2">
+            <!-- Injected -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: ALUR KUNJUNGAN -->
+      <section class="section" style="background: var(--surface)">
+        <div class="container">
+          <h3 class="section-title">Alur Kunjungan Ideal</h3>
+          <div id="timeline-container" class="timeline-container">
+            <!-- Injected -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7: KULINER -->
+      <section class="section">
+        <div class="container">
+          <div
+            class="contact-wrapper glass-effect"
+            style="grid-template-columns: 1fr"
+          >
+            <div class="contact-text">
+              <h2>Makan & Istirahat Disini</h2>
+              <p class="mb-2">Rekomendasi terbaik di sekitar lokasi.</p>
+              <div
+                id="food-container"
+                style="
+                  display: grid;
+                  gap: 1rem;
+                  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                  margin-top: 2rem;
+                "
+              >
+                <!-- Injected -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 8: PETA -->
+      <section class="section">
+        <div class="container">
+          <div
+            id="map-detail"
+            style="height: 400px; width: 100%; border-radius: 20px; z-index: 1"
+          ></div>
+          <div class="mt-2 text-center">
+            <a id="gmaps-btn" href="#" target="_blank" class="btn btn-primary"
+              ><i class="fa-solid fa-location-arrow"></i> Buka Rute Google
+              Maps</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 9: TIPS -->
+      <section class="section" style="background: var(--surface)">
+        <div class="container">
+          <div
+            class="glass-effect"
+            style="
+              padding: 3rem;
+              border-radius: 20px;
+              border-left: 5px solid var(--accent);
+            "
+          >
+            <h3>
+              <i class="fa-solid fa-circle-exclamation"></i> Tips & Peringatan
+            </h3>
+            <ul
+              id="tips-container"
+              class="tips-list mt-2"
+              style="list-style: none"
+            >
+              <!-- Injected -->
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 10: RELATED -->
+      <section class="section">
+        <div class="container">
+          <h2 class="section-title">Destinasi Serupa</h2>
+          <div
+            id="related-container"
+            class="category-grid-12"
+            style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))"
+          >
+            <!-- Injected -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-brand">
+          <img src="image/putih.png" alt="Logo" class="footer-logo" />
+          <p>Explore Lumajang - Your Ultimate Guide.</p>
+          <div class="social-links">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          </div>
+        </div>
+        <div class="footer-nav">
+          <h4>Menu</h4>
+          <a href="index.html">Beranda</a>
+          <a href="destinasi.html">Destinasi</a>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <p>&copy; 2024 Explore Lumajang. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="detail.js" type="module"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
