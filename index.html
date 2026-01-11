@@ -90,22 +90,55 @@
       </div>
 
       <!-- Search Overlay -->
-      <div class="search-overlay">
+      <div
+        class="search-overlay"
+        role="dialog"
+        aria-modal="true"
+        aria-hidden="true"
+      >
         <div class="search-container">
-          <button class="close-search">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-          <h2>Cari Destinasi</h2>
-          <div class="search-box">
+          <div class="search-header">
+            <button class="close-search" aria-label="Tutup Pencarian">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="search-box-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon-input"></i>
             <input
               type="text"
               id="global-search"
-              placeholder="Cari gunung, pantai, atau kuliner..."
+              placeholder="Cari destinasi, kategori, atau tips..."
+              autocomplete="off"
             />
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <button id="clear-search" class="hidden" aria-label="Hapus teks">
+              <i class="fa-solid fa-circle-xmark"></i>
+            </button>
           </div>
-          <div class="search-results" id="search-results-container">
-            <!-- Results injected here -->
+
+          <div class="search-body">
+            <!-- Empty State / Recent -->
+            <div id="search-initial-state">
+              <div class="search-section-title">Pencarian Terakhir</div>
+              <div id="recent-searches" class="recent-tags">
+                <!-- Injected via JS -->
+              </div>
+              <div class="empty-placeholder">
+                <i class="fa-solid fa-compass"></i>
+                <p>Ketik untuk mulai menjelajahi Lumajang</p>
+              </div>
+            </div>
+
+            <!-- Results -->
+            <div id="search-results-wrapper" class="hidden">
+              <div class="search-section-title">Hasil Pencarian</div>
+              <div class="search-results-grid" id="search-results-container">
+                <!-- Results injected here -->
+              </div>
+              <div id="search-no-results" class="hidden">
+                <p>Tidak ditemukan. Coba kata kunci lain.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -847,9 +880,46 @@
         </div>
 
         <div class="footer-newsletter">
-          <h4>Dapatkan Update</h4>
-          <p>Info wisata terbaru langsung ke emailmu.</p>
+          <h4>Info Wisata Premium</h4>
+          <p>
+            Dapatkan rekomendasi destinasi, spot foto, dan info akses terbaru
+            (tanpa spam).
+          </p>
+
           <form id="newsletter-form" class="newsletter-input-wrapper">
+            <div class="interest-selection">
+              <span class="interest-label">Saya tertarik dengan:</span>
+              <div class="interest-tags">
+                <button
+                  type="button"
+                  class="interest-chip"
+                  data-value="waterfall"
+                >
+                  Air Terjun
+                </button>
+                <button
+                  type="button"
+                  class="interest-chip"
+                  data-value="mountain"
+                >
+                  Gunung
+                </button>
+                <button type="button" class="interest-chip" data-value="beach">
+                  Pantai
+                </button>
+                <button
+                  type="button"
+                  class="interest-chip"
+                  data-value="culture"
+                >
+                  Budaya
+                </button>
+                <button type="button" class="interest-chip" data-value="food">
+                  Kuliner
+                </button>
+              </div>
+            </div>
+
             <div class="newsletter-input">
               <input
                 type="email"
@@ -871,6 +941,16 @@
               </button>
             </div>
             <div id="newsletter-msg" class="newsletter-msg"></div>
+
+            <div
+              id="trip-planner-cta"
+              class="trip-planner-cta"
+              style="display: none"
+            >
+              <a href="destinasi.html" class="btn btn-primary btn-sm full-width"
+                >Buat Rencana Perjalanan (2 mnt)</a
+              >
+            </div>
           </form>
         </div>
       </div>
@@ -984,6 +1064,6 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>

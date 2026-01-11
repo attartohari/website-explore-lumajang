@@ -1,3 +1,5 @@
+import { destinations } from "./destinations-data.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // --- NAVBAR MOBILE & SEARCH TOGGLES ---
   const menuToggle = document.getElementById("menu-toggle");
@@ -316,56 +318,142 @@ document.addEventListener("DOMContentLoaded", () => {
   // ... (Keeping global search logic if needed, or assume it continues to work if not replaced.
   // Since I am replacing the whole file content mostly, I should include the search part too to be safe)
 
+  /* --- ADVANCED SEARCH LOGIC --- */
   const searchInput = document.getElementById("global-search");
   const searchResultsContainer = document.getElementById(
     "search-results-container"
   );
-  const database = [
-    { name: "Tumpak Sewu", type: "Air Terjun", link: "detail-wisata.html" },
-    { name: "B29 Argosari", type: "Pegunungan", link: "detail-wisata.html" },
-    { name: "Ranu Pani", type: "Danau", link: "detail-wisata.html" },
-    { name: "Ranu Kumbolo", type: "Danau", link: "detail-wisata.html" },
-    { name: "Pantai Watu Pecak", type: "Pantai", link: "detail-wisata.html" },
-    { name: "Gunung Semeru", type: "Pegunungan", link: "detail-wisata.html" },
-    {
-      name: "Air Terjun Kapas Biru",
-      type: "Air Terjun",
-      link: "detail-wisata.html",
-    },
-    {
-      name: "Kebun Teh Kertowono",
-      type: "Perkebunan",
-      link: "detail-wisata.html",
-    },
-    { name: "Goa Tetes", type: "Goa", link: "detail-wisata.html" },
-    { name: "Pantai Bambang", type: "Pantai", link: "detail-wisata.html" },
-  ];
+  const searchResultsWrapper = document.getElementById(
+    "search-results-wrapper"
+  );
+  const searchInitialState = document.getElementById("search-initial-state");
+  const searchNoResults = document.getElementById("search-no-results");
+  const recentSearchesContainer = document.getElementById("recent-searches");
+  const clearSearchBtn = document.getElementById("clear-search");
 
-  if (searchInput && searchResultsContainer) {
-    searchInput.addEventListener("input", (e) => {
-      const val = e.target.value.toLowerCase();
-      searchResultsContainer.innerHTML = "";
-      if (val.length < 2) return;
-      const filtered = database.filter(
-        (item) =>
-          item.name.toLowerCase().includes(val) ||
-          item.type.toLowerCase().includes(val)
+  // Load Recent Searches
+  let recentSearches =
+    JSON.parse(localStorage.getItem("recent_searches")) || [];
+
+  function renderRecentSearches() {
+    if (!recentSearchesContainer) return;
+    recentSearchesContainer.innerHTML = "";
+    if (recentSearches.length === 0) {
+      recentSearchesContainer.innerHTML =
+        '<span style="color:var(--text-muted);font-size:0.8rem">Belum ada riwayat.</span>';
+      return;
+    }
+    recentSearches.forEach((term) => {
+      const chip = document.createElement("div");
+      chip.className = "recent-chip";
+      chip.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${term}`;
+      chip.addEventListener("click", () => {
+        searchInput.value = term;
+        performSearch(term);
+        // Also trigger input event visually if needed, but performSearch handles logic
+      });
+      recentSearchesContainer.appendChild(chip);
+    });
+  }
+
+  function addToRecent(term) {
+    if (!term) return;
+    // Remove if exists to push to top
+    recentSearches = recentSearches.filter((t) => t !== term);
+    recentSearches.unshift(term);
+    if (recentSearches.length > 5) recentSearches.pop();
+    localStorage.setItem("recent_searches", JSON.stringify(recentSearches));
+    renderRecentSearches();
+  }
+
+  function performSearch(query) {
+    if (!query) {
+      // Empty state
+      searchInitialState.classList.remove("hidden");
+      searchResultsWrapper.classList.add("hidden");
+      clearSearchBtn.classList.add("hidden");
+      return;
+    }
+
+    clearSearchBtn.classList.remove("hidden");
+    searchInitialState.classList.add("hidden");
+    searchResultsWrapper.classList.remove("hidden");
+    searchResultsContainer.innerHTML = "";
+    searchNoResults.classList.add("hidden");
+
+    const lowerQuery = query.toLowerCase();
+    const results = Object.values(destinations).filter((dest) => {
+      return (
+        dest.nama.toLowerCase().includes(lowerQuery) ||
+        dest.kategori.some((k) => k.toLowerCase().includes(lowerQuery)) ||
+        (dest.tags &&
+          dest.tags.some((t) => t.toLowerCase().includes(lowerQuery))) // Assuming tags might exist or just ignore
       );
-      if (filtered.length === 0) {
-        searchResultsContainer.innerHTML = "<p>Tidak ditemukan.</p>";
-      } else {
-        filtered.forEach((item) => {
-          const div = document.createElement("div");
-          div.style.padding = "1rem";
-          div.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
-          div.innerHTML = `<h4 style="margin-bottom:0.2rem">${item.name}</h4><span style="color:var(--accent);font-size:0.8rem">${item.type}</span>`;
-          div.style.cursor = "pointer";
-          div.addEventListener(
-            "click",
-            () => (window.location.href = item.link)
-          );
-          searchResultsContainer.appendChild(div);
+    });
+
+    if (results.length === 0) {
+      searchNoResults.classList.remove("hidden");
+    } else {
+      results.forEach((dest) => {
+        const card = document.createElement("a");
+        card.className = "search-card";
+        card.href = `detail-wisata.html?slug=${dest.slug}`;
+
+        // Stagger Animation
+        card.style.animation = "fadeIn 0.3s ease forwards";
+
+        card.innerHTML = `
+          <img src="${dest.thumbnail}" alt="${dest.nama}" class="search-card-img" />
+          <div class="search-card-content">
+            <div class="search-card-title">${dest.nama}</div>
+            <div class="search-card-badge">${dest.kategori[0]}</div>
+          </div>
+        `;
+        card.addEventListener("click", () => {
+          addToRecent(query);
         });
+        searchResultsContainer.appendChild(card);
+      });
+    }
+  }
+
+  if (searchInput) {
+    renderRecentSearches();
+
+    searchInput.addEventListener("input", (e) => {
+      performSearch(e.target.value);
+    });
+
+    // Clear Button
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      performSearch("");
+      searchInput.focus();
+    });
+
+    // Open/Close Animation & Logic Enhancements
+    // Note: The click listeners for open/close are already at the top of file.
+    // We just need to add ESC close and Auto Focus here.
+
+    // Focus when overlay opens
+    const searchOverlay = document.querySelector(".search-overlay");
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target.classList.contains("active")) {
+          setTimeout(() => searchInput.focus(), 100);
+        }
+      });
+    });
+    if (searchOverlay)
+      observer.observe(searchOverlay, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+
+    // ESC to close
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
+        searchOverlay.classList.remove("active");
       }
     });
   }
@@ -420,6 +508,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const honeypot = document.getElementById("website-url");
 
   if (newsletterForm) {
+    // Interest Chip Selection Logic
+    const interestChips = document.querySelectorAll(".interest-chip");
+    interestChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chip.classList.toggle("selected");
+      });
+    });
+
     newsletterForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -447,6 +543,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // Check if email already registered (MVP simulation)
       if (newsletterEmail.value === listEmail) {
         showMessage("Email ini sudah terdaftar!", "success"); // Treat as success
+        // Show CTA even if already registered, good for retention
+        document.getElementById("trip-planner-cta").style.display = "block";
         return;
       }
 
@@ -471,14 +569,29 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1500));
 
+        // COLLECT INTERESTS
+        const selectedInterests = Array.from(
+          document.querySelectorAll(".interest-chip.selected")
+        ).map((c) => c.dataset.value);
+
         // SUCCESS
         localStorage.setItem("newsletter_email", email);
+        localStorage.setItem(
+          "newsletter_interests",
+          JSON.stringify(selectedInterests)
+        );
         localStorage.setItem("newsletter_last_submit", now.toString());
 
-        showMessage("Berhasil terdaftar!", "success");
+        showMessage("Berhasil! Terima kasih sudah mendaftar.", "success");
         newsletterEmail.value = "";
 
+        // Reset chips
+        interestChips.forEach((c) => c.classList.remove("selected"));
+
         newsletterSubmit.innerHTML = '<i class="fa-solid fa-check"></i>';
+
+        // SHOW TRIP PLANNER CTA
+        document.getElementById("trip-planner-cta").style.display = "block";
 
         // Restore button after delay
         setTimeout(() => {
