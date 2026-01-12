@@ -2096,3 +2096,396 @@ footer {
   padding: 0.6rem 1.2rem;
   font-size: 0.9rem;
 }
+
+/* --- DESTINATIONS PAGE LAYOUT --- */
+.dest-header-section {
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.mood-filters-wrapper {
+  margin-top: 2rem;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mood-filters-track {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  min-width: max-content;
+  padding: 0 1rem;
+}
+
+.mood-chip {
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.mood-chip:hover,
+.mood-chip.active {
+  border-color: var(--accent);
+  color: var(--text);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.split-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+  align-items: start;
+  position: relative;
+}
+
+.trending-widget {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.content-side {
+  width: 100%;
+}
+
+.sticky-map-wrapper {
+  position: sticky;
+  top: 100px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+#map-container {
+  height: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 1rem 0;
+  background: #334155;
+  z-index: 1;
+}
+
+.collections-banner {
+  background: linear-gradient(to right, #0f172a, #334155);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+}
+
+/* --- STRICT RESPONSIVENESS OVERRIDES --- */
+/* Scale fixes for PC */
+@media screen and (min-width: 1400px) {
+  .dest-card-img-wrapper {
+    height: 240px;
+    /* Upscale card images */
+  }
+}
+
+
+/* --- STRICT RESPONSIVENESS --- */
+/* Breakpoints:
+   1. Smartphone: < 576px
+   2. Tablet Portrait: 577px - 768px
+   3. Tablet Landscape / Small Laptop: 769px - 1024px
+   4. Laptop (Small Desktop): 1025px - 1279px
+   5. PC (Large Desktop): >= 1280px
+*/
+
+/* 1. Smartphone (< 576px) */
+@media screen and (max-width: 576px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 6rem;
+  }
+
+  .hero-text-content {
+    padding-right: 0;
+    margin-bottom: 2rem;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-slider-wrapper {
+    height: 350px;
+    padding-left: 0;
+  }
+
+  .hero-card {
+    width: 140px;
+    height: 220px;
+  }
+
+  .section-title-large {
+    font-size: 2.5rem;
+  }
+
+  .destination-grid,
+  .category-grid-12 {
+    grid-template-columns: 1fr;
+  }
+
+  .search-container {
+    margin-top: 10vh;
+  }
+
+  /* Page Overrides */
+  .detail-hero {
+    height: auto;
+    min-height: 100vh;
+    padding-top: 100px;
+    align-items: center;
+  }
+
+  .tips-hero {
+    padding: 7rem 0 3rem;
+  }
+
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  /* Strict Grid Overrides */
+  .logistics-grid,
+  .spot-grid,
+  .mistake-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .timeline-container {
+    padding-left: 1.5rem !important;
+  }
+
+  /* Destinations Page Mobile */
+  .split-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mood-filters-track {
+    justify-content: flex-start;
+  }
+
+  .collections-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .sticky-map-wrapper {
+    position: static;
+    margin-top: 2rem;
+  }
+
+  /* Nav */
+  .navbar-nav.desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+}
+
+/* 2. Tablet Portrait (577px - 768px) */
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+    padding-top: 7rem;
+  }
+
+  .hero-text-content {
+    padding-right: 0;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-slider-wrapper {
+    width: 90%;
+    margin: 0 auto;
+    height: 400px;
+  }
+
+  .destination-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .category-grid-12 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  /* Destinations Page Tablet */
+  .split-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-map-wrapper {
+    display: none;
+    /* Hide map on tablet? Or put to bottom */
+  }
+
+  .map-side {
+    order: 2;
+  }
+
+  /* Nav */
+  .navbar-nav.desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+}
+
+/* 3. Tablet Landscape / Small Laptop (769px - 1024px) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .hero-title {
+    font-size: 3.2rem;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 8rem;
+  }
+
+  .hero-text-content {
+    padding-right: 0;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-slider-wrapper {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .destination-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .category-grid-12 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Destinations Page */
+  .split-layout {
+    grid-template-columns: 1fr 280px;
+    gap: 1.5rem;
+  }
+
+  .navbar-nav.desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+}
+
+/* 4. Laptop (Small Desktop) (1025px - 1279px) */
+@media screen and (min-width: 1025px) and (max-width: 1279px) {
+  .container {
+    max-width: 95%;
+    padding: 0 2rem;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+  }
+
+  .destination-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .category-grid-12 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .split-layout {
+    grid-template-columns: 1fr 300px;
+  }
+
+  .navbar-nav.desktop-only {
+    display: flex;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+}
+
+/* 5. PC (Large Desktop) (1280px+) */
+@media screen and (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+  }
+
+  .destination-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .category-grid-12 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .split-layout {
+    grid-template-columns: 1fr 350px;
+  }
+
+  .navbar-nav.desktop-only {
+    display: flex;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+}
+
+/* --- DARK/LIGHT MODE FIXES --- */
+body[data-theme='light'] {
+  background-color: var(--bg);
+  color: var(--text);
+}
