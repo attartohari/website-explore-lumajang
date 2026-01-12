@@ -1,20 +1,123 @@
-import { destinations } from "./destinations-data.js";
+import { supabase } from './utils/supabase.js';
+
+// --- DATA FETCHING FOR SEARCH & HERO ---
+// We fetch basic data once to populate search and hero if needed.
+// For now, Hero is static in HTML, but Search needs data.
+let destinations = [];
+
+async function initData() {
+  const { data, error } = await supabase
+    .from('destinations')
+    .select('name, slug, category, thumbnail_path')
+    .eq('status', 'published');
+
+  if (!error && data) {
+    destinations = data.map(d => ({
+      nama: d.name,
+      slug: d.slug,
+      kategori: d.category || [],
+      thumbnail: d.thumbnail_path
+    }));
+  }
+}
+initData();
+
+// --- AUTH LOGIC ---
+async function checkSession() {
+  const { data: { session }, error } = await supabase.auth.getSession();
+  updateAuthUI(session);
+}
+
+async function updateAuthUI(session) {
+  const container = document.getElementById('auth-container');
+  if (!container) return; // Must be added to HTML
+
+  if (session) {
+    // Logged In
+    // Check Role for Admin Button
+    const { data: roleData } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', session.user.id)
+      .single();
+
+    const isAdmin = roleData && roleData.role === 'admin';
+
+    container.innerHTML = `
+            ${isAdmin ? `<a href="admin/dashboard.html" class="nav-icon" title="Admin Dashboard"><i class="fa-solid fa-gauge-high"></i></a>` : ''}
+            <div class="auth-dropdown">
+                <button class="nav-icon" id="auth-btn" title="Akun">
+                    <i class="fa-solid fa-user-check" style="color: var(--accent);"></i>
+                </button>
+                <div class="auth-dropdown-menu">
+                    <span>${session.user.email}</span>
+                    <hr>
+                    <button id="logout-btn">Keluar</button>
+                </div>
+            </div>
+        `;
+
+    // Logout Listener
+    setTimeout(() => {
+      const logoutBtn = document.getElementById('logout-btn');
+      const authBtn = document.getElementById('auth-btn');
+      const menu = document.querySelector('.auth-dropdown-menu');
+
+      if (authBtn && menu) {
+        authBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          menu.classList.toggle('active');
+        });
+        document.addEventListener('click', () => menu.classList.remove('active'));
+      }
+
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          await supabase.auth.signOut();
+          window.location.reload();
+        });
+      }
+    }, 100);
+
+  } else {
+    // Guest
+    container.innerHTML = `
+            <a href="auth/login.html" class="nav-icon" title="Masuk">
+                <i class="fa-regular fa-user"></i>
+            </a>
+        `;
+  }
+}
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
+  checkSession();
+
   // --- NAVBAR MOBILE & SEARCH TOGGLES ---
   const menuToggle = document.getElementById("menu-toggle");
   const mobileMenuOverlay = document.querySelector(".mobile-menu-overlay");
   const closeMenu = document.querySelector(".close-menu");
 
   if (menuToggle && mobileMenuOverlay) {
-    menuToggle.addEventListener("click", () =>
-      mobileMenuOverlay.classList.add("active")
-    );
+    menuToggle.addEventListener("click", () => {
+      mobileMenuOverlay.classList.add("active");
+      document.body.classList.add("menu-open");
+    });
   }
   if (closeMenu && mobileMenuOverlay) {
-    closeMenu.addEventListener("click", () =>
-      mobileMenuOverlay.classList.remove("active")
-    );
+    closeMenu.addEventListener("click", () => {
+      mobileMenuOverlay.classList.remove("active");
+      document.body.classList.remove("menu-open");
+    });
+
+    // Close on outside click
+    mobileMenuOverlay.addEventListener("click", (e) => {
+      if (e.target === mobileMenuOverlay) {
+        mobileMenuOverlay.classList.remove("active");
+        document.body.classList.remove("menu-open");
+      }
+    });
   }
 
   const searchBtn = document.getElementById("search-btn");
@@ -57,14 +160,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!themeToggle) return;
     if (theme === "light") {
       themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-      if (navbarLogo) navbarLogo.src = "image/ireng.png";
+      if (navbarLogo) navbarLogo.src = "assets/images/ui/ireng.png";
     } else {
       themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
-      if (navbarLogo) navbarLogo.src = "image/putih.png";
+      if (navbarLogo) navbarLogo.src = "assets/images/ui/putih.png";
     }
   }
 
-  // --- REVOLUTIONARY HERO SLIDER (Infinite Loop + DOM Manipulation) ---
+  // --- REVOLUTIONARY HERO SLIDER ---
   const sliderTrack = document.querySelector(".hero-slider-track");
   const bgLayer = document.getElementById("hero-bg");
   const titleEl = document.getElementById("hero-title");
@@ -75,9 +178,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (sliderTrack && bgLayer) {
     let isAnimating = false;
-    const cards = Array.from(document.querySelectorAll(".hero-card"));
     // Initial State Setup
-    updateHeroContent(cards[0]);
+    const cards = Array.from(document.querySelectorAll(".hero-card"));
+    if (cards.length > 0) updateHeroContent(cards[0]);
 
     function updateHeroContent(card) {
       if (!card) return;
@@ -117,10 +220,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const cardWidth = 200; // Card 180 + Gap 20
       const currentCards = document.querySelectorAll(".hero-card");
+      if (currentCards.length < 2) return;
 
       if (direction === "next") {
         // Prepare next card as active for Content update
-        const nextCard = currentCards[1]; // The one becoming first
+        const nextCard = currentCards[1];
 
         // 1. Animate Track Left
         sliderTrack.style.transition =
@@ -201,9 +305,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nextBtn) nextBtn.addEventListener("click", () => moveSlider("next"));
     if (prevBtn) prevBtn.addEventListener("click", () => moveSlider("prev"));
 
-    // Item Click to Activate (Basic Implementation: if click not first, cycle until first)
-    // Note: This can be complex with DOM shuffling. Limiting to just next/prev for stability or smart loop.
-    // For now, let's keep it simple: Click on non-active card triggers next.
     sliderTrack.addEventListener("click", (e) => {
       const card = e.target.closest(".hero-card");
       if (card && !card.classList.contains("active")) {
@@ -215,17 +316,13 @@ document.addEventListener("DOMContentLoaded", () => {
     startAutoSlide();
   }
 
-  // --- STORY DRAG (Manual Horizontal Scroll per Row) ---
+  // --- STORY DRAG ---
   const marqueeContainer = document.querySelector(".marquee-wrapper");
   if (marqueeContainer) {
-    // Prevent text selection globally in this area
     marqueeContainer.style.userSelect = "none";
-
-    // Function to handle drag for a track
     const enableDrag = (track) => {
       let isDown = false;
       let startX;
-      let diff = 0;
 
       track.addEventListener("mousedown", (e) => {
         isDown = true;
@@ -239,7 +336,6 @@ document.addEventListener("DOMContentLoaded", () => {
         isDown = false;
         track.style.cursor = "grab";
         track.style.animationPlayState = "running";
-        // Reset visual transform to avoid fighting CSS
         track.style.transform = "";
       };
 
@@ -251,11 +347,9 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const x = e.pageX;
         const walk = x - startX;
-        // Simple visual feedback only, not permanent position change to avoid logic break
         track.style.transform = `translateX(${walk}px)`;
       });
     };
-
     document.querySelectorAll(".marquee-track").forEach(enableDrag);
   }
 
@@ -263,13 +357,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const mapContainer = document.getElementById("map");
   if (mapContainer && typeof L !== "undefined") {
     const map = L.map("map", {
-      scrollWheelZoom: true, // Enabled as requested
+      scrollWheelZoom: true,
       dragging: true,
       zoomControl: true,
     }).setView([-8.133, 113.225], 10);
 
-    // Disable scroll zoom until focused (Standard UX to prevent scroll trap)
-    // Applying User Requirement: "scroll zoom aktif hanya saat pointer di atas map"
     map.scrollWheelZoom.disable();
     map.on("focus", () => {
       map.scrollWheelZoom.enable();
@@ -278,7 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
       map.scrollWheelZoom.disable();
     });
 
-    // Additional listeners for hover if focus isn't enough
     mapContainer.addEventListener("mouseenter", () => {
       map.scrollWheelZoom.enable();
     });
@@ -314,10 +405,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Search Logic (Preserved)
-  // ... (Keeping global search logic if needed, or assume it continues to work if not replaced.
-  // Since I am replacing the whole file content mostly, I should include the search part too to be safe)
-
   /* --- ADVANCED SEARCH LOGIC --- */
   const searchInput = document.getElementById("global-search");
   const searchResultsContainer = document.getElementById(
@@ -331,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const recentSearchesContainer = document.getElementById("recent-searches");
   const clearSearchBtn = document.getElementById("clear-search");
 
-  // Load Recent Searches
   let recentSearches =
     JSON.parse(localStorage.getItem("recent_searches")) || [];
 
@@ -350,7 +436,6 @@ document.addEventListener("DOMContentLoaded", () => {
       chip.addEventListener("click", () => {
         searchInput.value = term;
         performSearch(term);
-        // Also trigger input event visually if needed, but performSearch handles logic
       });
       recentSearchesContainer.appendChild(chip);
     });
@@ -358,7 +443,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addToRecent(term) {
     if (!term) return;
-    // Remove if exists to push to top
     recentSearches = recentSearches.filter((t) => t !== term);
     recentSearches.unshift(term);
     if (recentSearches.length > 5) recentSearches.pop();
@@ -368,7 +452,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function performSearch(query) {
     if (!query) {
-      // Empty state
       searchInitialState.classList.remove("hidden");
       searchResultsWrapper.classList.add("hidden");
       clearSearchBtn.classList.add("hidden");
@@ -382,12 +465,12 @@ document.addEventListener("DOMContentLoaded", () => {
     searchNoResults.classList.add("hidden");
 
     const lowerQuery = query.toLowerCase();
-    const results = Object.values(destinations).filter((dest) => {
+
+    // Use dynamic destinations data
+    const results = destinations.filter((dest) => {
       return (
         dest.nama.toLowerCase().includes(lowerQuery) ||
-        dest.kategori.some((k) => k.toLowerCase().includes(lowerQuery)) ||
-        (dest.tags &&
-          dest.tags.some((t) => t.toLowerCase().includes(lowerQuery))) // Assuming tags might exist or just ignore
+        (dest.kategori && dest.kategori.some((k) => k.toLowerCase().includes(lowerQuery)))
       );
     });
 
@@ -398,15 +481,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = document.createElement("a");
         card.className = "search-card";
         card.href = `detail-wisata.html?slug=${dest.slug}`;
-
-        // Stagger Animation
         card.style.animation = "fadeIn 0.3s ease forwards";
 
         card.innerHTML = `
-          <img src="${dest.thumbnail}" alt="${dest.nama}" class="search-card-img" />
+          <img src="${dest.thumbnail ? (dest.thumbnail.startsWith('http') ? dest.thumbnail : dest.thumbnail) : 'https://placehold.co/60x60'}" alt="${dest.nama}" class="search-card-img" />
           <div class="search-card-content">
             <div class="search-card-title">${dest.nama}</div>
-            <div class="search-card-badge">${dest.kategori[0]}</div>
+            <div class="search-card-badge">${dest.kategori && dest.kategori[0] ? dest.kategori[0] : 'Wisata'}</div>
           </div>
         `;
         card.addEventListener("click", () => {
@@ -430,10 +511,6 @@ document.addEventListener("DOMContentLoaded", () => {
       performSearch("");
       searchInput.focus();
     });
-
-    // Open/Close Animation & Logic Enhancements
-    // Note: The click listeners for open/close are already at the top of file.
-    // We just need to add ESC close and Auto Focus here.
 
     // Focus when overlay opens
     const searchOverlay = document.querySelector(".search-overlay");
@@ -500,7 +577,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* --- NEWSLETTER LOGIC (Anti-Spam & Validation) --- */
+  /* --- NEWSLETTER LOGIC (SUPABASE REAL) --- */
   const newsletterForm = document.getElementById("newsletter-form");
   const newsletterEmail = document.getElementById("newsletter-email");
   const newsletterSubmit = document.getElementById("newsletter-submit");
@@ -518,91 +595,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     newsletterForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      // 1. Reset Message
       newsletterMsg.className = "newsletter-msg";
       newsletterMsg.textContent = "";
 
-      // 2. HONEYPOT CHECK (Anti-Spam)
-      if (honeypot && honeypot.value !== "") {
-        console.log("Bot detected.");
-        return; // Silent fail for bots
-      }
+      // Anti-Spam
+      if (honeypot && honeypot.value !== "") return;
 
-      // 3. RATE LIMIT CHECK (Client-side)
-      const lastSubmit = localStorage.getItem("newsletter_last_submit");
-      const listEmail = localStorage.getItem("newsletter_email");
-      const now = Date.now();
-
-      // Basic check: 30 seconds cooldown
-      if (lastSubmit && now - parseInt(lastSubmit) < 30000) {
-        showMessage("Tunggu sebentar sebelum mencoba lagi.", "error");
-        return;
-      }
-
-      // Check if email already registered (MVP simulation)
-      if (newsletterEmail.value === listEmail) {
-        showMessage("Email ini sudah terdaftar!", "success"); // Treat as success
-        // Show CTA even if already registered, good for retention
-        document.getElementById("trip-planner-cta").style.display = "block";
-        return;
-      }
-
-      // 4. VALIDATION
+      // VALIDATION
       const email = newsletterEmail.value.trim();
       if (!email) {
         showMessage("Email tidak boleh kosong.", "error");
         return;
       }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        showMessage("Format email tidak valid.", "error");
-        return;
-      }
 
-      // 5. LOADING STATE
       const originalBtnContent = newsletterSubmit.innerHTML;
-      newsletterSubmit.innerHTML = '<span class="loader-spin"></span>';
+      newsletterSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
       newsletterSubmit.disabled = true;
 
-      // 6. SIMULATE SUBMISSION (Delay)
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+      // COLLECT INTERESTS
+      const selectedInterests = Array.from(
+        document.querySelectorAll(".interest-chip.selected")
+      ).map((c) => c.dataset.value);
 
-        // COLLECT INTERESTS
-        const selectedInterests = Array.from(
-          document.querySelectorAll(".interest-chip.selected")
-        ).map((c) => c.dataset.value);
+      // INSERT TO SUPABASE
+      const { data, error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{
+          email: email,
+          interests: selectedInterests // Assumes JSONB or Text[]
+        }]);
 
-        // SUCCESS
-        localStorage.setItem("newsletter_email", email);
-        localStorage.setItem(
-          "newsletter_interests",
-          JSON.stringify(selectedInterests)
-        );
-        localStorage.setItem("newsletter_last_submit", now.toString());
-
+      if (error) {
+        // Handle Duplicate Check
+        if (error.code === '23505') { // Unique Violation
+          showMessage("Email ini sudah terdaftar!", "success");
+          document.getElementById("trip-planner-cta").style.display = "block";
+        } else {
+          showMessage("Gagal menyimpan: " + error.message, "error");
+        }
+      } else {
         showMessage("Berhasil! Terima kasih sudah mendaftar.", "success");
         newsletterEmail.value = "";
-
-        // Reset chips
         interestChips.forEach((c) => c.classList.remove("selected"));
-
-        newsletterSubmit.innerHTML = '<i class="fa-solid fa-check"></i>';
-
-        // SHOW TRIP PLANNER CTA
         document.getElementById("trip-planner-cta").style.display = "block";
-
-        // Restore button after delay
-        setTimeout(() => {
-          newsletterSubmit.innerHTML = originalBtnContent;
-          newsletterSubmit.disabled = false;
-        }, 3000);
-      } catch (err) {
-        showMessage("Terjadi kesalahan. Coba lagi.", "error");
-        newsletterSubmit.innerHTML = originalBtnContent;
-        newsletterSubmit.disabled = false;
       }
+
+      newsletterSubmit.innerHTML = originalBtnContent;
+      newsletterSubmit.disabled = false;
     });
   }
 
@@ -610,8 +649,6 @@ document.addEventListener("DOMContentLoaded", () => {
     newsletterMsg.textContent = text;
     newsletterMsg.classList.add(type);
     newsletterMsg.classList.add("show");
-
-    // Auto hide after 5s
     setTimeout(() => {
       newsletterMsg.classList.remove("show");
     }, 5000);

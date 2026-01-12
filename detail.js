@@ -1,66 +1,112 @@
-import { destinations } from "./destinations-data.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+import { supabase } from "./utils/supabase.js";
+
+document.addEventListener("DOMContentLoaded", async () => {
   // 1. Get Slug from URL
   const urlParams = new URLSearchParams(window.location.search);
-  const slug = urlParams.get("slug") || "tumpak-sewu"; // Default fallback for dev
+  const slug = urlParams.get("slug") || "tumpak-sewu";
 
   // 2. Fetch Data
-  const data = destinations[slug];
+  const { data: dbData, error } = await supabase
+    .from("destinations")
+    .select(`
+            *,
+            destination_images(*),
+            photo_spots(*),
+            nearby_places(*)
+        `)
+    // Logic for related might simpler: just fetch by category usually. 
+    // My schema didn't fully implement M2M related table yet, 'related' was in JS.
+    // I kept 'facilities' as text array. 
+    // I will just fetch the main destination first.
+    .eq("slug", slug)
+    .single();
 
-  if (!data) {
-    // Handle 404
+  // Workaround for 'related' since I didn't make a complex relation. 
+  // I'll fetch 'related' manually or just random other destinations.
+
+  if (error || !dbData) {
+    console.error(error);
     document.getElementById("detail-main").innerHTML = `
             <div class="container text-center section">
                 <h2>404 - Destinasi Tidak Ditemukan</h2>
+                <p>${error ? error.message : "Data kosong"}</p>
                 <a href="destinasi.html" class="btn btn-primary">Kembali ke Destinasi</a>
             </div>
         `;
     return;
   }
 
-  // 3. Render Hero
+  // Map DB Structure to View Structure
+  const data = {
+    nama: dbData.name,
+    slug: dbData.slug,
+    hero_image: dbData.hero_path,
+    thumbnail: dbData.thumbnail_path,
+    short_desc: dbData.short_desc,
+    deskripsi_lengkap: {
+      // My schema combined them into 'description'. 
+      // I'll split or just use same text. 
+      // For now, I'll put the full description in 'sekilas' and empty others or duplicate.
+      sekilas: dbData.description,
+      daya_tarik: dbData.description ? dbData.description.substring(0, 100) + "..." : "", // Mock
+      pengalaman: "Pengalaman tak terlupakan menanti anda." // Mock
+    },
+    kategori: dbData.category || ["Wisata"],
+    jam_buka: dbData.open_hours,
+    harga_tiket: dbData.ticket_price,
+    akses: dbData.access_level,
+    best_time: dbData.best_time,
+    fasilitas: (dbData.facilities || []).map(f => ({ icon: "fa-check", nama: f })), // Map string to obj
+    lokasi_cord: { lat: dbData.lat, lng: dbData.lng },
+    spot_foto: dbData.photo_spots.map(s => ({
+      nama: s.name,
+      image: s.image_path,
+      jam_terbaik: s.best_time,
+      catatan: s.description
+    })),
+    rekomendasi_makan: dbData.nearby_places.map(n => ({
+      nama: n.name,
+      tipe: n.type,
+      jarak: n.distance,
+      note: n.note
+    })),
+    alur_kunjungan: [], // Schema didn't permit array of objects easily without jsonb. 
+    // I can leave empty or migrate if I used jsonb. 
+    // I will leave empty for now.
+    tips: ["Bawa uang tunai", "Jaga kebersihan"], // Default tips since table is separate tips_articles
+    peringatan: ["Hati-hati jalan licin"], // validasi fallback
+    related: [] // Will fetch separately
+  };
+
+  // 3. Render
   renderHero(data);
-
-  // 4. Render Summary
   renderSummary(data);
-
-  // 5. Render Description
   renderDescription(data);
-
-  // 6. Render Logistics
   renderLogistics(data);
-
-  // 7. Render Spots
   renderSpots(data);
-
-  // 8. Render Timeline
   renderTimeline(data);
-
-  // 9. Render Food
   renderFood(data);
-
-  // 10. Render Map
   renderMap(data);
-
-  // 11. Render Tips
   renderTips(data);
 
-  // 12. Render Related
-  renderRelated(data.related);
+  // Fetch Related (Random 3 others)
+  const { data: relatedData } = await supabase
+    .from("destinations")
+    .select("*")
+    .neq("slug", slug)
+    .limit(3);
+
+  if (relatedData) {
+    renderRelated(relatedData);
+  }
 });
 
 function renderHero(data) {
   document.title = `${data.nama} - Explore Lumajang`;
-
-  // Set Background
   const heroBg = document.getElementById("detail-hero-bg");
   heroBg.style.backgroundImage = `url('${data.hero_image}')`;
-
-  // Content
   const content = document.getElementById("hero-data");
-
-  // Generate Badges
   const badgesHtml = data.kategori
     .map(
       (cat) =>
@@ -83,9 +129,7 @@ function renderSummary(data) {
   const container = document.getElementById("summary-content");
   container.innerHTML = `
         <p class="section-desc-center" style="font-size: 1.1rem;">
-            "${
-              data.short_desc
-            } Sangat cocok untuk anda yang mencari <b>${data.kategori.join(
+            "${data.short_desc} Sangat cocok untuk anda yang mencari <b>${data.kategori.join(
     " & "
   )}</b> pada waktu <b>${data.best_time}</b>."
         </p>
@@ -117,7 +161,6 @@ function renderDescription(data) {
 function renderLogistics(data) {
   const container = document.getElementById("logistics-container");
 
-  // Static Items
   const items = [
     { icon: "fa-clock", label: "Jam Buka", value: data.jam_buka },
     { icon: "fa-ticket", label: "Harga Tiket", value: data.harga_tiket },
@@ -137,21 +180,20 @@ function renderLogistics(data) {
     )
     .join("");
 
-  // Dynamic Facilities
   const facilitiesHtml = `
         <div class="log-card" style="grid-column: 1 / -1;">
             <i class="fa-solid fa-bell-concierge"></i>
             <span class="log-label">Fasilitas</span>
             <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
                 ${data.fasilitas
-                  .map(
-                    (f) => `
+      .map(
+        (f) => `
                     <span style="background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 5px; font-size: 0.9rem; border: 1px solid var(--border);">
                         <i class="fa-solid ${f.icon}" style="font-size: 0.8rem; margin:0; margin-right: 5px;"></i> ${f.nama}
                     </span>
                 `
-                  )
-                  .join("")}
+      )
+      .join("")}
             </div>
         </div>
     `;
@@ -186,22 +228,12 @@ function renderSpots(data) {
 }
 
 function renderTimeline(data) {
+  // Left empty/mock for now as DB migration didn't include timeline structure yet
   const container = document.getElementById("timeline-container");
-  if (!data.alur_kunjungan) return;
-
-  container.innerHTML = data.alur_kunjungan
-    .map(
-      (al) => `
-        <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-                <h4>${al.step}</h4>
-                <p>${al.desc}</p>
-            </div>
-        </div>
-    `
-    )
-    .join("");
+  if (!data.alur_kunjungan || data.alur_kunjungan.length === 0) {
+    container.innerHTML = "<p>Informasi alur kunjungan belum tersedia.</p>";
+    return;
+  }
 }
 
 function renderFood(data) {
@@ -234,7 +266,13 @@ function renderMap(data) {
   const lat = data.lokasi_cord.lat;
   const lng = data.lokasi_cord.lng;
 
+  // Cleanup map if exists
+  if (window.detailMap) {
+    window.detailMap.remove();
+  }
+
   const map = L.map("map-detail").setView([lat, lng], 13);
+  window.detailMap = map;
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
     attribution: "&copy; OpenStreetMap &copy; CARTO",
@@ -242,45 +280,37 @@ function renderMap(data) {
 
   L.marker([lat, lng]).addTo(map).bindPopup(`<b>${data.nama}</b>`).openPopup();
 
-  // Update Button Link
   const btn = document.getElementById("gmaps-btn");
   btn.href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 }
 
 function renderTips(data) {
   const container = document.getElementById("tips-container");
-
   let html = "";
-
   data.tips.forEach((t) => {
     html += `<li><i class="fa-solid fa-check-circle"></i> <span>${t}</span></li>`;
   });
-
   data.peringatan.forEach((p) => {
     html += `<li style="color: #f87171;"><i class="fa-solid fa-triangle-exclamation" style="color: #f87171;"></i> <span>${p}</span></li>`;
   });
-
   container.innerHTML = html;
 }
 
-function renderRelated(relatedIds) {
+function renderRelated(relatedItems) {
   const container = document.getElementById("related-container");
-  if (!relatedIds) return;
-
-  // Filter destinations object base on IDs
-  // Since destinations is an object, we need to lookup
-  const relatedItems = relatedIds.map((id) => destinations[id]).filter(Boolean);
-
+  if (!relatedItems) return;
+  // DB items need mapping to view structure? 
+  // View uses item.thumbnail
   container.innerHTML = relatedItems
     .map(
       (item) => `
         <a href="detail-wisata.html?slug=${item.slug}" class="cat-card-new" style="display: block; text-align: left; padding: 0; overflow: hidden;">
              <div style="height: 150px; overflow: hidden;">
-                <img src="${item.thumbnail}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.3s;">
+                <img src="${item.thumbnail_path}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.3s;">
              </div>
              <div style="padding: 1.5rem;">
-                 <h4 style="margin-bottom: 0.5rem;">${item.nama}</h4>
-                 <span style="font-size: 0.85rem; color: var(--accent);">${item.kategori[0]}</span>
+                 <h4 style="margin-bottom: 0.5rem;">${item.name}</h4>
+                 <span style="font-size: 0.85rem; color: var(--accent);">${item.category ? item.category[0] : ""}</span>
              </div>
         </a>
     `

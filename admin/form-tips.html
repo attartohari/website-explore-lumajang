@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Tips - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f1c2e;
+            --surface: #1f2b3e;
+            --primary: #37b7c3;
+            --danger: #ef4444;
+            --text: #ffffff;
+            --text-muted: #a0aec0;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-right: 1rem;
+        }
+
+        .img-preview {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .img-preview.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; margin-bottom:2rem;">
+            <h1>Tulis Artikel</h1>
+            <a href="tips.html" class="btn-outline">Kembali</a>
+        </div>
+
+        <form id="tips-form" class="form-card">
+            <input type="hidden" id="id">
+
+            <div class="form-group">
+                <label>Judul Artikel</label>
+                <input type="text" id="title" required>
+            </div>
+
+            <div class="form-group">
+                <label>Slug</label>
+                <input type="text" id="slug" required>
+            </div>
+
+            <div class="form-group">
+                <label>Status</label>
+                <select id="status">
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                    <option value="archived">Archived</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Konten (Markdown Support)</label>
+                <textarea id="content" rows="15" placeholder="Tulis konten artikel disini..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Cover Image</label>
+                <input type="file" id="cover_file" accept="image/*">
+                <input type="hidden" id="cover_path">
+                <img id="cover_preview" class="img-preview">
+            </div>
+
+            <div style="text-align: right;">
+                <button type="submit" class="btn-primary" id="btn-save">Simpan Artikel</button>
+            </div>
+        </form>
+    </div>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/tips.js"></script>
+</body>
+
+</html>

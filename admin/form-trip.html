@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Destinasi - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f1c2e;
+            --surface: #1f2b3e;
+            --primary: #37b7c3;
+            --danger: #ef4444;
+            --text: #ffffff;
+            --text-muted: #a0aec0;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .form-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 1rem;
+        }
+
+        /* Image Preview */
+        .img-preview {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            background: #000;
+            display: none;
+        }
+
+        .img-preview.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1 id="page-title">Tambah Destinasi</h1>
+            <a href="dashboard.html" class="btn-outline"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+        </header>
+
+        <style>
+            .tabs {
+                display: flex;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border);
+                margin-bottom: 2rem;
+            }
+
+            .tab-btn {
+                background: transparent;
+                color: var(--text-muted);
+                padding: 0.8rem 1.5rem;
+                border: none;
+                cursor: pointer;
+                font-weight: 600;
+                border-bottom: 2px solid transparent;
+            }
+
+            .tab-btn.active {
+                color: var(--primary);
+                border-bottom-color: var(--primary);
+            }
+
+            .tab-content {
+                display: none;
+            }
+
+            .tab-content.active {
+                display: block;
+            }
+
+            .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .gallery-item {
+                position: relative;
+                border-radius: 8px;
+                overflow: hidden;
+                height: 100px;
+            }
+
+            .gallery-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .btn-delete-img {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                background: rgba(239, 68, 68, 0.9);
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 4px;
+                cursor: pointer;
+            }
+
+            .spots-list {
+                margin-top: 1rem;
+            }
+
+            .spot-item {
+                background: rgba(0, 0, 0, 0.2);
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        </style>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('info')">Info Dasar</button>
+            <button class="tab-btn" onclick="switchTab('gallery')" id="tab-btn-gallery" disabled
+                title="Simpan info dasar dulu">Galeri Foto</button>
+            <button class="tab-btn" onclick="switchTab('spots')" id="tab-btn-spots" disabled
+                title="Simpan info dasar dulu">Spots & Nearby</button>
+        </div>
+
+        <div id="tab-info" class="tab-content active">
+            <form id="trip-form" class="form-card">
+                <input type="hidden" id="id">
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Nama Destinasi</label>
+                        <input type="text" id="name" required placeholder="Contoh: Tumpak Sewu">
+                    </div>
+                    <div class="form-group">
+                        <label>Slug (URL)</label>
+                        <input type="text" id="slug" required placeholder="tumpak-sewu">
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Kategori (Pisahkan dengan koma)</label>
+                        <input type="text" id="category" placeholder="Alam, Air Terjun">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="status">
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Deskripsi Singkat (Teaser)</label>
+                    <textarea id="short_desc" rows="2" placeholder="Muncul di kartu depan..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Deskripsi Lengkap</label>
+                    <textarea id="description" rows="5" placeholder="Ceritakan detail..."></textarea>
+                </div>
+
+                <!-- Logistics -->
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Jam Buka</label>
+                        <input type="text" id="open_hours" placeholder="08.00 - 17.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Harga Tiket</label>
+                        <input type="text" id="ticket_price" placeholder="Rp 10.000">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Koordinat (Lat, Lng)</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="text" id="lat" placeholder="Lat (-8.xxx)">
+                            <input type="text" id="lng" placeholder="Lng (113.xxx)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Waktu Terbaik</label>
+                        <input type="text" id="best_time" placeholder="Pagi hari">
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Thumbnail Image</label>
+                        <input type="file" id="thumb_file" accept="image/*">
+                        <input type="hidden" id="thumbnail_path">
+                        <img id="thumb_preview" class="img-preview">
+                    </div>
+                    <div class="form-group">
+                        <label>Hero Image (Header)</label>
+                        <input type="file" id="hero_file" accept="image/*">
+                        <input type="hidden" id="hero_path">
+                        <img id="hero_preview" class="img-preview">
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; text-align: right;">
+                    <button type="submit" class="btn-primary" id="btn-save">
+                        <i class="fa-solid fa-save"></i> Simpan Destinasi
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- GALLERY TAB -->
+        <div id="tab-gallery" class="tab-content">
+            <div class="form-card">
+                <h3>Galeri Foto</h3>
+                <div class="form-group">
+                    <label>Upload Foto Baru (Bisa banyak)</label>
+                    <input type="file" id="gallery_files" multiple accept="image/*">
+                </div>
+                <div id="gallery-container" class="gallery-grid">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SPOTS TAB -->
+        <div id="tab-spots" class="tab-content">
+            <div class="grid-2">
+                <div class="form-card">
+                    <h3>Spot Foto</h3>
+                    <form id="spot-form">
+                        <div class="form-group">
+                            <input type="text" id="spot_name" placeholder="Nama Spot" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="spot_desc" placeholder="Keterangan singkat">
+                        </div>
+                        <button type="submit" class="btn-outline btn-sm">Tambah Spot</button>
+                    </form>
+                    <div id="spots-list" class="spots-list"></div>
+                </div>
+                <div class="form-card">
+                    <h3>Nearby (Sekitar)</h3>
+                    <form id="nearby-form">
+                        <div class="form-group">
+                            <input type="text" id="nearby_name" placeholder="Nama Tempat" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="nearby_type">
+                                <option value="culinary">Kuliner</option>
+                                <option value="lodging">Penginapan/Hotel</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="nearby_map" placeholder="Link GMaps">
+                        </div>
+                        <button type="submit" class="btn-outline btn-sm">Tambah Tempat</button>
+                    </form>
+                    <div id="nearby-list" class="spots-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function switchTab(tabName) {
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('tab-' + tabName).classList.add('active');
+                // Find button by onclick attribute or something, easiest is manual class toggling by checking text or index
+                // Or just:
+                const btns = document.querySelectorAll('.tab-btn');
+                if (tabName === 'info') btns[0].classList.add('active');
+                if (tabName === 'gallery') btns[1].classList.add('active');
+                if (tabName === 'spots') btns[2].classList.add('active');
+            }
+        </script>
+    </div>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/destinations.js"></script>
+</body>
+
+</html>

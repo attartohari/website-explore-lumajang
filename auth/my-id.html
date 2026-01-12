@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My User ID</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        code {
+            background: black;
+            padding: 0.5rem;
+            display: block;
+            margin: 1rem 0;
+            color: #4ade80;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .btn {
+            background: #f59e0b;
+            color: black;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>User ID Checker</h1>
+        <p>Gunakan ID ini untuk query SQL di Supabase.</p>
+
+        <div id="loading">Memuat...</div>
+        <div id="content" style="display:none;">
+            <label>Email Anda:</label>
+            <h3 id="email">-</h3>
+
+            <label>User UUID:</label>
+            <code id="uuid">-</code>
+
+            <label>SQL Command:</label>
+            <code id="sql-cmd" style="text-align: left; font-size: 0.85rem; color: #fbbf24;"></code>
+        </div>
+
+        <a href="../index.html" class="btn">Kembali ke Home</a>
+    </div>
+
+    <script type="module">
+        import { supabase } from '../utils/supabase.js';
+
+        async function init() {
+            const { data: { session } } = await supabase.auth.getSession();
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+
+            if (!session) {
+                document.getElementById('email').textContent = "Belum Login";
+                document.getElementById('uuid').textContent = "Silakan login dulu di halaman Login.";
+                document.getElementById('sql-cmd').style.display = 'none';
+                return;
+            }
+
+            const uid = session.user.id;
+            document.getElementById('email').textContent = session.user.email;
+            document.getElementById('uuid').textContent = uid;
+            document.getElementById('sql-cmd').textContent = `INSERT INTO public.user_roles (user_id, role) VALUES ('${uid}', 'admin');`;
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

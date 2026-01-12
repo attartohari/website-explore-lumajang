@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Explore Lumajang Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f1c2e;
+            --surface: #1f2b3e;
+            --primary: #37b7c3;
+            --danger: #ef4444;
+            --success: #10b981;
+            --text: #ffffff;
+            --text-muted: #a0aec0;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(55, 183, 195, 0.1);
+            color: var(--primary);
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            border: 1px solid var(--border);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .btn-add {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Table / List */
+        .data-header-row {
+            display: grid;
+            grid-template-columns: 100px 2fr 1fr 1fr 100px;
+            padding: 1rem;
+            background: var(--surface);
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-row {
+            display: grid;
+            grid-template-columns: 100px 2fr 1fr 1fr 100px;
+            padding: 1rem;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            transition: 0.2s;
+        }
+
+        .data-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .thumb-img {
+            width: 60px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: #000;
+        }
+
+        .status-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            background: #333;
+        }
+
+        .status-published {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .status-draft {
+            background: rgba(255, 166, 0, 0.2);
+            color: orange;
+        }
+
+        .status-archived {
+            background: rgba(255, 255, 255, 0.1);
+            color: #999;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.4rem;
+        }
+
+        .action-btn:hover {
+            color: white;
+        }
+
+        /* Loading */
+        #loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
+            <a href="tips.html" class="nav-item"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+        </nav>
+        <a href="#" class="nav-item"><i class="fa-regular fa-image"></i> Gallery (Soon)</a>
+        <a href="#" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
+        <button id="logout-btn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i>
+            Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1 class="page-title">Kelola Destinasi</h1>
+            <a href="form-trip.html" class="btn-add"><i class="fa-solid fa-plus"></i> Tambah Destinasi</a>
+        </header>
+
+        <div class="dest-list-container">
+            <div class="data-header-row">
+                <span>Gambar</span>
+                <span>Nama Destinasi</span>
+                <span>Kategori</span>
+                <span>Status</span>
+                <span>Aksi</span>
+            </div>
+            <div id="dest-list">
+                <div id="loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data...</div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/destinations.js"></script>
+</body>
+
+</html>

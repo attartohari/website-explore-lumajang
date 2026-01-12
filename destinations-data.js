@@ -5,9 +5,9 @@ export const destinations = {
     nama: "Air Terjun Tumpak Sewu",
     kategori: ["Alam", "Air Terjun", "Petualangan"],
     thumbnail:
-      "https://images.unsplash.com/photo-1544634255-afbf7dcba97a?auto=format&fit=crop&w=600&q=80",
+      "assets/images/destinasi/tumpak sewu.png",
     hero_image:
-      "https://images.unsplash.com/photo-1544634255-afbf7dcba97a?auto=format&fit=crop&w=1600&q=80",
+      "assets/images/destinasi/tumpak sewu.png",
     short_desc:
       "Air terjun megah dengan formasi tirai air yang memukau dunia, sering disebut sebagai Niagara-nya Indonesia.",
     deskripsi_lengkap: {
@@ -31,15 +31,15 @@ export const destinations = {
     ],
     lokasi_cord: { lat: -8.2319, lng: 112.9175 },
     gallery: [
-      "https://images.unsplash.com/photo-1544634255-afbf7dcba97a?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1626015528573-0498eb496831?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1605706900132-75ca248483db?auto=format&fit=crop&w=800&q=80",
+      "assets/images/destinasi/tumpak sewu.png",
+      "assets/images/destinasi/tumpak sewu.png",
+      "assets/images/destinasi/tumpak sewu.png",
     ],
     spot_foto: [
       {
-        nama: "Panorama Point", 
+        nama: "Panorama Point",
         image:
-          "https://images.unsplash.com/photo-1626015528573-0498eb496831?auto=format&fit=crop&w=800&q=80",
+          "assets/images/destinasi/tumpak sewu.png",
         jam_terbaik: "07.00 - 09.00",
         catatan:
           "Spot paling ikonik, tidak perlu trekking jauh. Latar belakang Semeru terlihat jika hari cerah.",
@@ -47,7 +47,7 @@ export const destinations = {
       {
         nama: "Bottom Valley (Lembah)",
         image:
-          "https://images.unsplash.com/photo-1605706900132-75ca248483db?auto=format&fit=crop&w=800&q=80",
+          "assets/images/destinasi/tumpak sewu.png",
         jam_terbaik: "09.00 - 11.00",
         catatan:
           "Angle dari bawah memberikan kesan megah. Hati-hati lensa basah terkena cipratan air.",
@@ -55,7 +55,7 @@ export const destinations = {
       {
         nama: "Goa Tetes",
         image:
-          "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=80",
+          "assets/images/destinasi/tumpak sewu.png",
         jam_terbaik: "08.00 - 14.00",
         catatan:
           "Sering dilewati saat perjalanan pulang dari lembah. Tekstur tebing dan air yang menetes sangat eksotis.",
@@ -114,9 +114,9 @@ export const destinations = {
     nama: "Puncak B29 argosari",
     kategori: ["Pegunungan", "Dataran Tinggi"],
     thumbnail:
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=80",
+      "assets/images/destinasi/b29.jpg",
     hero_image:
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80",
+      "assets/images/destinasi/b29.jpg",
     short_desc:
       "Negeri di atas awan sesungguhnya. Nikmati pemandangan kaldera Bromo dari sisi yang berbeda.",
     deskripsi_lengkap: {
@@ -143,14 +143,14 @@ export const destinations = {
       {
         nama: "Tugu B29",
         image:
-          "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80",
+          "assets/images/destinasi/b29.jpg",
         jam_terbaik: "05.00 - 06.00",
         catatan: "Spot wajib untuk bukti sudah sampai sini.",
       },
       {
         nama: "View Kaldera",
         image:
-          "https://images.unsplash.com/photo-1545648589-299f16d56d78?auto=format&fit=crop&w=800&q=80",
+          "assets/images/destinasi/b29.jpg",
         jam_terbaik: "05.30 - 07.00",
         catatan: "Latar Gunung Bromo dan Batok terlihat sangat jelas.",
       },
@@ -190,9 +190,9 @@ export const destinations = {
     nama: "Ranu Kumbolo",
     kategori: ["Danau", "Trekking"],
     thumbnail:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=600&q=80",
+      "assets/images/destinasi/ranukumbolo.jpg",
     hero_image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80",
+      "assets/images/destinasi/ranukumbolo.jpg",
     short_desc:
       "Surga para pendaki. Danau air tawar di ketinggian 2.400 mdpl yang menjadi transit pendakian Semeru.",
     deskripsi_lengkap: {
@@ -233,9 +233,9 @@ export const destinations = {
     nama: "Air Terjun Kapas Biru",
     kategori: ["Air Terjun"],
     thumbnail:
-      "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=600&q=80",
+      "assets/images/destinasi/ranupani.jpg",
     hero_image:
-      "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1600&q=80",
+      "assets/images/destinasi/ranupani.jpg",
     short_desc:
       "Keindahan tirai air yang dikelilingi tebing tinggi berwarna kemerahan.",
     deskripsi_lengkap: {

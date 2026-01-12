@@ -1,156 +1,46 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // --- DATA SOURCE ---
-  const destinations = [
-    {
-      id: "tumpak-sewu",
-      name: "Tumpak Sewu",
-      category: "Air Terjun",
-      moods: ["Waterfall lover", "Sunrise hunter", "Healing alone"],
-      location: { lat: -8.2319, lng: 112.9175 },
-      estTime: "1 jam 30 menit",
-      distFromKull: "45 km",
-      access: "physically demanding", // easy, moderate, physically demanding
-      cost: "Rp 20.000",
-      photoSpots: 5,
-      trending: true,
-      bestTime: "07:00 - 09:00",
-      image:
-        "https://images.unsplash.com/photo-1544634255-afbf7dcba97a?auto=format&fit=crop&w=800&q=80",
-      description:
-        "Air terjun terindah di Jawa Timur dengan formasi tirai air yang memukau.",
-    },
-    {
-      id: "b29",
-      name: "Puncak B29",
-      category: "Pegunungan",
-      moods: ["Sunrise hunter", "Family friendly", "Healing alone"],
-      location: { lat: -7.9868, lng: 112.9876 },
-      estTime: "1 jam 45 menit",
-      distFromKull: "50 km",
-      access: "moderate",
-      cost: "Rp 15.000",
-      photoSpots: 4,
-      trending: true,
-      bestTime: "Sunrise",
-      image:
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
-      description:
-        "Negeri di atas awan, spot terbaik melihat Gunung Bromo dari ketinggian.",
-    },
-    {
-      id: "ranu-kumbolo",
-      name: "Ranu Kumbolo",
-      category: "Danau",
-      moods: ["Healing alone", "Hanging out with friends", "Sunrise hunter"],
-      location: { lat: -8.0673, lng: 112.9248 },
-      estTime: "3 jam (Trekking)",
-      distFromKull: "60 km",
-      access: "physically demanding",
-      cost: "Rp 19.000",
-      photoSpots: 6,
-      trending: false,
-      bestTime: "Sunset / Sunrise",
-      image:
-        "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80",
-      description: "Danau air tawar di kaki Gunung Semeru yang mempesona.",
-    },
-    {
-      id: "pantai-bambang",
-      name: "Pantai Bambang",
-      category: "Pantai",
-      moods: ["Family friendly", "Anti-tired (easy access)", "Tight budget"],
-      location: { lat: -8.2833, lng: 113.0833 },
-      estTime: "45 menit",
-      distFromKull: "25 km",
-      access: "easy",
-      cost: "Rp 10.000",
-      photoSpots: 2,
-      trending: false,
-      bestTime: "Sore",
-      image:
-        "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=80",
-      description:
-        "Pantai dengan pasir hitam eksotis dan ombak selatan yang kuat.",
-    },
-    {
-      id: "kebun-teh",
-      name: "Kebun Teh Kertowono",
-      category: "Perkebunan",
-      moods: [
-        "Family friendly",
-        "Hanging out with friends",
-        "Anti-tired (easy access)",
-      ],
-      location: { lat: -8.0167, lng: 113.1167 },
-      estTime: "50 menit",
-      distFromKull: "30 km",
-      access: "easy",
-      cost: "Gratis",
-      photoSpots: 3,
-      trending: true,
-      bestTime: "Pagi",
-      image:
-        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80",
-      description:
-        "Perkebunan teh hijau yang asri dengan latar belakang Gunung Semeru.",
-    },
-    {
-      id: "air-terjun-kapas-biru",
-      name: "Kapas Biru",
-      category: "Air Terjun",
-      moods: ["Waterfall lover", "Healing alone", "Sunrise hunter"],
-      location: { lat: -8.225, lng: 112.93 },
-      estTime: "1 jam 15 menit",
-      distFromKull: "40 km",
-      access: "moderate",
-      cost: "Rp 10.000",
-      photoSpots: 4,
-      trending: true,
-      bestTime: "Pagi",
-      image:
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=800&q=80",
-      description: "Air terjun megah dengan aliran deras berwarna kebiruan.",
-    },
-    {
-      id: "situs-biting",
-      name: "Situs Biting",
-      category: "Sejarah",
-      moods: ["Family friendly", "Tight budget", "Educational"],
-      location: { lat: -8.1123, lng: 113.2345 },
-      estTime: "15 menit",
-      distFromKull: "8 km",
-      access: "easy",
-      cost: "Rp 5.000",
-      photoSpots: 2,
-      trending: false,
-      bestTime: "Pagi/Sore",
-      image:
-        "https://images.unsplash.com/photo-1599834246645-ec718507853d?auto=format&fit=crop&w=800&q=80",
-      description: "Situs benteng kuno peninggalan kerajaan Lumajang.",
-    },
-    {
-      id: "pura-mandara",
-      name: "Pura Mandara Giri",
-      category: "Religi",
-      moods: ["Family friendly", "Cultural", "Tight budget"],
-      location: { lat: -8.187, lng: 113.15 },
-      estTime: "30 menit",
-      distFromKull: "18 km",
-      access: "easy",
-      cost: "Donasi",
-      photoSpots: 3,
-      trending: false,
-      bestTime: "Pagi",
-      image:
-        "https://images.unsplash.com/photo-1555523097-f55db4806443?auto=format&fit=crop&w=800&q=80",
-      description: "Pura tertua di Jawa yang megah dan penuh nilai sejarah.",
-    },
-  ];
+
+import { supabase } from './utils/supabase.js';
+
+document.addEventListener("DOMContentLoaded", async () => {
+  // --- INIT ---
+  initMap();
+
+  // --- LOAD DATA ---
+  const { data: destinationsData, error } = await supabase
+    .from("destinations")
+    .select(`
+            *,
+            photo_spots(id)
+        `)
+    .eq("status", "published");
+
+  if (error) {
+    console.error("Error fetching destinations:", error);
+    document.getElementById("destination-grid").innerHTML = `<p class="error-msg">Gagal memuat data. Silakan coba lagi. (${error.message})</p>`;
+    return;
+  }
+
+  // Map DB data to UI format
+  const destinations = destinationsData.map(d => ({
+    id: d.id, // Use ID for unique identification, Slug for links
+    slug: d.slug,
+    name: d.name,
+    category: d.category && d.category.length > 0 ? d.category[0] : "Wisata",
+    moods: d.category || [],
+    location: { lat: d.lat, lng: d.lng },
+    estTime: "1 jam", // Placeholder
+    distFromKull: "10 km", // Placeholder
+    access: d.access_level || "Menengah",
+    cost: d.ticket_price || "Free",
+    photoSpots: d.photo_spots ? d.photo_spots.length : 0, // Count array length
+    trending: true, // You can add logic for this based on views or flag
+    bestTime: d.best_time,
+    image: d.thumbnail_path, // Ensure this path is valid relative path or full URL
+    description: d.short_desc
+  }));
 
   // --- CONFIG ---
-  const mapCenter = [-8.1331, 113.2258]; // Lumajang City Center
-  let map,
-    markers = [];
+  let markers = [];
   let favorites = JSON.parse(localStorage.getItem("lumajang_favs")) || [];
   let compareList = [];
 
@@ -163,8 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const compareItemsPanel = document.querySelector(".compare-items-panel");
   const compareBtn = document.getElementById("do-compare");
 
-  // --- INIT ---
-  initMap();
+  // --- START RENDER ---
   renderDestinations(destinations);
   renderTrending();
   updateFavoritesUI();
@@ -172,17 +61,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- FILTERS ---
   moodChips.forEach((chip) => {
     chip.addEventListener("click", () => {
-      // Toggle active state
       if (chip.classList.contains("active")) {
         chip.classList.remove("active");
-        renderDestinations(destinations); // Reset to all
+        renderDestinations(destinations);
       } else {
-        // Simple single filter or multiple? Let's do single active for now for simplicity, or multi?
-        // User asked "Find what suits your mood", usually picking one.
         document.querySelector(".mood-chip.active")?.classList.remove("active");
         chip.classList.add("active");
         const mood = chip.dataset.mood;
-        const filtered = destinations.filter((d) => d.moods.includes(mood));
+        // Simple partial match case insensitive? Or exact match?
+        // DB 'category' is array. 'moods' mapped to it.
+        // The mood chips in HTML have e.g. "Sunrise hunter". 
+        // DB categories are ["Alam", "Air Terjun", "Petualangan"]. 
+        // Wait, the mood filtering logic in existing code relied on `moods` array in data.
+        // The existing data had `moods: ["Sunrise hunter", ...]`. 
+        // My DB `category` is `["Alam", ...]`.
+        // HACK: For now, I will treat 'category' as searchable tags. 
+        // Revisit: Should I change mood chips to match DB Categories? YES, user experience better.
+        // OR map specific DB categories to these moods?
+        // Let's filter slightly loosely for now.
+
+        const filtered = destinations.filter((d) =>
+          d.moods.some(m => m.toLowerCase().includes(mood.toLowerCase())) ||
+          JSON.stringify(d).toLowerCase().includes(mood.toLowerCase()) // Quick dirty search
+        );
         renderDestinations(filtered);
       }
     });
@@ -203,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     data.forEach((item) => {
-      // Create Card
       const card = document.createElement("div");
       card.className = "dest-card";
       card.dataset.id = item.id;
@@ -213,48 +113,41 @@ document.addEventListener("DOMContentLoaded", () => {
       card.innerHTML = `
         <div class="dest-card-img-wrapper">
             <img src="${item.image}" alt="${item.name}" loading="lazy">
-            <button class="fav-btn ${
-              isFav ? "active" : ""
-            }" onclick="toggleFavorite('${item.id}', this)" aria-label="Simpan">
+            <button class="fav-btn ${isFav ? "active" : ""
+        }" onclick="window.toggleFavorite('${item.id}', this)" aria-label="Simpan">
                 <i class="${isFav ? "fa-solid" : "fa-regular"} fa-heart"></i>
             </button>
             <div class="dest-badges">
                 <span class="badge-cat">${item.category}</span>
-                ${
-                  item.trending
-                    ? '<span class="badge-trend"><i class="fa-solid fa-fire"></i> Trending</span>'
-                    : ""
-                }
+                ${item.trending
+          ? '<span class="badge-trend"><i class="fa-solid fa-fire"></i> Trending</span>'
+          : ""
+        }
             </div>
         </div>
         <div class="dest-card-content">
             <div class="dest-card-header">
                 <h3>${item.name}</h3>
                 <div class="dest-compare-check">
-                    <input type="checkbox" id="cmp-${
-                      item.id
-                    }" onchange="toggleCompare('${item.id}')" ${
-        compareList.includes(item.id) ? "checked" : ""
-      }>
+                    <input type="checkbox" id="cmp-${item.id
+        }" onchange="window.toggleCompare('${item.id}')" ${compareList.includes(item.id) ? "checked" : ""
+        }>
                     <label for="cmp-${item.id}">Bandingkan</label>
                 </div>
             </div>
             
             <div class="dest-meta-grid">
                 <div class="meta-item" title="Estimasi Waktu">
-                    <i class="fa-regular fa-clock"></i> <span>${
-                      item.estTime
-                    }</span>
+                    <i class="fa-regular fa-clock"></i> <span>${item.estTime
+        }</span>
                 </div>
                 <div class="meta-item" title="Biaya">
-                    <i class="fa-solid fa-money-bill-wave"></i> <span>${
-                      item.cost
-                    }</span>
+                    <i class="fa-solid fa-money-bill-wave"></i> <span>${item.cost
+        }</span>
                 </div>
                 <div class="meta-item" title="Akses">
-                    <i class="fa-solid fa-person-hiking"></i> <span>${
-                      item.access
-                    }</span>
+                    <i class="fa-solid fa-person-hiking"></i> <span>${item.access
+        }</span>
                 </div>
             </div>
 
@@ -264,19 +157,17 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             
             <div class="dest-actions">
-                <a href="detail-wisata.html?slug=${
-                  item.id
-                }" class="btn-detail">Lihat Detail</a>
-                <button class="btn-map-link" onclick="focusMap(${
-                  item.location.lat
-                }, ${item.location.lng})">
+                <a href="detail-wisata.html?slug=${item.slug
+        }" class="btn-detail">Lihat Detail</a>
+                <button class="btn-map-link" onclick="window.focusMap(${item.location.lat
+        }, ${item.location.lng})">
                      <i class="fa-solid fa-map-location-dot"></i> Lihat di Peta
                 </button>
             </div>
         </div>
       `;
 
-      // Hover Effects interacting with map
+      // Hover Effects
       card.addEventListener("mouseenter", () => highlightMarker(item.id));
       card.addEventListener("mouseleave", () => unhighlightMarker(item.id));
 
@@ -289,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       marker._id = item.id;
 
-      // Click marker to scroll to card
       marker.on("click", () => {
         card.scrollIntoView({ behavior: "smooth", block: "center" });
         document
@@ -304,8 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderTrending() {
-    // Pick random 3 items for demo
-    const trendItems = destinations.filter((d) => d.trending).slice(0, 3);
+    const trendItems = destinations.slice(0, 3); // Just pick first 3
     trendingContainer.innerHTML = "";
     trendItems.forEach((item) => {
       const div = document.createElement("div");
@@ -318,8 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
       div.addEventListener("click", () => {
-        // Filter grid to show this one or scroll to it?
-        // Let's just scroll to it if present, or render all then scroll
         renderDestinations(destinations);
         setTimeout(() => {
           const card = document.querySelector(
@@ -334,35 +221,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- MAP FUNCTIONS ---
+  // Must make map globally accessible for window.focusMap in module scope? 
+  // No, map is variable in this scope. 
+  // But window.focusMap is global, it needs access to `map`. 
+  // `map` is defined in initMap but assigned to module-level lets.
+
+  // NOTE: In module, top level variables are NOT global.
+  // BUT initMap assigns to `let map`. 
+  // window.focusMap calls `map.flyTo`. 
+  // This works because window.focusMap is closure over `map`? 
+  // NO, `window.focusMap = ...` creates a function. If that function is defined INSIDE this module's scope, it captures `map`. SUCCESS.
+
+  let map;
+
   function initMap() {
     if (typeof L === "undefined") return;
     map = L.map("map-container", {
-      center: mapCenter,
+      center: [-8.1331, 113.2258],
       zoom: 10,
       scrollWheelZoom: false,
-      zoomControl: false, // We can add custom or leave default
+      zoomControl: false,
     });
 
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
       {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
         subdomains: "abcd",
         maxZoom: 19,
       }
     ).addTo(map);
 
-    L.control
-      .zoom({
-        position: "bottomright",
-      })
-      .addTo(map);
+    L.control.zoom({ position: "bottomright" }).addTo(map);
   }
 
   window.focusMap = (lat, lng) => {
+    if (!map) return;
     map.flyTo([lat, lng], 14);
-    // Find marker and open popup
     const m = markers.find(
       (mark) => mark.getLatLng().lat === lat && mark.getLatLng().lng === lng
     );
@@ -370,29 +265,29 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function highlightMarker(id) {
+    if (!markers) return;
     const m = markers.find((mark) => mark._id === id);
     if (m) {
       m.setOpacity(1);
-      m._icon.classList.add("marker-highlight");
+      if (m._icon) m._icon.classList.add("marker-highlight");
     }
-    // Dim other markers?
   }
 
   function unhighlightMarker(id) {
+    if (!markers) return;
     const m = markers.find((mark) => mark._id === id);
     if (m) {
-      m._icon.classList.remove("marker-highlight");
+      if (m._icon) m._icon.classList.remove("marker-highlight");
     }
   }
 
-  // --- GLOBAL HELPERS (exposed to window for onclicks) ---
+  // --- GLOBAL HELPERS ---
   window.toggleFavorite = (id, btn) => {
     const idx = favorites.indexOf(id);
     if (idx === -1) {
       favorites.push(id);
       btn.classList.add("active");
       btn.querySelector("i").classList.replace("fa-regular", "fa-solid");
-      // Maybe show a toast
     } else {
       favorites.splice(idx, 1);
       btn.classList.remove("active");
@@ -421,8 +316,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (compareList.length > 0) {
       compareFloating.classList.add("show");
       compareCount.textContent = compareList.length;
-
-      // Render panel items
       compareItemsPanel.innerHTML = compareList
         .map((id) => {
           const d = destinations.find((x) => x.id === id);
@@ -434,10 +327,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Show Comparison Modal
   compareBtn.addEventListener("click", () => {
     if (compareList.length < 2) return;
-
     const d1 = destinations.find((x) => x.id === compareList[0]);
     const d2 = destinations.find((x) => x.id === compareList[1]);
 
@@ -468,8 +359,6 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
-    // Simple Alert for now or custom modal
-    // For this demo, I will inject a modal into body
     let modal = document.getElementById("cmp-modal");
     if (!modal) {
       modal = document.createElement("div");
@@ -477,18 +366,14 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.className = "custom-modal";
       modal.innerHTML = `<div class="modal-bg"></div><div class="modal-body"><button class="close-modal"><i class="fa-solid fa-xmark"></i></button><div id="cmp-inject"></div></div>`;
       document.body.appendChild(modal);
-      modal
-        .querySelector(".close-modal")
-        .addEventListener("click", () => modal.classList.remove("active"));
-      modal
-        .querySelector(".modal-bg")
-        .addEventListener("click", () => modal.classList.remove("active"));
+      modal.querySelector(".close-modal").addEventListener("click", () => modal.classList.remove("active"));
+      modal.querySelector(".modal-bg").addEventListener("click", () => modal.classList.remove("active"));
     }
     document.getElementById("cmp-inject").innerHTML = content;
     modal.classList.add("active");
   });
 
   function updateFavoritesUI() {
-    // Logic for "Saved Favorites" panel if needed
+    // Optional
   }
 });

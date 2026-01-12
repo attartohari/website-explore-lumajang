@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Destinations - Explore Lumajang</title>
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  
+
   <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
   <!-- Main CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -25,8 +29,7 @@
   <header>
     <nav class="navbar" aria-label="Navigasi Utama">
       <a href="index.html" class="navbar-brand">
-        <img src="image/putih.png" alt="Explore Lumajang" class="navbar-logo" data-logo />
-      </a>
+        <img src="assets/images/ui/putih.png" alt="Explore Lumajang" class="navbar-logo" data-logo /></a>
 
       <!-- Desktop Menu -->
       <div class="navbar-nav desktop-only">
@@ -38,12 +41,13 @@
       </div>
 
       <div class="navbar-extra">
+        <div id="auth-container" class="nav-auth-container"></div>
         <button id="search-btn" class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></button>
         <button id="theme-toggle" class="nav-icon"><i class="fa-solid fa-moon"></i></button>
         <button id="menu-toggle" class="nav-icon mobile-only"><i class="fa-solid fa-bars"></i></button>
       </div>
     </nav>
-    
+
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay">
       <div class="mobile-menu-content">
@@ -63,81 +67,81 @@
   </header>
 
   <main style="padding-top: 80px; padding-bottom: 3rem;">
-    
+
     <!-- HEADER SECTION -->
     <section class="dest-header-section">
-        <div class="container">
-            <h1 class="page-title">Temukan Destinasimu</h1>
-            <p class="page-subtitle">Pilih sesuai suasana hati dan keinginanmu hari ini.</p>
-            
-            <!-- MOOD FILTERS -->
-            <div class="mood-filters-wrapper">
-                <div class="mood-filters-track">
-                    <button class="mood-chip" data-mood="Healing alone">🌿 Healing Alone</button>
-                    <button class="mood-chip" data-mood="Family friendly">👨‍👩‍👧 Family Friendly</button>
-                    <button class="mood-chip" data-mood="Hanging out with friends">👯 Hangout</button>
-                    <button class="mood-chip" data-mood="Sunrise hunter">🌅 Sunrise Hunter</button>
-                    <button class="mood-chip" data-mood="Waterfall lover">💧 Waterfall</button>
-                    <button class="mood-chip" data-mood="Anti-tired (easy access)">🚗 Anti Capek</button>
-                    <button class="mood-chip" data-mood="Tight budget">💸 Hemat Budget</button>
-                </div>
-            </div>
+      <div class="container">
+        <h1 class="page-title">Temukan Destinasimu</h1>
+        <p class="page-subtitle">Pilih sesuai suasana hati dan keinginanmu hari ini.</p>
+
+        <!-- MOOD FILTERS -->
+        <div class="mood-filters-wrapper">
+          <div class="mood-filters-track">
+            <button class="mood-chip" data-mood="Healing alone">🌿 Healing Alone</button>
+            <button class="mood-chip" data-mood="Family friendly">👨‍👩‍👧 Family Friendly</button>
+            <button class="mood-chip" data-mood="Hanging out with friends">👯 Hangout</button>
+            <button class="mood-chip" data-mood="Sunrise hunter">🌅 Sunrise Hunter</button>
+            <button class="mood-chip" data-mood="Waterfall lover">💧 Waterfall</button>
+            <button class="mood-chip" data-mood="Anti-tired (easy access)">🚗 Anti Capek</button>
+            <button class="mood-chip" data-mood="Tight budget">💸 Hemat Budget</button>
+          </div>
         </div>
+      </div>
     </section>
 
     <div class="container split-layout">
-        <!-- LEFT: DESTINATION GRID & TRENDING -->
-        <div class="content-side">
-            
-            <!-- TRENDING WIDGET -->
-            <div class="trending-widget">
-                <div class="widget-header">
-                    <h3>🔥 Sedang Tren Minggu Ini</h3>
-                    <span class="season-badge">🌤️ Musim Kemarau</span>
-                </div>
-                <div class="trending-content" id="trending-content">
-                    <!-- Injected by JS -->
-                </div>
-            </div>
+      <!-- LEFT: DESTINATION GRID & TRENDING -->
+      <div class="content-side">
 
-            <!-- COLLECTIONS BANNER -->
-            <div class="collections-banner">
-                <div class="col-text">
-                    <h4>Playlist Wisata</h4>
-                    <p>Coba "Satu Hari di Lumajang" untuk pengalaman maksimal.</p>
-                </div>
-                <button class="btn-sm-outline">Lihat Koleksi</button>
-            </div>
-
-            <!-- MAIN GRID -->
-            <div class="destination-grid" id="destination-grid">
-                <!-- Cards injected by JS -->
-            </div>
+        <!-- TRENDING WIDGET -->
+        <div class="trending-widget">
+          <div class="widget-header">
+            <h3>🔥 Sedang Tren Minggu Ini</h3>
+            <span class="season-badge">🌤️ Musim Kemarau</span>
+          </div>
+          <div class="trending-content" id="trending-content">
+            <!-- Injected by JS -->
+          </div>
         </div>
 
-        <!-- RIGHT: MAP SIDEBAR (Sticky) -->
-        <div class="map-side">
-            <div class="sticky-map-wrapper">
-                <h3>Peta Wisata</h3>
-                <div id="map-container"></div>
-                
-                <div class="mini-guide">
-                    <p><i class="fa-solid fa-circle-info"></i> Klik pin untuk melihat detail lokasi.</p>
-                </div>
-            </div>
+        <!-- COLLECTIONS BANNER -->
+        <div class="collections-banner">
+          <div class="col-text">
+            <h4>Playlist Wisata</h4>
+            <p>Coba "Satu Hari di Lumajang" untuk pengalaman maksimal.</p>
+          </div>
+          <button class="btn-sm-outline">Lihat Koleksi</button>
         </div>
+
+        <!-- MAIN GRID -->
+        <div class="destination-grid" id="destination-grid">
+          <!-- Cards injected by JS -->
+        </div>
+      </div>
+
+      <!-- RIGHT: MAP SIDEBAR (Sticky) -->
+      <div class="map-side">
+        <div class="sticky-map-wrapper">
+          <h3>Peta Wisata</h3>
+          <div id="map-container"></div>
+
+          <div class="mini-guide">
+            <p><i class="fa-solid fa-circle-info"></i> Klik pin untuk melihat detail lokasi.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
   </main>
 
   <!-- COMPARE FLOATING WIDGET -->
   <div class="compare-floating">
-      <div class="compare-header">
-          <span>Bandingkan (<span class="compare-count">0</span>)</span>
-          <button onclick="window.toggleCompare()" class="close-compare"><i class="fa-solid fa-times"></i></button>
-      </div>
-      <div class="compare-items-panel"></div>
-      <button id="do-compare" class="btn-primary full-width">Bandingkan Sekarang</button>
+    <div class="compare-header">
+      <span>Bandingkan (<span class="compare-count">0</span>)</span>
+      <button onclick="window.toggleCompare()" class="close-compare"><i class="fa-solid fa-times"></i></button>
+    </div>
+    <div class="compare-items-panel"></div>
+    <button id="do-compare" class="btn-primary full-width">Bandingkan Sekarang</button>
   </div>
 
   <footer>
@@ -153,8 +157,10 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="script.js"></script> <!-- Core Script (Navbar etc) -->
-  <script src="destinations.js"></script> <!-- Page Specific Script -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="script.js"></script> <!-- Core Script (Navbar etc) -->
+  <script type="module" src="destinations.js"></script> <!-- Page Specific Script -->
 </body>
+
 </html>
