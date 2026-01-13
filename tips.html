@@ -18,6 +18,7 @@
 
   <!-- Main Style -->
   <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     /* Specific Styles for Tips Page */
@@ -272,51 +273,7 @@
 
 <body>
   <!-- HEADER -->
-  <header>
-    <nav class="navbar" aria-label="Navigasi Utama">
-      <a href="index.html" class="navbar-brand">
-        <img src="assets/images/ui/putih.png" alt="Explore Lumajang" class="navbar-logo" data-logo />
-      </a>
-      <div class="navbar-nav desktop-only">
-        <a href="index.html" class="nav-link">Beranda</a>
-        <a href="destinasi.html" class="nav-link">Destinasi</a>
-        <a href="detail-wisata.html" class="nav-link">Detail Wisata</a>
-        <a href="tips.html" class="nav-link active">Tips</a>
-        <a href="index.html#contact" class="nav-link">Kontak</a>
-      </div>
-      <div class="navbar-extra">
-        <div id="auth-container" class="nav-auth-container"></div>
-        <button id="search-btn" class="nav-icon">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-        <button id="theme-toggle" class="nav-icon">
-          <i class="fa-solid fa-moon"></i>
-        </button>
-        <button id="menu-toggle" class="nav-icon mobile-only">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
-    </nav>
-
-    <!-- Mobile Menu Overlay (Duplicated for simplicity, ideally component) -->
-    <div class="mobile-menu-overlay">
-      <div class="mobile-menu-content">
-        <div class="mobile-header">
-          <h3>Menu</h3>
-          <button class="close-menu">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div class="mobile-links">
-          <a href="index.html">Beranda</a>
-          <a href="destinasi.html">Destinasi</a>
-          <a href="detail-wisata.html?slug=tumpak-sewu">Detail Wisata</a>
-          <a href="tips.html">Tips</a>
-          <a href="index.html#contact">Kontak</a>
-        </div>
-      </div>
-    </div>
-  </header>
+  <div id="navbar-root"></div>
 
   <main>
     <!-- SECTION 1: MINI HERO & SEARCH -->
@@ -421,19 +378,10 @@
     </section>
   </main>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-brand">
-        <img src="image/putih.png" alt="Logo" class="footer-logo" />
-        <p>Explore Lumajang - Your Local Guide.</p>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <p>&copy; 2024 Explore Lumajang. All Rights Reserved.</p>
-    </div>
-  </footer>
+  <div id="footer-root"></div>
 
   <script src="tips-data.js" type="module"></script>
+  <script type="module" src="utils/layout.js"></script>
   <script src="tips.js" type="module"></script>
   <script type="module" src="script.js"></script>
 </body>

@@ -1,0 +1,78 @@
+/* --- NEW CARD BADGES --- */
+.dest-card-img-wrapper {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    /* Ensure badges don't overflow */
+}
+
+/* Helper for common badge styles */
+.badge-fixed {
+    position: absolute;
+    top: 10px;
+    z-index: 2;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.3px;
+}
+
+/* TOP LEFT: Trend */
+.badge-tl {
+    left: 10px;
+    background: var(--accent);
+    /* Orange/Yellow */
+    color: #000;
+}
+
+/* TOP RIGHT: Season */
+.badge-tr {
+    right: 10px;
+    background: rgba(15, 23, 42, 0.8);
+    /* Dark Slate */
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Move Fav Button to Bottom Right */
+.dest-card .fav-btn {
+    top: auto;
+    bottom: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+.dest-card .fav-btn.active {
+    background: #ef4444;
+    color: white;
+}
+
+/* Remove old badge container check if used elsewhere */
+.dest-badges {
+    display: none;
+    /* Hide old container */
+}
+
+/* New Content Meta */
+.dest-card-sub-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.dest-visitor-stat {
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Explore Lumajang Admin</title>
+    <title>Newsletter - Explore Lumajang Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -89,22 +89,10 @@
             font-size: 1.8rem;
         }
 
-        .btn-add {
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
         /* Table / List */
         .data-header-row {
             display: grid;
-            grid-template-columns: 100px 2fr 1fr 1fr 100px;
+            grid-template-columns: 2fr 2fr 1.5fr 100px;
             padding: 1rem;
             background: var(--surface);
             border-radius: 8px 8px 0 0;
@@ -115,7 +103,7 @@
 
         .data-row {
             display: grid;
-            grid-template-columns: 100px 2fr 1fr 1fr 100px;
+            grid-template-columns: 2fr 2fr 1.5fr 100px;
             padding: 1rem;
             background: var(--surface);
             border-bottom: 1px solid var(--border);
@@ -127,53 +115,30 @@
             background: rgba(255, 255, 255, 0.02);
         }
 
-        .thumb-img {
-            width: 60px;
-            height: 40px;
-            object-fit: cover;
+        .interest-tag {
+            background: rgba(55, 183, 195, 0.2);
+            color: var(--primary);
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
-            background: #000;
-        }
-
-        .status-badge {
-            padding: 0.2rem 0.6rem;
-            border-radius: 50px;
             font-size: 0.8rem;
-            background: #333;
+            display: inline-block;
+            margin-right: 5px;
+            margin-bottom: 2px;
         }
 
-        .status-published {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-        }
-
-        .status-draft {
-            background: rgba(255, 166, 0, 0.2);
-            color: orange;
-        }
-
-        .status-archived {
-            background: rgba(255, 255, 255, 0.1);
-            color: #999;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 0.4rem;
-        }
-
-        .action-btn:hover {
-            color: white;
-        }
-
-        /* Loading */
         #loading {
             text-align: center;
             padding: 2rem;
             color: var(--text-muted);
+        }
+
+        #search-input {
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: white;
+            width: 250px;
         }
     </style>
 </head>
@@ -183,37 +148,35 @@
     <aside class="sidebar">
         <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
         <nav class="sidebar-nav">
-            <a href="dashboard.html" class="nav-item active"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
             <a href="tips.html" class="nav-item"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+            <a href="newsletter.html" class="nav-item active"><i class="fa-solid fa-envelope"></i> Newsletter</a>
         </nav>
-        <a href="#" class="nav-item"><i class="fa-regular fa-image"></i> Gallery (Soon)</a>
-        <a href="newsletter.html" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
         <button id="logout-btn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i>
             Logout</button>
     </aside>
 
     <main class="main-content">
         <header class="header">
-            <h1 class="page-title">Kelola Destinasi</h1>
-            <a href="form-trip.html" class="btn-add"><i class="fa-solid fa-plus"></i> Tambah Destinasi</a>
+            <h1 class="page-title">Subscriber Newsletter</h1>
+            <input type="text" id="search-input" placeholder="Cari email...">
         </header>
 
         <div class="dest-list-container">
             <div class="data-header-row">
-                <span>Gambar</span>
-                <span>Nama Destinasi</span>
-                <span>Kategori</span>
-                <span>Status</span>
+                <span>Email</span>
+                <span>Minat (Interests)</span>
+                <span>Terdaftar</span>
                 <span>Aksi</span>
             </div>
-            <div id="dest-list">
+            <div id="newsletter-list">
                 <div id="loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data...</div>
             </div>
         </div>
     </main>
 
     <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/destinations.js"></script>
+    <script type="module" src="js/newsletter.js"></script>
 </body>
 
 </html>

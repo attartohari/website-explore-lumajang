@@ -11,110 +11,21 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Custom Features -->
+  <link rel="stylesheet" href="assets/css/custom-features.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
-<body>
-  <!-- HEADER / NAVBAR -->
-  <header>
-    <nav class="navbar" aria-label="Navigasi Utama">
-      <a href="#home" class="navbar-brand" aria-label="Beranda">
-        <img src="assets/images/ui/putih.png" alt="Explore Lumajang" class="navbar-logo" data-logo />
-      </a>
+<body class="loading">
 
-      <!-- Desktop Menu -->
-      <div class="navbar-nav desktop-only" role="navigation">
-        <a href="index.html" class="nav-link active">Beranda</a>
-        <a href="destinasi.html" class="nav-link">Destinasi</a>
-        <a href="detail-wisata.html" class="nav-link">Detail Wisata</a>
-        <a href="tips.html" class="nav-link">Tips</a>
-        <a href="index.html#contact" class="nav-link">Kontak</a>
-      </div>
-
-      <div class="navbar-extra">
-        <div id="auth-container" class="nav-auth-container"></div>
-        <button id="search-btn" class="nav-icon" aria-label="Cari Wisata">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-        <button id="theme-toggle" class="nav-icon" aria-label="Ganti Tema">
-          <i class="fa-solid fa-moon"></i>
-        </button>
-        <button id="menu-toggle" class="nav-icon mobile-only" aria-label="Menu">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
-    </nav>
-
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay">
-      <div class="mobile-menu-content">
-        <div class="mobile-header">
-          <h3>Menu</h3>
-          <button class="close-menu">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div class="mobile-links">
-          <a href="index.html">Beranda</a>
-          <a href="destinasi.html">Destinasi</a>
-          <a href="detail-wisata.html">Detail Wisata</a>
-          <a href="tips.html">Tips</a>
-          <a href="index.html#contact">Kontak</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Search Overlay -->
-    <div class="search-overlay" role="dialog" aria-modal="true" aria-hidden="true">
-      <div class="search-container">
-        <div class="search-header">
-          <button class="close-search" aria-label="Tutup Pencarian">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
-        <div class="search-box-wrapper">
-          <i class="fa-solid fa-magnifying-glass search-icon-input"></i>
-          <input type="text" id="global-search" placeholder="Cari destinasi, kategori, atau tips..."
-            autocomplete="off" />
-          <button id="clear-search" class="hidden" aria-label="Hapus teks">
-            <i class="fa-solid fa-circle-xmark"></i>
-          </button>
-        </div>
-
-        <div class="search-body">
-          <!-- Empty State / Recent -->
-          <div id="search-initial-state">
-            <div class="search-section-title">Pencarian Terakhir</div>
-            <div id="recent-searches" class="recent-tags">
-              <!-- Injected via JS -->
-            </div>
-            <div class="empty-placeholder">
-              <i class="fa-solid fa-compass"></i>
-              <p>Ketik untuk mulai menjelajahi Lumajang</p>
-            </div>
-          </div>
-
-          <!-- Results -->
-          <div id="search-results-wrapper" class="hidden">
-            <div class="search-section-title">Hasil Pencarian</div>
-            <div class="search-results-grid" id="search-results-container">
-              <!-- Results injected here -->
-            </div>
-            <div id="search-no-results" class="hidden">
-              <p>Tidak ditemukan. Coba kata kunci lain.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+  <div id="navbar-root"></div>
 
   <main>
     <!-- HERO SECTION -->
@@ -133,7 +44,8 @@
             dunia.
           </p>
           <div class="hero-buttons">
-            <a href="detail-wisata.html?slug=tumpak-sewu" class="btn btn-primary">Jelajahi Sekarang</a>
+            <a href="detail-wisata.html?slug=tumpak-sewu" class="btn btn-primary">Jelajahi Sekarang <i
+                data-lucide="compass"></i></a>
             <a href="#about" class="btn btn-outline">Lihat Peta</a>
           </div>
         </div>
@@ -152,19 +64,19 @@
               </div>
             </div>
 
-            <div class="hero-card" data-index="1" data-slug="b29" data-bg="assets/images/destinasi/b29.jpg"
+            <div class="hero-card" data-index="1" data-slug="b29" data-bg="assets/images/destinasi/b29.png"
               data-title="Puncak B29 Argosari"
               data-desc="Negeri di atas awan dengan pemandangan Bromo yang menakjubkan.">
-              <img src="assets/images/destinasi/b29.jpg" alt="Puncak B29" />
+              <img src="assets/images/destinasi/b29.png" alt="Puncak B29" />
               <div class="card-info">
                 <h3>Puncak B29</h3>
                 <span>Pegunungan</span>
               </div>
             </div>
 
-            <div class="hero-card" data-index="2" data-slug="ranu-pani" data-bg="assets/images/destinasi/ranupani.jpg"
+            <div class="hero-card" data-index="2" data-slug="ranu-pani" data-bg="assets/images/destinasi/ranupani.png"
               data-title="Ranu Pani" data-desc="Danau vulkanik yang tenang di kaki Gunung Semeru.">
-              <img src="assets/images/destinasi/ranupani.jpg" alt="Ranu Pani" />
+              <img src="assets/images/destinasi/ranupani.png" alt="Ranu Pani" />
               <div class="card-info">
                 <h3>Ranu Pani</h3>
                 <span>Danau</span>
@@ -172,9 +84,9 @@
             </div>
 
             <div class="hero-card" data-index="3" data-slug="ranu-kumbolo"
-              data-bg="assets/images/destinasi/ranukumbolo.jpg" data-title="Ranu Kumbolo"
+              data-bg="assets/images/destinasi/ranukumbolo.png" data-title="Ranu Kumbolo"
               data-desc="Permata Semeru, tempat singgah para pendaki dengan sunrise ajaib.">
-              <img src="assets/images/destinasi/ranukumbolo.jpg" alt="Ranu Kumbolo" />
+              <img src="assets/images/destinasi/ranukumbolo.png" alt="Ranu Kumbolo" />
               <div class="card-info">
                 <h3>Ranu Kumbolo</h3>
                 <span>Danau</span>
@@ -182,10 +94,9 @@
             </div>
 
             <div class="hero-card" data-index="4" data-slug="pantai-watu-pecak"
-              data-bg="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80"
-              data-title="Pantai Watu Pecak" data-desc="Keindahan pantai selatan dengan ombak yang menantang.">
-              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
-                alt="Watu Pecak" />
+              data-bg="assets/images/destinasi/watupecak.png" data-title="Pantai Watu Pecak"
+              data-desc="Keindahan pantai selatan dengan ombak yang menantang.">
+              <img src="assets/images/destinasi/watupecak.png" alt="Watu Pecak" />
               <div class="card-info">
                 <h3>Watu Pecak</h3>
                 <span>Pantai</span>
@@ -193,10 +104,9 @@
             </div>
 
             <div class="hero-card" data-index="5" data-slug="gunung-semeru"
-              data-bg="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1600&q=80"
-              data-title="Gunung Semeru" data-desc="Puncak tertinggi di Pulau Jawa, Mahameru yang legendaris.">
-              <img src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=600&q=80"
-                alt="Gunung Semeru" />
+              data-bg="assets/images/destinasi/viewsemeru.png" data-title="Gunung Semeru"
+              data-desc="Puncak tertinggi di Pulau Jawa, Mahameru yang legendaris.">
+              <img src="assets/images/destinasi/viewsemeru.png" alt="Gunung Semeru" />
               <div class="card-info">
                 <h3>Semeru</h3>
                 <span>Gunung</span>
@@ -204,10 +114,9 @@
             </div>
 
             <div class="hero-card" data-index="6" data-slug="air-terjun-kapas-biru"
-              data-bg="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80"
-              data-title="Air Terjun Kapas Biru" data-desc="Aliran air deras berwarna kebiruan di tengah tebing hijau.">
-              <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80"
-                alt="Kapas Biru" />
+              data-bg="assets/images/destinasi/kapasbiru.png" data-title="Air Terjun Kapas Biru"
+              data-desc="Aliran air deras berwarna kebiruan di tengah tebing hijau.">
+              <img src="assets/images/destinasi/kapasbiru.png" alt="Kapas Biru" />
               <div class="card-info">
                 <h3>Kapas Biru</h3>
                 <span>Air Terjun</span>
@@ -215,21 +124,18 @@
             </div>
 
             <div class="hero-card" data-index="7" data-slug="kebun-teh-kertowono"
-              data-bg="https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=1600&q=80"
-              data-title="Kebun Teh Kertowono" data-desc="Hamparan hijau perkebunan teh yang menyejukkan mata.">
-              <img src="https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=600&q=80"
-                alt="Kebun Teh" />
+              data-bg="assets/images/destinasi/kebunteh.png" data-title="Kebun Teh Kertowono"
+              data-desc="Hamparan hijau perkebunan teh yang menyejukkan mata.">
+              <img src="assets/images/destinasi/kebunteh.png" alt="Kebun Teh" />
               <div class="card-info">
                 <h3>Kertowono</h3>
                 <span>Perkebunan</span>
               </div>
             </div>
 
-            <div class="hero-card" data-index="8" data-slug="goa-tetes"
-              data-bg="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=80"
+            <div class="hero-card" data-index="8" data-slug="goa-tetes" data-bg="assets/images/destinasi/goatetes.png"
               data-title="Goa Tetes" data-desc="Keunikan stalaktit dan stalagmit dengan aliran air yang tak henti.">
-              <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=600&q=80"
-                alt="Goa Tetes" />
+              <img src="assets/images/destinasi/goatetes.png" alt="Goa Tetes" />
               <div class="card-info">
                 <h3>Goa Tetes</h3>
                 <span>Goa</span>
@@ -237,9 +143,9 @@
             </div>
 
             <div class="hero-card" data-index="9" data-slug="pantai-bambang"
-              data-bg="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80"
+              data-bg="assets/images/destinasi/pantaibambang.png"
               data-title="Pantai Bambang" data-desc="Pasir hitam eksotis dan luas, cocok untuk bermain layang-layang.">
-              <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=600&q=80"
+              <img src="assets/images/destinasi/pantaibambang.png"
                 alt="Bambang" />
               <div class="card-info">
                 <h3>Pantai Bambang</h3>
@@ -276,7 +182,9 @@
           jiwamu.
         </p>
 
-        <div id="map"></div>
+
+        <div id="map" style="height: 400px; width: 100%; border-radius: 15px; margin: 2rem 0; z-index: 1;"></div>
+
 
         <div class="district-grid">
           <!-- 21 Kecamatan items with Approx Coordinates -->
@@ -641,20 +549,20 @@
             </div>
           </div>
 
-          <form class="contact-form-new">
+          <form class="contact-form-new" id="contact-form">
             <div class="form-grid">
               <div class="form-group">
                 <label>Nama Lengkap</label>
-                <input type="text" placeholder="Nama Anda" />
+                <input type="text" id="contact-name" placeholder="Nama Anda" required />
               </div>
               <div class="form-group">
                 <label>Email</label>
-                <input type="email" placeholder="email@domain.com" />
+                <input type="email" id="contact-email" placeholder="email@domain.com" required />
               </div>
             </div>
             <div class="form-group">
               <label>Subjek</label>
-              <select>
+              <select id="contact-subject">
                 <option>Pertanyaan Umum</option>
                 <option>Kerjasama</option>
                 <option>Laporan Masalah</option>
@@ -662,9 +570,9 @@
             </div>
             <div class="form-group">
               <label>Pesan</label>
-              <textarea rows="4" placeholder="Tulis pesan Anda disini..."></textarea>
+              <textarea id="contact-msg" rows="4" placeholder="Tulis pesan Anda disini..." required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary full-width">
+            <button type="submit" class="btn btn-primary full-width" id="contact-submit">
               Kirim Pesan
             </button>
           </form>
@@ -673,194 +581,9 @@
     </section>
   </main>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-brand">
-        <img src="image/putih.png" alt="Logo" class="footer-logo" />
-        <p>
-          Website promosi wisata resmi untuk memperkenalkan keindahan Lumajang
-          ke mata dunia. Dibuat dengan cinta oleh warga lokal.
-        </p>
-        <div class="social-links">
-          <a href="#"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#"><i class="fa-brands fa-facebook"></i></a>
-          <a href="#"><i class="fa-brands fa-youtube"></i></a>
-          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-        </div>
-      </div>
+  <div id="footer-root"></div>
 
-      <div class="footer-nav">
-        <h4>Eksplorasi</h4>
-        <a href="#home">Beranda</a>
-        <a href="destinasi.html">Destinasi</a>
-        <a href="tips.html">Tips Perjalan</a>
-        <a href="#categories">Kategori</a>
-      </div>
-
-      <div class="footer-nav">
-        <h4>Legal</h4>
-        <a href="#" data-legal="privacy">Privasi</a>
-        <a href="#" data-legal="terms">Syarat Ketentuan</a>
-        <a href="#" data-legal="disclaimer">Disclaimer</a>
-        <a href="#" data-legal="credits">Kredit</a>
-      </div>
-
-      <div class="footer-newsletter">
-        <h4>Info Wisata Premium</h4>
-        <p>
-          Dapatkan rekomendasi destinasi, spot foto, dan info akses terbaru
-          (tanpa spam).
-        </p>
-
-        <form id="newsletter-form" class="newsletter-input-wrapper">
-          <div class="interest-selection">
-            <span class="interest-label">Saya tertarik dengan:</span>
-            <div class="interest-tags">
-              <button type="button" class="interest-chip" data-value="waterfall">
-                Air Terjun
-              </button>
-              <button type="button" class="interest-chip" data-value="mountain">
-                Gunung
-              </button>
-              <button type="button" class="interest-chip" data-value="beach">
-                Pantai
-              </button>
-              <button type="button" class="interest-chip" data-value="culture">
-                Budaya
-              </button>
-              <button type="button" class="interest-chip" data-value="food">
-                Kuliner
-              </button>
-            </div>
-          </div>
-
-          <div class="newsletter-input">
-            <input type="email" id="newsletter-email" placeholder="Email kamu..." required />
-            <!-- Honeypot for Anti-Spam -->
-            <input type="text" id="website-url" name="website-url" tabindex="-1" autocomplete="off"
-              style="position: absolute; left: -9999px; opacity: 0" />
-            <button type="submit" id="newsletter-submit">
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-          <div id="newsletter-msg" class="newsletter-msg"></div>
-
-          <div id="trip-planner-cta" class="trip-planner-cta" style="display: none">
-            <a href="destinasi.html" class="btn btn-primary btn-sm full-width">Buat Rencana Perjalanan (2 mnt)</a>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <p>&copy; 2024 Explore Lumajang. All Rights Reserved.</p>
-    </div>
-  </footer>
-
-  <!-- LEGAL MODALS -->
-  <div id="legal-modal-privacy" class="legal-modal">
-    <div class="legal-content">
-      <div class="legal-header">
-        <h3>Kebijakan Privasi</h3>
-        <button class="close-legal" aria-label="Tutup">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="legal-body">
-        <p>Halo! Di Explore Lumajang, kami menghargai privasi Anda.</p>
-        <h4>Data yang Kami Simpan</h4>
-        <p>
-          Jika Anda mendaftar newsletter, kami hanya menyimpan alamat email
-          Anda. Itu saja. Kami tidak akan menjual datamu ke pihak ketiga
-          karena kami juga benci spam.
-        </p>
-        <h4>Cookies</h4>
-        <p>
-          Kami menggunakan cookies standar untuk mengingat preferensi tema
-          (Light/Dark mode) agar mata Anda nyaman saat kembali lagi ke sini.
-        </p>
-        <h4>Hak Anda</h4>
-        <p>
-          Anda bisa request hapus email dari database kami kapan saja dengan
-          menghubungi hello@explorelumajang.id.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="legal-modal-terms" class="legal-modal">
-    <div class="legal-content">
-      <div class="legal-header">
-        <h3>Syarat & Ketentuan</h3>
-        <button class="close-legal" aria-label="Tutup">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="legal-body">
-        <p>Selamat datang di Explore Lumajang.</p>
-        <h4>Penggunaan Konten</h4>
-        <p>
-          Informasi wisata di sini disajikan "sebagaimana adanya". Harga tiket
-          atau jam buka bisa berubah sewaktu-waktu tergantung pengelola tempat
-          wisata.
-        </p>
-        <h4>Etika</h4>
-        <p>
-          Gunakan informasi ini untuk berwisata dengan bijak. Jaga kebersihan
-          alam Lumajang. Jangan buang sampah sembarangan ya!
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="legal-modal-disclaimer" class="legal-modal">
-    <div class="legal-content">
-      <div class="legal-header">
-        <h3>Disclaimer</h3>
-        <button class="close-legal" aria-label="Tutup">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="legal-body">
-        <p>Explore Lumajang adalah portal informasi independen.</p>
-        <p>
-          Kami bukan pengelola resmi tempat wisata manapun. Segala risiko
-          aktivitas outdoor (mendaki, berenang) adalah tanggung jawab pribadi
-          masing-masing pengunjung.
-        </p>
-        <p>
-          Pastikan fisik prima sebelum mendaki Semeru atau trekking ke Tumpak
-          Sewu.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="legal-modal-credits" class="legal-modal">
-    <div class="legal-content">
-      <div class="legal-header">
-        <h3>Kredit</h3>
-        <button class="close-legal" aria-label="Tutup">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="legal-body">
-        <h4>Foto & Aset</h4>
-        <p>
-          Terima kasih kepada para fotografer hebat di Unsplash yang karyanya
-          mempercantik website ini.
-        </p>
-        <ul>
-          <li>Unsplash Creators</li>
-          <li>FontAwesome Icons</li>
-          <li>Google Fonts (Outfit & Playfair Display)</li>
-          <li>Leaflet JS Maps</li>
-        </ul>
-        <h4>Tim</h4>
-        <p>Dibuat dengan semangat oleh Tim Explore Lumajang.</p>
-      </div>
-    </div>
-  </div>
-
+  <script type="module" src="utils/layout.js"></script>
   <script type="module" src="script.js"></script>
 </body>
 

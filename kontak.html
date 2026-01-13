@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontak Kami - Explore Lumajang</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="assets/css/custom-features.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="loading">
+
+    <div id="navbar-root"></div>
+
+    <main style="padding-top: 80px;">
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="section contact-section" style="min-height: 80vh;">
+            <div class="container">
+                <div class="contact-wrapper glass-effect">
+                    <div class="contact-text">
+                        <span class="section-tag">Kontak Kami</span>
+                        <h2>Hubungi Explore Lumajang</h2>
+                        <p>
+                            Ada pertanyaan atau ingin bekerjasama? Kami siap membantu
+                            promosi wisata Anda.
+                        </p>
+
+                        <div class="contact-items">
+                            <div class="contact-item">
+                                <div class="icon-box">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4>Email</h4>
+                                    <p>hello@explorelumajang.id</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="icon-box">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <h4>Telepon & WA</h4>
+                                    <p>+62 812-3456-7890</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="icon-box">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <h4>Markas</h4>
+                                    <p>Jalan Panglima Sudirman No. 1, Lumajang</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="contact-form-new">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nama Lengkap</label>
+                                <input type="text" placeholder="Nama Anda" />
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" placeholder="email@domain.com" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Subjek</label>
+                            <select>
+                                <option>Pertanyaan Umum</option>
+                                <option>Kerjasama</option>
+                                <option>Laporan Masalah</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Pesan</label>
+                            <textarea rows="4" placeholder="Tulis pesan Anda disini..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width">
+                            Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-root"></div>
+
+    <script type="module" src="utils/layout.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

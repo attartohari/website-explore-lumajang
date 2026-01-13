@@ -176,6 +176,7 @@ img {
   z-index: 1000;
   display: flex;
   justify-content: space-between;
+  /* Keeps logo left, icons right */
   align-items: center;
   padding: 1rem 5%;
   background: rgba(2, 6, 23, 0.6);
@@ -193,12 +194,30 @@ img {
   width: auto;
 }
 
+/* Center Links Container */
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Right Icons Container */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .nav-link {
-  margin: 0 1.2rem;
+  margin: 0 0.5rem;
   font-weight: 500;
   font-size: 0.95rem;
   opacity: 0.8;
   position: relative;
+  white-space: nowrap;
 }
 
 .nav-link:hover,
@@ -227,6 +246,22 @@ img {
   display: flex;
 }
 
+/* Hides center/right on mobile */
+@media (max-width: 992px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: flex !important;
+    align-items: center;
+  }
+
+  .nav-right {
+    gap: 0.8rem;
+  }
+}
+
 .mobile-only {
   display: none;
 }
@@ -235,9 +270,11 @@ img {
   font-size: 1.2rem;
   color: var(--text);
   padding: 0.5rem;
-  margin-left: 0.5rem;
   border-radius: 50%;
   transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-icon:hover {
@@ -612,12 +649,10 @@ body.menu-open {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    var(--hero-overlay-start) 0%,
-    var(--hero-overlay-mid) 50%,
-    var(--hero-overlay-end) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--hero-overlay-start) 0%,
+      var(--hero-overlay-mid) 50%,
+      var(--hero-overlay-end) 100%);
   z-index: -1;
   opacity: 0.6;
   /* Reduced opacity for clarity */
@@ -627,23 +662,19 @@ body.menu-open {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--bg),
-    transparent 20%,
-    transparent 80%,
-    var(--bg)
-  );
+  background: linear-gradient(to bottom,
+      var(--bg),
+      transparent 20%,
+      transparent 80%,
+      var(--bg));
   pointer-events: none;
 }
 
 [data-theme="light"] .hero-overlay {
-  background: linear-gradient(
-    90deg,
-    var(--hero-overlay-start) 0%,
-    var(--hero-overlay-mid) 50%,
-    var(--hero-overlay-end) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--hero-overlay-start) 0%,
+      var(--hero-overlay-mid) 50%,
+      var(--hero-overlay-end) 100%);
 }
 
 .hero-container {
@@ -763,6 +794,13 @@ body.menu-open {
   z-index: 10;
 }
 
+
+/* Marquee Wrapper Spacing Fix */
+.marquee-wrapper {
+  margin-bottom: 4rem;
+  /* Added spacing */
+}
+
 .hero-card img {
   width: 100%;
   height: 100%;
@@ -856,7 +894,7 @@ body.menu-open {
   background: var(--surface);
 }
 
-#map {
+#map-container {
   height: 400px;
   width: 100%;
   max-width: 1000px;
@@ -886,12 +924,10 @@ body.menu-open {
   margin-bottom: 2rem;
   font-weight: 800;
   text-transform: uppercase;
-  background: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    #e2e8f0 50%,
-    var(--accent) 100%
-  );
+  background: linear-gradient(135deg,
+      #ffffff 0%,
+      #e2e8f0 50%,
+      var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -907,12 +943,10 @@ body.menu-open {
 }
 
 [data-theme="light"] .section-title-large {
-  background: linear-gradient(
-    135deg,
-    #0f172a 0%,
-    #334155 50%,
-    var(--accent) 100%
-  );
+  background: linear-gradient(135deg,
+      #0f172a 0%,
+      #334155 50%,
+      var(--accent) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   filter: none;
@@ -1307,7 +1341,8 @@ footer {
 /* 1. Trending Widget (Pills/Buttons) */
 #trending-content {
   display: flex;
-  flex-direction: column; /* Stack vertically as per widget list look, or row? User said "Widget ... rekomedasi berbentuk button/pill". Usually a list. */
+  flex-direction: column;
+  /* Stack vertically as per widget list look, or row? User said "Widget ... rekomedasi berbentuk button/pill". Usually a list. */
   gap: 0.8rem;
   width: 100%;
 }
@@ -1328,14 +1363,16 @@ footer {
 }
 
 .btn-trend:hover {
-  background: rgba(255, 255, 255, 0.05); /* Subtle glass */
+  background: rgba(255, 255, 255, 0.05);
+  /* Subtle glass */
   border-color: var(--accent);
   color: var(--accent);
   transform: translateX(5px);
 }
 
 .trend-fire-icon {
-  color: #ff6b6b; /* Fire orange/red */
+  color: #ff6b6b;
+  /* Fire orange/red */
   font-size: 1.1rem;
   animation: flicker 2s infinite alternate;
 }
@@ -1345,6 +1382,7 @@ footer {
     opacity: 0.8;
     transform: scale(1);
   }
+
   100% {
     opacity: 1;
     transform: scale(1.1);
@@ -1356,8 +1394,10 @@ footer {
   /* Existing style override/refinement */
   display: flex;
   flex-direction: column;
-  height: 100%; /* Ensure full height in grid */
-  min-height: 480px; /* Consistent minimum height */
+  height: 100%;
+  /* Ensure full height in grid */
+  min-height: 480px;
+  /* Consistent minimum height */
   position: relative;
   border-radius: 16px;
   overflow: hidden;
@@ -1373,7 +1413,8 @@ footer {
 }
 
 .dest-card-img-wrapper {
-  height: 220px; /* Fixed height for consistency */
+  height: 220px;
+  /* Fixed height for consistency */
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
@@ -1464,7 +1505,8 @@ footer {
 
 /* Actions Row - Always at bottom */
 .dest-actions {
-  margin-top: auto; /* Push to bottom */
+  margin-top: auto;
+  /* Push to bottom */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1683,23 +1725,31 @@ footer {
 }
 
 .mood-chip {
-  padding: 0.6rem 1.2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50px;
-  color: var(--text-light);
+  color: var(--text-muted);
   font-size: 0.9rem;
+  font-family: var(--font-body);
   transition: all 0.3s ease;
   white-space: nowrap;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
 }
 
-.mood-chip:hover,
+.mood-chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
 .mood-chip.active {
   background: var(--accent);
   color: #000;
   border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+  font-weight: 600;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+  transform: translateY(-1px);
 }
 
 /* [Removed Duplicate Styles and Old Definitions] */
@@ -2695,15 +2745,18 @@ footer {
     height: 300px;
   }
 }
+
 /* AUTH DROPDOWN */
 .nav-auth-container {
   display: inline-flex;
   align-items: center;
 }
+
 .auth-dropdown {
   position: relative;
   display: inline-block;
 }
+
 .auth-dropdown-menu {
   position: absolute;
   top: 120%;
@@ -2720,11 +2773,13 @@ footer {
   transition: 0.3s;
   z-index: 1001;
 }
+
 .auth-dropdown-menu.active {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
+
 .auth-dropdown-menu span {
   display: block;
   color: var(--text-muted);
@@ -2732,11 +2787,13 @@ footer {
   margin-bottom: 0.5rem;
   word-break: break-all;
 }
+
 .auth-dropdown-menu hr {
   border: 0;
   border-top: 1px solid var(--border);
   margin: 0.5rem 0;
 }
+
 .auth-dropdown-menu button {
   width: 100%;
   text-align: left;
@@ -2745,6 +2802,7 @@ footer {
   border-radius: 6px;
   cursor: pointer;
 }
+
 .auth-dropdown-menu button:hover {
   background: rgba(239, 68, 68, 0.1);
 }
@@ -2753,18 +2811,290 @@ footer {
 ::-webkit-scrollbar {
   width: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 5px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
 ::selection {
   background: var(--accent);
   color: #000;
+}
+
+/* META GRID REFINEMENT */
+.dest-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.meta-item i {
+  color: var(--accent);
+  width: 16px;
+  text-align: center;
+}
+
+@media (max-width: 576px) {
+  .dest-meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Make the 3rd item span full width if desired for uniformity, or just let it sit. */
+  /* For '2 baris wrap rapi', 2 cols is good. 3 items -> 2 on top, 1 on bottom. */
+}
+
+
+/* SOCIAL ICONS STYLING */
+.footer-social {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: 0.3s;
+  border: 1px solid transparent;
+}
+
+.social-link:hover {
+  background: var(--accent);
+  color: #000;
+  transform: translateY(-3px);
+}
+
+/* --- NEW CARD BADGES --- */
+.dest-card-img-wrapper {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  /* Ensure badges don't overflow */
+}
+
+/* Helper for common badge styles */
+.badge-fixed {
+  position: absolute;
+  top: 10px;
+  z-index: 2;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.3px;
+}
+
+/* TOP LEFT: Trend */
+.badge-tl {
+  left: 10px;
+  background: var(--accent);
+  /* Orange/Yellow */
+  color: #000;
+}
+
+/* TOP RIGHT: Season */
+.badge-tr {
+  right: 10px;
+  background: rgba(15, 23, 42, 0.8);
+  /* Dark Slate */
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Move Fav Button to Bottom Right */
+.dest-card .fav-btn {
+  top: auto;
+  bottom: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+}
+
+.dest-card .fav-btn.active {
+  background: #ef4444;
+  color: white;
+}
+
+/* Remove old badge container check if used elsewhere */
+.dest-badges {
+  display: none;
+  /* Hide old container */
+}
+
+/* New Content Meta */
+.dest-card-sub-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.dest-visitor-stat {
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* --- PLAYLIST BANNER STYLES --- */
+.collections-banner {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(5px);
+}
+
+.collections-banner .col-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.collections-banner h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text);
+  font-size: 1.2rem;
+}
+
+.collections-banner p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.playlist-quick-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  /* Hide Scrollbar */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.playlist-quick-track::-webkit-scrollbar {
+  display: none;
+}
+
+.playlist-card-mini {
+  flex: 0 0 160px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.playlist-card-mini:hover,
+.playlist-card-mini.active {
+  border-color: var(--accent);
+  background: rgba(245, 158, 11, 0.1);
+  transform: translateY(-2px);
+}
+
+.playlist-card-mini strong {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.playlist-card-mini span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* --- DESTINATIONS MAP LAYOUT --- */
+.split-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+  position: relative;
+}
+
+.map-side {
+  position: relative;
+}
+
+.sticky-map-wrapper {
+  position: sticky;
+  top: 100px;
+  height: calc(100vh - 120px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#map-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.dest-card.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent), 0 10px 30px rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px);
+}
+
+@media (max-width: 1024px) {
+  .split-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .map-side {
+    order: 2;
+    /* Map goes to bottom */
+    height: 500px;
+    margin-top: 2rem;
+  }
+
+  .sticky-map-wrapper {
+    position: relative;
+    top: 0;
+    height: 100%;
+  }
+}
 }

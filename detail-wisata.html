@@ -22,6 +22,7 @@
 
   <!-- Main Style -->
   <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     /* Inline specific styles for details page to ensure immediate visual result, 
@@ -241,51 +242,7 @@
 
 <body>
   <!-- HEADER -->
-  <header>
-    <nav class="navbar" aria-label="Navigasi Utama">
-      <a href="index.html" class="navbar-brand">
-        <img src="assets/images/ui/putih.png" alt="Explore Lumajang" class="navbar-logo" data-logo />
-      </a>
-      <div class="navbar-nav desktop-only">
-        <a href="index.html" class="nav-link">Beranda</a>
-        <a href="destinasi.html" class="nav-link">Destinasi</a>
-        <a href="detail-wisata.html" class="nav-link active">Detail Wisata</a>
-        <a href="tips.html" class="nav-link">Tips</a>
-        <a href="index.html#contact" class="nav-link">Kontak</a>
-      </div>
-      <div class="navbar-extra">
-        <div id="auth-container" class="nav-auth-container"></div>
-        <button id="search-btn" class="nav-icon">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-        <button id="theme-toggle" class="nav-icon">
-          <i class="fa-solid fa-moon"></i>
-        </button>
-        <button id="menu-toggle" class="nav-icon mobile-only">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
-    </nav>
-
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay">
-      <div class="mobile-menu-content">
-        <div class="mobile-header">
-          <h3>Menu</h3>
-          <button class="close-menu">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div class="mobile-links">
-          <a href="index.html">Beranda</a>
-          <a href="destinasi.html">Destinasi</a>
-          <a href="detail-wisata.html">Detail Wisata</a>
-          <a href="tips.html">Tips</a>
-          <a href="index.html#contact">Kontak</a>
-        </div>
-      </div>
-    </div>
-  </header>
+  <div id="navbar-root"></div>
 
   <main id="detail-main">
     <!-- SECTION 1: HERO DESTINASI -->
@@ -429,30 +386,12 @@
     </section>
   </main>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-brand">
-        <img src="image/putih.png" alt="Logo" class="footer-logo" />
-        <p>Explore Lumajang - Your Ultimate Guide.</p>
-        <div class="social-links">
-          <a href="#"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#"><i class="fa-brands fa-facebook"></i></a>
-        </div>
-      </div>
-      <div class="footer-nav">
-        <h4>Menu</h4>
-        <a href="index.html">Beranda</a>
-        <a href="destinasi.html">Destinasi</a>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <p>&copy; 2024 Explore Lumajang. All Rights Reserved.</p>
-    </div>
-  </footer>
+  <div id="footer-root"></div>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="utils/layout.js"></script>
   <script src="detail.js" type="module"></script>
   <script type="module" src="script.js"></script> <!-- Core Script -->
 </body>
