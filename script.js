@@ -1,22 +1,37 @@
-import { supabase } from './utils/supabase.js';
+import { supabase } from "./utils/supabase.js";
+import { destinations as localData } from "./destinations-data.js";
 
 // --- DATA FETCHING FOR SEARCH & HERO ---
 // We fetch basic data once to populate search and hero if needed.
-// For now, Hero is static in HTML, but Search needs data.
 let destinations = [];
 
 async function initData() {
-  const { data, error } = await supabase
-    .from('destinations')
-    .select('name, slug, category, thumbnail_path')
-    .eq('status', 'published');
+  try {
+    const { data, error } = await supabase
+      .from("destinations")
+      .select("name, slug, category, thumbnail_path, district, short_desc")
+      .eq("status", "published");
 
-  if (!error && data) {
-    destinations = data.map(d => ({
-      nama: d.name,
+    if (!error && data && data.length > 0) {
+      destinations = data.map((d) => ({
+        nama: d.name,
+        slug: d.slug,
+        kategori: d.category || [],
+        thumbnail: d.thumbnail_path,
+        district: d.district || "",
+        teaser: d.short_desc || "",
+      }));
+    } else {
+      throw new Error("Supabase data empty or error");
+    }
+  } catch (err) {
+    console.warn("Using local data fallback:", err.message);
+    // Fallback to local data
+    destinations = Object.values(localData).map((d) => ({
+      nama: d.nama,
       slug: d.slug,
-      kategori: d.category || [],
-      thumbnail: d.thumbnail_path
+      kategori: d.kategori || [],
+      thumbnail: d.thumbnail,
     }));
   }
 }
@@ -24,27 +39,34 @@ initData();
 
 // --- AUTH LOGIC ---
 async function checkSession() {
-  const { data: { session }, error } = await supabase.auth.getSession();
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
   updateAuthUI(session);
 }
 
 async function updateAuthUI(session) {
-  const container = document.getElementById('auth-container');
+  const container = document.getElementById("auth-container");
   if (!container) return; // Must be added to HTML
 
   if (session) {
     // Logged In
     // Check Role for Admin Button
     const { data: roleData } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', session.user.id)
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", session.user.id)
       .single();
 
-    const isAdmin = roleData && roleData.role === 'admin';
+    const isAdmin = roleData && roleData.role === "admin";
 
     container.innerHTML = `
-            ${isAdmin ? `<a href="admin/dashboard.html" class="nav-icon" title="Admin Dashboard"><i class="fa-solid fa-gauge-high"></i></a>` : ''}
+            ${
+              isAdmin
+                ? `<a href="admin/dashboard.html" class="nav-icon" title="Admin Dashboard"><i class="fa-solid fa-gauge-high"></i></a>`
+                : ""
+            }
             <div class="auth-dropdown">
                 <button class="nav-icon" id="auth-btn" title="Akun">
                     <i class="fa-solid fa-user-check" style="color: var(--accent);"></i>
@@ -59,26 +81,27 @@ async function updateAuthUI(session) {
 
     // Logout Listener
     setTimeout(() => {
-      const logoutBtn = document.getElementById('logout-btn');
-      const authBtn = document.getElementById('auth-btn');
-      const menu = document.querySelector('.auth-dropdown-menu');
+      const logoutBtn = document.getElementById("logout-btn");
+      const authBtn = document.getElementById("auth-btn");
+      const menu = document.querySelector(".auth-dropdown-menu");
 
       if (authBtn && menu) {
-        authBtn.addEventListener('click', (e) => {
+        authBtn.addEventListener("click", (e) => {
           e.stopPropagation();
-          menu.classList.toggle('active');
+          menu.classList.toggle("active");
         });
-        document.addEventListener('click', () => menu.classList.remove('active'));
+        document.addEventListener("click", () =>
+          menu.classList.remove("active")
+        );
       }
 
       if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
+        logoutBtn.addEventListener("click", async () => {
           await supabase.auth.signOut();
           window.location.reload();
         });
       }
     }, 100);
-
   } else {
     // Guest
     container.innerHTML = `
@@ -88,8 +111,6 @@ async function updateAuthUI(session) {
         `;
   }
 }
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   checkSession();
@@ -470,7 +491,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const results = destinations.filter((dest) => {
       return (
         dest.nama.toLowerCase().includes(lowerQuery) ||
-        (dest.kategori && dest.kategori.some((k) => k.toLowerCase().includes(lowerQuery)))
+        (dest.kategori && dest.kategori.some((k) => k.toLowerCase().includes(lowerQuery))) ||
+        (dest.district && dest.district.toLowerCase().includes(lowerQuery)) ||
+        (dest.teaser && dest.teaser.toLowerCase().includes(lowerQuery))
       );
     });
 
@@ -484,10 +507,18 @@ document.addEventListener("DOMContentLoaded", () => {
         card.style.animation = "fadeIn 0.3s ease forwards";
 
         card.innerHTML = `
-          <img src="${dest.thumbnail ? (dest.thumbnail.startsWith('http') ? dest.thumbnail : dest.thumbnail) : 'https://placehold.co/60x60'}" alt="${dest.nama}" class="search-card-img" />
+          <img src="${
+            dest.thumbnail
+              ? dest.thumbnail.startsWith("http")
+                ? dest.thumbnail
+                : dest.thumbnail
+              : "https://placehold.co/60x60"
+          }" alt="${dest.nama}" class="search-card-img" />
           <div class="search-card-content">
             <div class="search-card-title">${dest.nama}</div>
-            <div class="search-card-badge">${dest.kategori && dest.kategori[0] ? dest.kategori[0] : 'Wisata'}</div>
+            <div class="search-card-badge">${
+              dest.kategori && dest.kategori[0] ? dest.kategori[0] : "Wisata"
+            }</div>
           </div>
         `;
         card.addEventListener("click", () => {
@@ -609,7 +640,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const originalBtnContent = newsletterSubmit.innerHTML;
-      newsletterSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+      newsletterSubmit.innerHTML =
+        '<i class="fa-solid fa-spinner fa-spin"></i>';
       newsletterSubmit.disabled = true;
 
       // COLLECT INTERESTS
@@ -619,15 +651,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // INSERT TO SUPABASE
       const { data, error } = await supabase
-        .from('newsletter_subscribers')
-        .insert([{
-          email: email,
-          interests: selectedInterests // Assumes JSONB or Text[]
-        }]);
+        .from("newsletter_subscribers")
+        .insert([
+          {
+            email: email,
+            interests: selectedInterests, // Assumes JSONB or Text[]
+          },
+        ]);
 
       if (error) {
         // Handle Duplicate Check
-        if (error.code === '23505') { // Unique Violation
+        if (error.code === "23505") {
+          // Unique Violation
           showMessage("Email ini sudah terdaftar!", "success");
           document.getElementById("trip-planner-cta").style.display = "block";
         } else {
