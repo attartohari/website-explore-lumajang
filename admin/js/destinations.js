@@ -42,6 +42,7 @@ const renderList = (data) => {
             </div>
             <div>
                 <a href="form-trip.html?id=${item.id}" class="action-btn" title="Edit"><i class="fa-solid fa-pen"></i></a>
+                <a href="detail-builder.html?id=${item.id}" class="action-btn" style="color:var(--primary);" title="Page Builder"><i class="fa-solid fa-layer-group"></i></a>
                 <!-- Soft Delete / Archive Toggle -->
                 ${item.status !== 'archived'
             ? `<button class="action-btn" onclick="window.archiveItem('${item.id}')" title="Arsipkan"><i class="fa-solid fa-box-archive"></i></button>`
@@ -136,6 +137,11 @@ if (form) {
             lat: parseFloat(document.getElementById('lat').value) || 0,
             lng: parseFloat(document.getElementById('lng').value) || 0,
             best_time: document.getElementById('best_time').value,
+            trek_level: document.getElementById('trek_level').value,
+            season: document.getElementById('season').value,
+            visitor_percent: parseInt(document.getElementById('visitor_percent').value) || 0,
+            is_trending: document.getElementById('is_trending').checked,
+            is_recommended: document.getElementById('is_recommended').checked,
             thumbnail_path: document.getElementById('thumbnail_path').value,
             hero_path: document.getElementById('hero_path').value,
             updated_at: new Date()
@@ -180,6 +186,11 @@ async function loadDetail(id) {
     document.getElementById('lat').value = data.lat || '';
     document.getElementById('lng').value = data.lng || '';
     document.getElementById('best_time').value = data.best_time || '';
+    document.getElementById('trek_level').value = data.trek_level || '-';
+    document.getElementById('season').value = data.season || 'All Season';
+    document.getElementById('visitor_percent').value = data.visitor_percent || 0;
+    document.getElementById('is_trending').checked = data.is_trending || false;
+    document.getElementById('is_recommended').checked = data.is_recommended || false;
     document.getElementById('thumbnail_path').value = data.thumbnail_path || '';
     document.getElementById('hero_path').value = data.hero_path || '';
 

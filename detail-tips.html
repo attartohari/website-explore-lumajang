@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baca Artikel - Explore Lumajang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .article-hero {
+            height: 400px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 3rem;
+        }
+
+        .article-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg), transparent);
+        }
+
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        /* Planner Widget */
+        .planner-widget {
+            background: #fff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: rotate(-1deg);
+            margin: 3rem auto;
+            max-width: 600px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .planner-header {
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .planner-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .planner-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+        }
+
+        .planner-check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .planner-item.checked .planner-check {
+            background: #333;
+            color: white;
+        }
+
+        .planner-item.checked span {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar-root"></div>
+
+    <main>
+        <!-- HERO -->
+        <section id="hero" class="article-hero">
+            <div class="hero-bg-layer" id="hero-bg"></div>
+            <div class="container" style="position: relative; z-index: 2;">
+                <span id="cat-badge"
+                    style="background: var(--accent); color: black; padding: 0.3rem 0.8rem; border-radius: 50px; font-weight: 600; font-size: 0.8rem;">TIPS</span>
+                <h1 id="title" class="hero-title" style="margin-top: 1rem;">Loading...</h1>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div id="content" class="article-content">
+                    <!-- Content Injected -->
+                </div>
+
+                <!-- Planner Inject -->
+                <div id="planner-container"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-root"></div>
+
+    <script type="module" src="utils/layout.js"></script>
+    <script type="module" src="script.js"></script>
+
+    <script type="module">
+        import { supabase } from './utils/supabase.js';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const slug = urlParams.get('slug');
+
+        async function loadArticle() {
+            if (!slug) return;
+
+            const { data: article, error } = await supabase.from('articles').select('*').eq('slug', slug).single();
+            if (error || !article) {
+                document.querySelector('main').innerHTML = '<div class="container section text-center"><h1>404 Artikel Tidak Ditemukan</h1></div>';
+                return;
+            }
+
+            document.title = `${article.title} - Explore Lumajang`;
+            document.getElementById('title').textContent = article.title;
+            document.getElementById('cat-badge').textContent = article.category;
+            document.getElementById('hero-bg').style.backgroundImage = `url('${article.cover_image}')`;
+            document.getElementById('content').innerHTML = article.content;
+
+            // Fetch Checklist
+            const { data: checklist } = await supabase.from('checklists').select('*').eq('article_id', article.id).single();
+
+            if (checklist && checklist.items && checklist.items.length > 0) {
+                renderPlanner(checklist);
+            }
+        }
+
+        function renderPlanner(checklist) {
+            const container = document.getElementById('planner-container');
+            container.innerHTML = `
+              <div class="planner-widget">
+                  <div class="planner-header">
+                      <div class="planner-title">📋 ${checklist.title}</div>
+                      <small>Checklist Persiapan</small>
+                  </div>
+                  <div id="planner-list">
+                      ${checklist.items.map((item, idx) => `
+                          <div class="planner-item" onclick="this.classList.toggle('checked')">
+                              <div class="planner-check"><i class="fa-solid fa-check"></i></div>
+                              <span>${item}</span>
+                          </div>
+                      `).join('')}
+                  </div>
+              </div>
+          `;
+        }
+
+        loadArticle();
+    </script>
+</body>
+
+</html>

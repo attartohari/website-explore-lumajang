@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Manager - Explore Lumajang Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-style.css">
+    <style>
+        /* Page Specific Overrides */
+        .admin-section {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: none;
+            border: 1px solid var(--border);
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .section-title {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: rgba(55, 183, 195, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .preview-img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            background: #000;
+            display: none;
+        }
+
+        .preview-img.show {
+            display: block;
+        }
+
+        .card-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .card-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-thumb {
+            width: 80px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .card-info {
+            flex: 1;
+        }
+
+        /* Switch UI */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
+        <nav class="sidebar-nav">
+            <a href="home-manager.html" class="nav-item active"><i class="fa-solid fa-house-chimney"></i> Home
+                Manager</a>
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
+            <a href="playlists.html" class="nav-item"><i class="fa-solid fa-list-ul"></i> Playlist</a>
+            <a href="tips.html" class="nav-item"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+            <a href="newsletter.html" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
+        </nav>
+        <button id="logout-btn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i>
+            Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div>
+                <h1 class="page-title">Home Manager</h1>
+                <p style="color:var(--text-muted); margin-top:0.5rem;">Atur konten halaman depan real-time.</p>
+            </div>
+            <button id="save-all-btn" class="btn-save"><i class="fa-solid fa-save"></i> Simpan Perubahan</button>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('hero')">Hero Section</button>
+            <button class="tab-btn" onclick="switchTab('cards')">Hero Cards</button>
+            <button class="tab-btn" onclick="switchTab('welcome')">Welcome & Map</button>
+            <button class="tab-btn" onclick="switchTab('testimonials')">Testimonials</button>
+        </div>
+
+        <!-- 1. HERO SECTION -->
+        <div id="tab-hero" class="admin-section active">
+            <h3 class="section-title">Konfigurasi Hero Utama</h3>
+
+            <div class="form-group">
+                <label>Judul Utama (H1)</label>
+                <input type="text" id="hero_title" class="form-control" placeholder="Contoh: Explore Lumajang">
+            </div>
+
+            <div class="form-group">
+                <label>Deskripsi Singkat</label>
+                <textarea id="hero_desc" class="form-control" rows="3"
+                    placeholder="Deskripsi singkat di bawah judul..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Background Image Utama (Initial)</label>
+                <input type="file" id="hero_bg_file" accept="image/*" class="form-control">
+                <input type="hidden" id="hero_bg_path">
+                <img id="hero_bg_preview" class="preview-img">
+                <div class="helper-text">Ini akan tampil sebelum user swipe card.</div>
+            </div>
+
+            <div class="form-group">
+                <label>Link CTA Utama (Tombol Kiri)</label>
+                <input type="text" id="hero_cta_link" class="form-control" placeholder="destinasi.html">
+            </div>
+        </div>
+
+        <!-- 2. HERO CARDS -->
+        <div id="tab-cards" class="admin-section">
+            <h3 class="section-title">Hero Slider Cards</h3>
+            <p class="helper-text">Card diambil otomatis dari data Destinasi. Pilih mana yang ingin ditampilkan di
+                slider Home.</p>
+
+            <div id="hero-cards-list" class="card-list">
+                <div style="text-align:center; padding:2rem;">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Memuat destinasi...
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. WELCOME SECTION -->
+        <div id="tab-welcome" class="admin-section">
+            <h3 class="section-title">Welcome Section</h3>
+
+            <div class="form-group">
+                <label>Judul Kecil (Tag)</label>
+                <input type="text" id="welcome_tag" class="form-control" value="Jelajahi Wilayah">
+            </div>
+
+            <div class="form-group">
+                <label>Judul Besar</label>
+                <input type="text" id="welcome_title" class="form-control" value="Selamat Datang di Lumajang">
+            </div>
+
+            <div class="form-group">
+                <label>Deskripsi</label>
+                <textarea id="welcome_desc" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Default Map Center (Lat, Lng)</label>
+                <div style="display:flex; gap:1rem;">
+                    <input type="text" id="map_lat" class="form-control" placeholder="Latitude (e.g., -8.133)">
+                    <input type="text" id="map_lng" class="form-control" placeholder="Longitude (e.g., 113.225)">
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. TESTIMONIALS -->
+        <div id="tab-testimonials" class="admin-section">
+            <h3 class="section-title">Testimonials (Marquee)</h3>
+            <p class="helper-text">Edit ulasan yang berjalan di marquee.</p>
+
+            <div id="testimonials-list" class="card-list">
+                <!-- Dynamic Items -->
+            </div>
+
+            <button class="btn-save" style="margin-top:1rem; background:var(--surface-hover);"
+                onclick="addTestimonial()">
+                <i class="fa-solid fa-plus"></i> Tambah Testimoni
+            </button>
+        </div>
+
+    </main>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/home-manager.js"></script>
+    <script>
+        window.switchTab = (tabId) => {
+            // Hide all
+            document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            // Show target
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+
+            // Highlight btn (need to target properly, simplified here)
+            const btns = document.querySelectorAll('.tab-btn');
+            if (tabId === 'hero') btns[0].classList.add('active');
+            if (tabId === 'cards') btns[1].classList.add('active');
+            if (tabId === 'welcome') btns[2].classList.add('active');
+            if (tabId === 'testimonials') btns[3].classList.add('active');
+        };
+    </script>
+</body>
+
+</html>

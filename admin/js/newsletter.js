@@ -1,119 +1,102 @@
 import { supabase } from '../../utils/supabase.js';
 
-// Elements
 const listContainer = document.getElementById('newsletter-list');
 const searchInput = document.getElementById('search-input');
+const exportBtn = document.getElementById('export-btn');
 
-// --- STATE ---
 let allSubscribers = [];
 
-// --- FUNCTIONS ---
-
-const fetchSubscribers = async () => {
-    // Show loading
+// INIT
+async function loadSubscribers() {
     listContainer.innerHTML = '<div id="loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data...</div>';
 
-    // Fetch data (Selecting specific columns is good practice)
     const { data, error } = await supabase
         .from('newsletter_subscribers')
-        .select('id, email, interests, created_at')
+        .select('*')
         .order('created_at', { ascending: false });
 
     if (error) {
-        console.error("Fetch Error:", error);
-        listContainer.innerHTML = `
-            <div style="padding:1rem; color:red; text-align:center;">
-                <p>Gagal memuat data subscriber.</p>
-                <small>Error: ${error.message}</small>
-            </div>`;
+        console.error('Error:', error);
+        listContainer.innerHTML = `<div style="padding:2rem; text-align:center;">Gagal memuat data. Pastikan Anda sudah menjalankan SQL script untuk izin Admin.<br><small>${error.message}</small></div>`;
         return;
     }
 
     allSubscribers = data || [];
     renderList(allSubscribers);
-};
+}
 
-const renderList = (data) => {
+function renderList(data) {
     if (data.length === 0) {
-        listContainer.innerHTML = '<div style="padding:1rem; text-align:center;">Belum ada subscriber.</div>';
+        listContainer.innerHTML = '<div style="padding:2rem; text-align:center;">Tidak ada data subscriber.</div>';
         return;
     }
 
-    listContainer.innerHTML = data.map(item => {
-        // Handle Interests (Array or null)
-        let interestsHTML = '-';
-        if (item.interests && Array.isArray(item.interests) && item.interests.length > 0) {
-            interestsHTML = item.interests.map(tag =>
-                `<span class="interest-tag">${escapeHtml(tag)}</span>`
-            ).join('');
-        } else if (item.interests && typeof item.interests === 'string') {
-            // Fallback if somehow stored as string
-            interestsHTML = `<span class="interest-tag">${escapeHtml(item.interests)}</span>`;
-        }
-
-        // Format Date
-        const date = new Date(item.created_at).toLocaleDateString('id-ID', {
-            day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
-        });
-
-        return `
+    listContainer.innerHTML = data.map(sub => `
         <div class="data-row">
             <div>
-                <strong>${escapeHtml(item.email)}</strong>
+                <i class="fa-regular fa-envelope" style="color:var(--primary); margin-right:8px;"></i>
+                ${sub.email}
             </div>
             <div>
-                ${interestsHTML}
+                ${(sub.interests || []).map(i => `<span class="interest-tag">${i}</span>`).join('') || '-'}
             </div>
-            <div style="font-size:0.9rem; color:var(--text-muted);">
-                ${date}
+            <div style="font-size:0.9rem; color:#aaa;">
+                ${new Date(sub.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
             </div>
             <div>
-                <button class="action-btn" onclick="window.deleteSubscriber('${item.id}')" title="Hapus" style="color:#ef4444;">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
+                <button class="action-btn" onclick="window.deleteSub('${sub.id}')" title="Hapus"><i class="fa-solid fa-trash" style="color:#ef4444;"></i></button>
             </div>
         </div>
-    `}).join('');
+    `).join('');
+}
+
+// SEARCH
+searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    const filtered = allSubscribers.filter(sub =>
+        sub.email.toLowerCase().includes(term) ||
+        (sub.interests && sub.interests.some(i => i.toLowerCase().includes(term)))
+    );
+    renderList(filtered);
+});
+
+// DELETE
+window.deleteSub = async (id) => {
+    if (!confirm("Hapus subscriber ini dari list?")) return;
+
+    const { error } = await supabase.from('newsletter_subscribers').delete().eq('id', id);
+    if (error) alert("Gagal menghapus.");
+    else loadSubscribers(); // Reload
 };
 
-function escapeHtml(text) {
-    if (!text) return "";
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-// Search Handler
-if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = allSubscribers.filter(sub =>
-            sub.email.toLowerCase().includes(term) ||
-            (sub.interests && sub.interests.join(' ').toLowerCase().includes(term))
-        );
-        renderList(filtered);
-    });
-}
-
-// Delete Handler (Global window object for onclick)
-window.deleteSubscriber = async (id) => {
-    if (!confirm("Hapus subscriber ini? Tindakan tidak dapat dibatalkan.")) return;
-
-    const { error } = await supabase
-        .from('newsletter_subscribers')
-        .delete()
-        .eq('id', id);
-
-    if (error) {
-        alert("Gagal menghapus: " + error.message);
-    } else {
-        // Optimistic update or refetch
-        fetchSubscribers();
+// EXPORT CSV
+exportBtn.addEventListener('click', () => {
+    if (allSubscribers.length === 0) {
+        alert("Tidak ada data untuk diexport.");
+        return;
     }
-}
 
-// INIT
-fetchSubscribers();
+    const headers = ["ID", "Email", "Interests", "Joined At"];
+    const rows = allSubscribers.map(sub => [
+        sub.id,
+        sub.email,
+        `"${(sub.interests || []).join(', ')}"`, // Quote logic for CSV
+        sub.created_at
+    ]);
+
+    const csvContent = [
+        headers.join(','),
+        ...rows.map(r => r.join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `newsletter_subscribers_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
+
+loadSubscribers();

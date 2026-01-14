@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Artikel - Explore Lumajang Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-style.css">
+    <style>
+        .checklist-builder {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .checklist-item-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .checklist-item-row input {
+            flex: 1;
+        }
+
+        .del-btn {
+            color: #ef4444;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        @media(max-width: 900px) {
+            .grid-split {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
+        <nav class="sidebar-nav">
+            <a href="home-manager.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i> Home Manager</a>
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
+            <a href="playlists.html" class="nav-item"><i class="fa-solid fa-list-ul"></i> Playlist</a>
+            <a href="tips.html" class="nav-item active"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+            <a href="newsletter.html" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
+        </nav>
+        <button id="logout-btn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i>
+            Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1 id="page-title" class="page-title">Tulis Artikel Baru</h1>
+            <a href="tips.html" class="btn-outline" style="color:var(--text); text-decoration:none;"><i
+                    class="fa-solid fa-arrow-left"></i> Kembali</a>
+        </header>
+
+        <div class="grid-split" style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+            <!-- LEFT: Content -->
+            <div>
+                <div class="form-group">
+                    <label>Judul Artikel</label>
+                    <input type="text" id="title" placeholder="Contoh: 10 Tips Mendaki Semeru">
+                </div>
+                <div class="form-group">
+                    <label>Slug (URL)</label>
+                    <input type="text" id="slug" placeholder="tips-mendaki-semeru">
+                </div>
+                <div class="form-group">
+                    <label>Konten (HTML Supported)</label>
+                    <textarea id="content" rows="15" placeholder="Tulis konten artikel di sini..."></textarea>
+                </div>
+
+                <!-- CHECKLIST BUILDER -->
+                <div class="form-group">
+                    <label style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-list-check"></i>
+                        Checklist
+                        Planner</label>
+                    <p style="font-size:0.85rem; color:#aaa; margin-top:0;">Buat template checklist untuk pengunjung
+                        (misal:
+                        "Barang Bawaan").</p>
+
+                    <div class="checklist-builder">
+                        <div class="form-group">
+                            <label>Judul Checklist</label>
+                            <input type="text" id="cl_title" placeholder="Misal: Perlengkapan Pribadi">
+                        </div>
+                        <label>Items:</label>
+                        <div id="cl-items-container">
+                            <!-- Dynamic items -->
+                        </div>
+                        <button type="button" class="btn-outline" onclick="window.addChecklistItem()"
+                            style="margin-top:10px; font-size:0.8rem;">
+                            <i class="fa-solid fa-plus"></i> Tambah Item
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Meta -->
+            <div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select id="category">
+                        <option value="Tips">Tips & Panduan</option>
+                        <option value="Review">Review</option>
+                        <option value="Berita">Berita</option>
+                        <option value="Kuliner">Kuliner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="status">
+                        <option value="draft">Draft</option>
+                        <option value="published">Published</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cover Image</label>
+                    <input type="file" id="cover_file">
+                    <input type="hidden" id="cover_path">
+                    <img id="cover_preview"
+                        style="width:100%; height:120px; object-fit:cover; margin-top:10px; display:none; border-radius:8px;">
+                </div>
+
+                <button id="save-btn" class="btn-save" style="width:100%;">Publish</button>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/tips.js"></script>
+</body>
+
+</html>

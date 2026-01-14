@@ -81,7 +81,10 @@ const init = async () => {
   renderDestinations(destinations);
   renderTrending();
   setupFilters();
-  renderPlaylists();
+  renderDestinations(destinations);
+  renderTrending();
+  setupFilters();
+  loadPlaylists();
   setupGlobalHelpers();
 
   // We do NOT overwrite window.toggleCollection here anymore. We use the one in script.js.
@@ -133,14 +136,23 @@ function renderDestinations(data) {
     // Use Collections Manager
     const isFav = collections.has(item.id);
 
+    // Visitor Bar
+    const visitorWidth = item.visitor_percent || 10;
+
+    // Badges
+    let badgeHTML = "";
+    if (item.trending) badgeHTML += `<div class="badge-fixed badge-tl">🔥 Trending</div>`;
+    if (item.season === 'Kemarau') badgeHTML += `<div class="badge-fixed badge-tr badge-season-dry">☀️ Kemarau</div>`;
+    else if (item.season === 'Hujan') badgeHTML += `<div class="badge-fixed badge-tr badge-season-wet">🌧️ Hujan</div>`;
+    else badgeHTML += `<div class="badge-fixed badge-tr">🌏 All Season</div>`;
+
+
     card.id = `card-${item.id}`;
     card.innerHTML = `
             <div class="dest-card-img-wrapper" onclick="window.focusMap('${item.id}', ${item.location.lat}, ${item.location.lng})">
-                <img src="${item.image}" alt="${item.name}" loading="lazy">
+                <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='assets/images/placeholder.jpg'">
                 
-                <!-- BADGES -->
-                ${item.trending ? `<div class="badge-fixed badge-tl">🔥 Tren Minggu Ini</div>` : ''}
-                <div class="badge-fixed badge-tr">${item.season || "☀️ All Season"}</div>
+                ${badgeHTML}
 
                 <!-- FAV BUTTON (Bottom Right) -->
                 <button class="fav-btn ${isFav ? "active" : ""}" 
@@ -176,6 +188,10 @@ function renderDestinations(data) {
                     <div class="meta-item" title="Tingkat Kesulitan"><i class="fa-solid fa-person-hiking"></i> <span>${item.access}</span></div>
                 </div>
 
+                <div class="visitor-bar-container" title="Popularitas">
+                    <div class="visitor-bar-fill" style="width: ${visitorWidth}%"></div>
+                </div>
+
                 <div class="dest-teaser"><p>${item.description}</p></div>
 
                 <div class="dest-actions">
@@ -185,9 +201,24 @@ function renderDestinations(data) {
                 </div>
             </div>
       `;
-    // ... listeners ...
     gridContainer.appendChild(card);
-    // ... map markers ...
+
+    // Add Marker
+    if (map) {
+      const markerIcon = L.divIcon({
+        className: "custom-marker",
+        html: `<div class="marker-pin"><i class="fa-solid fa-location-dot"></i></div>`,
+        iconSize: [30, 42],
+        iconAnchor: [15, 42],
+      });
+      const marker = L.marker([item.location.lat, item.location.lng], { icon: markerIcon }).addTo(map);
+      marker._id = item.id;
+      marker.bindPopup(`<b>${item.name}</b><br>${item.category}`);
+      marker.on("click", () => {
+        window.focusMap(item.id, item.location.lat, item.location.lng);
+      });
+      markers.push(marker);
+    }
   });
 }
 
@@ -483,96 +514,46 @@ if (compareBtn) {
   });
 }
 
-// --- PLAYLIST LOGIC (Curated Collections) ---
-const PLAYLISTS = [
-  { id: 'waterfall_day', name: 'Air Terjun Seharian', desc: 'Jelajahi keindahan curug terbaik Lumajang.', keywords: ['air terjun', 'tumpak', 'kapas'] },
-  { id: 'sunrise_hunter', name: 'Sunrise Hunter', desc: 'Spot terbaik mengejar matahari terbit.', keywords: ['b29', 'semeru', 'ranau', 'pos'] },
-  { id: 'family_trip', name: 'Family Trip', desc: 'Wisata ramah anak dan lansia.', keywords: ['keluarga', 'kolam', 'taman', 'selokambang'] },
-  { id: 'budget_friendly', name: 'Budget Friendly', desc: 'Liburan seru tanpa bikin kantong bolong.', keywords: ['gratis', 'alun'] }
-];
+// --- PLAYLIST LOGIC ---
+async function loadPlaylists() {
+  const quickList = document.getElementById('playlist-quick-list');
+  if (!quickList) return;
 
-function renderPlaylists() {
-  const container = document.getElementById('playlist-quick-list');
-  if (!container) return;
-  container.innerHTML = '';
+  // 1. Fetch from DB
+  const { data, error } = await supabase.from('playlists').select('*').limit(6);
+  if (!data) return;
 
-  PLAYLISTS.forEach(pl => {
-    const card = document.createElement('div');
-    card.className = 'playlist-card-mini';
-    card.setAttribute('data-pl', pl.id);
-    card.innerHTML = `
-      <strong>${pl.name}</strong>
-      <span>${pl.desc}</span>
-    `;
-    card.onclick = () => applyPlaylist(pl);
-    container.appendChild(card);
-  });
-}
-
-function applyPlaylist(playlist) {
-  // 1. Highlight UI
-  document.querySelectorAll('.playlist-card-mini').forEach(c => c.classList.remove('active'));
-  const activeCard = document.querySelector(`.playlist-card-mini[data-pl="${playlist.id}"]`);
-  if (activeCard) activeCard.classList.add('active');
-
-  // Also clear mood chips to avoid confusion
-  document.querySelectorAll(".mood-chip").forEach(c => c.classList.remove("active"));
-
-  // 2. Filter Logic (Reuse keyword logic mostly)
-  console.log(`DEBUG: Applying Playlist '${playlist.name}'`);
-  const keywords = playlist.keywords;
-
-  const filtered = destinations.filter((d) => {
-    const dName = (d.name || "").toLowerCase();
-    const dCat = (d.category || "").toLowerCase();
-    const dDesc = (d.description || "").toLowerCase();
-    const dCost = (d.cost || "").toLowerCase();
-
-    return keywords.some(k => {
-      if (playlist.id === 'budget_friendly') {
-        return dCost.includes('gratis') || removeRp(d.cost) < 15000;
-      }
-      return dName.includes(k) || dCat.includes(k) || dDesc.includes(k);
-    });
-  });
-
-  renderDestinations(filtered);
-}
-
-window.openPlaylistModal = () => {
-  let modal = document.getElementById('playlist-modal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'playlist-modal';
-    modal.className = 'custom-modal';
-    modal.innerHTML = `
-            <div class="modal-bg" onclick="this.parentElement.classList.remove('active')"></div>
-            <div class="modal-body" style="max-width:500px">
-                <button class="close-modal" onclick="this.closest('.custom-modal').classList.remove('active')"><i class="fa-solid fa-xmark"></i></button>
-                <div class="modal-header"><h3>Semua Playlist Wisata</h3></div>
-                <div id="modal-playlist-list" style="display:grid; gap:1rem; margin-top:1rem;"></div>
-            </div>
-        `;
-    document.body.appendChild(modal);
-  }
-
-  const list = document.getElementById('modal-playlist-list');
-  list.innerHTML = PLAYLISTS.map(pl => `
-        <div class="playlist-card-mini" style="width:100%" onclick="applyPlaylistById('${pl.id}')">
-            <strong>${pl.name}</strong>
-            <span>${pl.desc}</span>
-        </div>
+  quickList.innerHTML = data.map(p => `
+        <button class="playlist-chip" onclick="window.filterByPlaylist('${p.id}')">
+            ${p.name}
+        </button>
     `).join('');
+}
 
-  modal.classList.add('active');
+window.filterByPlaylist = async (pid) => {
+  // 1. Fetch Items
+  const { data } = await supabase.from('playlist_items').select('destination_id').eq('playlist_id', pid);
+  if (!data || data.length === 0) {
+    alert("Playlist ini kosong.");
+    return;
+  }
+  const ids = data.map(i => i.destination_id);
+
+  // 2. Filter global destinations (assuming loaded)
+  const filtered = destinations.filter(d => ids.includes(d.id));
+
+  // 3. Render
+  renderDestinations(filtered);
+
+  // 4. Update UI state (Chips)
+  document.querySelectorAll('.playlist-chip').forEach(c => c.classList.remove('active'));
+  // Ideally highlight the clicked one but finding it is tricky with inline onclick.
+  // For now, removing mood chip active state is good.
+  document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
 };
 
-window.applyPlaylistById = (id) => {
-  const pl = PLAYLISTS.find(p => p.id === id);
-  if (pl) {
-    applyPlaylist(pl);
-    document.getElementById('playlist-modal').classList.remove('active');
-  }
+window.openPlaylistModal = () => {
+  alert("Fitur modal playlist akan segera hadir. Gunakan filter di atas.");
 };
 
 // --- EXECUTION ENTRY ---

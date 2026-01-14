@@ -4,139 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tips & Artikel - Admin</title>
+    <title>Tips & Artikel - Explore Lumajang Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root {
-            --bg: #0f1c2e;
-            --surface: #1f2b3e;
-            --primary: #37b7c3;
-            --danger: #ef4444;
-            --text: #ffffff;
-            --text-muted: #a0aec0;
-            --border: rgba(255, 255, 255, 0.1);
+        <link rel="stylesheet" href="css/admin-style.css"><style>
+
+        /* Page Overrides */
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Outfit', sans-serif;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-        }
-
-        .sidebar {
-            width: 250px;
-            background: rgba(0, 0, 0, 0.3);
-            border-right: 1px solid var(--border);
-            padding: 2rem 1rem;
-            flex-shrink: 0;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 2rem;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .list-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .data-row {
+        .article-card {
             background: var(--surface);
-            padding: 1rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        .data-row img {
-            width: 60px;
-            height: 40px;
+        .article-img {
+            width: 100%;
+            height: 160px;
             object-fit: cover;
-            border-radius: 4px;
-            margin-right: 1rem;
         }
 
-        .sidebar-nav a {
-            display: block;
-            padding: 1rem;
+        .article-body {
+            padding: 1.2rem;
+        }
+
+        .article-meta {
+            font-size: 0.8rem;
             color: var(--text-muted);
-            text-decoration: none;
-            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 0.5rem;
         }
 
-        .sidebar-nav a:hover,
-        .sidebar-nav a.active {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--primary);
+        .article-title {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            color: white;
         }
 
-        .action-btn {
-            background: transparent;
+        .article-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-sm-outline {
+            padding: 0.4rem 0.8rem;
             border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.5rem;
             border-radius: 6px;
+            color: var(--text);
+            background: none;
             cursor: pointer;
             text-decoration: none;
-            margin-left: 0.5rem;
+            font-size: 0.85rem;
         }
 
-        .action-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+        .btn-sm-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
 
 <body>
     <aside class="sidebar">
-        <h2 style="margin-top:0; margin-bottom: 2rem;">Admin Panel</h2>
+        <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
         <nav class="sidebar-nav">
-            <a href="dashboard.html"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
-            <a href="tips.html" class="active"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
-            <button id="logout-btn"
-                style="width:100%; text-align:left; background:transparent; border:none; color:var(--danger); padding:1rem; cursor:pointer;"><i
-                    class="fa-solid fa-right-from-bracket"></i> Keluar</button>
+            <a href="home-manager.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i> Home Manager</a>
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
+            <a href="playlists.html" class="nav-item"><i class="fa-solid fa-list-ul"></i> Playlist</a>
+            <a href="tips.html" class="nav-item active"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+            <a href="newsletter.html" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
         </nav>
+        <button id="logout-btn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i>
+            Logout</button>
     </aside>
 
     <main class="main-content">
-        <div class="header">
-            <h1>Manajemen Tips</h1>
-            <a href="form-tips.html" class="btn-primary"><i class="fa-solid fa-plus"></i> Tulis Artikel</a>
-        </div>
+        <header class="header">
+            <h1 class="page-title">Tips & Artikel</h1>
+            <a href="form-article.html" class="btn-save"><i class="fa-solid fa-plus"></i> Artikel Baru</a>
+        </header>
 
-        <div id="tips-list" class="list-container">
-            <!-- Loaded by JS -->
-            <p style="color:var(--text-muted)">Memuat data...</p>
+        <div id="article-list" class="article-grid">
+            <div style="padding:2rem; text-align:center; color:#aaa; grid-column:1/-1;">Loading articles...</div>
         </div>
     </main>
 

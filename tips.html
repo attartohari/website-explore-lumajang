@@ -4,386 +4,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tips Wisata Anti Zonk - Explore Lumajang</title>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
-    rel="stylesheet" />
-
-  <!-- Icons -->
+  <title>Tips & Artikel - Explore Lumajang</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <!-- Main Style -->
   <link rel="stylesheet" href="style.css" />
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <style>
-    /* Specific Styles for Tips Page */
-    .tips-hero {
-      padding: 8rem 0 4rem;
-      background: linear-gradient(to bottom, #020617, #0f172a);
-      text-align: center;
-    }
-
-    .search-tips-box {
-      position: relative;
-      max-width: 600px;
-      margin: 2rem auto;
-    }
-
-    .search-tips-box input {
-      width: 500px;
-      padding: 1rem 1.5rem;
-      border-radius: 50px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.05);
-      color: white;
-      font-size: 1.1rem;
-      outline: none;
-      transition: 0.3s;
-    }
-
-    .search-tips-box input:focus {
-      border-color: var(--accent);
-      background: rgba(255, 255, 255, 0.1);
-      width: 100%;
-      /* Expand affect */
-    }
-
-    .search-tips-box i {
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    .quick-chips {
-      display: flex;
-      justify-content: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
-
-    .tip-chip {
-      padding: 0.5rem 1.2rem;
-      border-radius: 50px;
-      border: 1px solid var(--border);
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: 0.3s;
-      background: var(--surface);
-      color: var(--text-muted);
-    }
-
-    .tip-chip:hover,
-    .tip-chip.active {
-      background: var(--accent);
-      color: black;
-      border-color: var(--accent);
-    }
-
-    /* Checklist Tabs */
-    .checklist-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1rem;
-    }
-
-    .tab-btn {
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .tab-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    .checklist-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .check-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.8rem 0;
-      border-bottom: 1px dashed var(--border);
-    }
-
-    .check-item:last-child {
-      border-bottom: none;
-    }
-
-    .custom-check {
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--accent);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: transparent;
-      transition: 0.2s;
-    }
-
-    .custom-check.checked {
-      background: var(--accent);
-      color: black;
-    }
-
-    /* Accordion */
-    .accordion-item {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      overflow: hidden;
-      transition: 0.3s;
-    }
-
-    .accordion-header {
-      padding: 1.2rem;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-    }
-
-    .accordion-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease-out;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 0 1.2rem;
-    }
-
-    .accordion-item.active {
-      border-color: var(--accent);
-    }
-
-    .accordion-item.active .accordion-header {
-      color: var(--accent);
-    }
-
-    .accordion-item.active .accordion-body {
-      padding: 1.2rem;
-    }
-
-    /* Mistakes Section */
-    .mistake-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .mistake-card {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      border-radius: 16px;
-      padding: 1.5rem;
-    }
-
-    .solution-box {
-      margin-top: 1rem;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 0.8rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-    }
-
-    /* Tip of Day Card */
-    .tod-card {
-      background: linear-gradient(135deg, var(--surface), #1e293b);
-      border: 1px solid var(--accent);
-      border-radius: 20px;
-      padding: 2rem;
-      text-align: center;
-      margin-top: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tod-card::before {
-      content: "\f0eb";
-      /* Lightbulb */
-      font-family: "Font Awesome 6 Free";
-      font-weight: 900;
-      position: absolute;
-      top: -20px;
-      left: -20px;
-      font-size: 8rem;
-      color: var(--accent);
-      opacity: 0.1;
-    }
-
-    .bookmark-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-
-    .bookmark-btn.active {
-      color: var(--accent);
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 576px) {
-      .search-tips-box input {
-        width: 100%;
-      }
-
-      .checklist-tabs {
-        flex-wrap: wrap;
-      }
-
-      .hero-title-large {
-        font-size: 2.5rem;
-      }
-    }
-  </style>
 </head>
 
 <body>
-  <!-- HEADER -->
   <div id="navbar-root"></div>
 
-  <main>
-    <!-- SECTION 1: MINI HERO & SEARCH -->
-    <section class="tips-hero">
-      <div class="container">
-        <span class="section-tag">Explore Smart</span>
-        <h1 class="section-title-large" style="margin-bottom: 0.5rem; font-size: 3.5rem">
-          Tips Wisata Lumajang
-        </h1>
-        <p class="section-desc-center">
-          Biar trip kamu aman, nyaman, dan nggak zonk.
-        </p>
-
-        <div class="search-tips-box">
-          <input type="text" id="tip-search" placeholder="Cari tips... (hujan / semeru / bajet)" />
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-
-        <div class="quick-chips">
-          <div class="tip-chip" data-filter="hujan">Musim Hujan</div>
-          <div class="tip-chip" data-filter="keluarga">Keluarga</div>
-          <div class="tip-chip" data-filter="low-budget">Low Budget</div>
-          <div class="tip-chip" data-filter="gunung">Gunung Semeru</div>
-        </div>
-
-        <!-- Tip of The Day Injection -->
-        <div id="tod-container" class="tod-card glass-effect fade-in">
-          <!-- JS inject -->
-        </div>
+  <main style="padding-top: 100px; padding-bottom: 3rem; min-height: 80vh;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h1 class="section-title">Tips & Panduan Wisata</h1>
+        <p class="section-desc-center">Informasi penting untuk perjalanan yang lebih aman dan nyaman.</p>
       </div>
-    </section>
 
-    <!-- SECTION 2: CHECKLIST SYSTEM -->
-    <section class="section" style="background: var(--surface)">
-      <div class="container">
-        <div class="text-center mb-2">
-          <h2 class="section-title">Checklist Wajib</h2>
-          <p class="text-muted">Jangan sampai ada yang ketinggalan.</p>
-        </div>
-
-        <div class="checklist-tabs">
-          <button class="tab-btn active" data-tab="day_trip">Day Trip</button>
-          <button class="tab-btn" data-tab="camping">Camping</button>
-          <button class="tab-btn" data-tab="waterfall">Air Terjun</button>
-        </div>
-
-        <div class="checklist-card">
-          <div style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1.5rem;
-              ">
-            <h3 id="checklist-title">Seharian (Day Trip)</h3>
-            <button id="copy-checklist" class="btn btn-primary" style="font-size: 0.8rem; padding: 0.4rem 1rem">
-              <i class="fa-regular fa-copy"></i> Salin
-            </button>
-          </div>
-
-          <div id="checklist-items">
-            <!-- JS inject items here -->
-          </div>
-        </div>
+      <div id="articles-grid" class="category-grid-12">
+        <div class="col-12 text-center text-muted">Loading articles...</div>
       </div>
-    </section>
-
-    <!-- SECTION 3: COMMON MISTAKES (ANTI-ZONK) -->
-    <section class="section">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="section-tag" style="color: #ef4444">Warning</span>
-          <h2 class="section-title">Kesalahan Paling Sering</h2>
-          <p>Belajar dari pengalaman orang lain biar gak boncos.</p>
-        </div>
-
-        <div id="mistakes-container" class="mistake-grid mt-2">
-          <!-- JS inject -->
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 4: SITUATIONAL Q&A -->
-    <section class="section" style="background: var(--surface)">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Tanya Jawab Situasi</h2>
-          <p>Pertanyaan yang sering muncul di kepala traveler.</p>
-        </div>
-
-        <div id="qa-container" style="max-width: 800px; margin: 2rem auto">
-          <!-- JS inject accordion -->
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 5: SAVED TIPS -->
-    <section class="section" id="saved-section" style="display: none">
-      <div class="container">
-        <h2 class="section-title">Tips Tersimpan</h2>
-        <div id="saved-container" class="mistake-grid mt-2"></div>
-      </div>
-    </section>
+    </div>
   </main>
 
   <div id="footer-root"></div>
 
-  <script src="tips-data.js" type="module"></script>
   <script type="module" src="utils/layout.js"></script>
-  <script src="tips.js" type="module"></script>
   <script type="module" src="script.js"></script>
+
+  <script type="module">
+    import { supabase } from './utils/supabase.js';
+
+    async function loadArticles() {
+      // Fetch data
+      const { data, error } = await supabase
+        .from('articles')
+        .select('*')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false });
+
+      const container = document.getElementById('articles-grid');
+
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div class="col-12 text-center">Belum ada artikel.</div>';
+        return;
+      }
+
+      container.innerHTML = data.map(item => `
+            <a href="detail-tips.html?slug=${item.slug}" class="cat-card-new" style="display:block; text-decoration:none; padding:0; overflow:hidden;">
+                 <div style="height: 200px; overflow: hidden;">
+                    <img src="${item.cover_image || 'assets/images/placeholder.jpg'}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.3s;">
+                 </div>
+                 <div style="padding: 1.5rem;">
+                     <span style="font-size: 0.8rem; color: var(--accent); text-transform:uppercase; letter-spacing:1px;">${item.category}</span>
+                     <h3 style="margin: 0.5rem 0; color: white;">${item.title}</h3>
+                 </div>
+            </a>
+        `).join('');
+    }
+
+    loadArticles();
+  </script>
 </body>
 
 </html>

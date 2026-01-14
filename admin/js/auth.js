@@ -94,10 +94,10 @@ if (window.location.pathname.includes('login.html')) {
 }
 
 // Run check on load
-// checkSession(); // Actually checkSession is called in logic block above, 
-// wait, checkSession logic for login page is at top. 
-// If i call it here again it might double run. 
+// checkSession(); // Actually checkSession is called in logic block above,
+// wait, checkSession logic for login page is at top.
+// If i call it here again it might double run.
 // Simpler: Just run it.
-if (window.location.pathname.includes('dashboard') || window.location.pathname.includes('form')) {
-    checkSession();
-}
+// Run check on load
+// checkSession logic is already handled in the if-else block above for non-login pages.
+

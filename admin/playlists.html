@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlists - Explore Lumajang Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-style.css">
+    <style>
+        /* Page Overrides */
+        .playlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .playlist-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .playlist-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .playlist-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .card-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        .action-btn:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
+        <nav class="sidebar-nav">
+            <a href="home-manager.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i> Home Manager</a>
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
+            <a href="playlists.html" class="nav-item active"><i class="fa-solid fa-list-ul"></i> Playlist</a>
+            <a href="tips.html" class="nav-item"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+            <a href="newsletter.html" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
+        </nav>
+        <button id="logout-btn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i>
+            Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1>Playlists</h1>
+            <a href="form-playlist.html" class="btn-add"><i class="fa-solid fa-plus"></i> Buat Playlist</a>
+        </header>
+
+        <div id="playlist-container" class="playlist-grid">
+            <!-- Loaded via JS -->
+            <div style="padding:1rem;">Loading...</div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { supabase } from '../utils/supabase.js';
+
+        const container = document.getElementById('playlist-container');
+
+        async function fetchPlaylists() {
+            const { data, error } = await supabase.from('playlists').select('*').order('created_at', { ascending: false });
+            if (error) {
+                container.innerHTML = 'Error loading playlists.';
+                return;
+            }
+            if (data.length === 0) {
+                container.innerHTML = 'Belum ada playlist.';
+                return;
+            }
+
+            container.innerHTML = data.map(p => `
+                <div class="playlist-card">
+                    <h3>${p.name}</h3>
+                    <p>${p.description || 'No description'}</p>
+                    <div class="card-actions">
+                        <a href="form-playlist.html?id=${p.id}" class="action-btn" title="Edit"><i class="fa-solid fa-pen"></i></a>
+                        <button onclick="window.deletePlaylist('${p.id}')" class="action-btn" style="color:#ef4444" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.deletePlaylist = async (id) => {
+            if (!confirm("Hapus playlist ini?")) return;
+            await supabase.from('playlists').delete().eq('id', id);
+            fetchPlaylists();
+        };
+
+        fetchPlaylists();
+    </script>
+</body>
+
+</html>

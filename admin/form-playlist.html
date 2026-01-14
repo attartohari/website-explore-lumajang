@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Playlist - Explore Lumajang Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-style.css">
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .item-picker {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            height: 500px;
+        }
+
+        .list-box {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+        }
+
+        .list-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .list-item {
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .list-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .list-item.selected {
+            background: rgba(55, 183, 195, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
+        <nav class="sidebar-nav">
+            <a href="home-manager.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i> Home Manager</a>
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-map-location-dot"></i> Destinasi</a>
+            <a href="playlists.html" class="nav-item active"><i class="fa-solid fa-list-ul"></i> Playlist</a>
+            <a href="tips.html" class="nav-item"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+            <a href="newsletter.html" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
+        </nav>
+        <button id="logout-btn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i>
+            Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1 id="page-title" class="page-title">Buat Playlist</h1>
+            <a href="playlists.html" class="btn-outline"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+        </header>
+
+        <div class="form-group">
+            <label>Nama Playlist</label>
+            <input type="text" id="name" placeholder="Contoh: Sunrise Hunter">
+        </div>
+        <div class="form-group">
+            <label>Slug (URL)</label>
+            <input type="text" id="slug" placeholder="sunrise-hunter">
+        </div>
+        <div class="form-group">
+            <label>Deskripsi</label>
+            <textarea id="description" rows="3"></textarea>
+        </div>
+
+        <h3>Kelola Item</h3>
+        <div class="item-picker">
+            <div class="list-box">
+                <div class="list-header">Semua Destinasi</div>
+                <div class="list-body" id="all-destinations">
+                    <!-- Loaded via JS -->
+                </div>
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content:center; gap:10px;">
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+            <div class="list-box">
+                <div class="list-header">Isi Playlist</div>
+                <div class="list-body" id="playlist-items">
+                    <!-- Dropzone/Selected -->
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:2rem; text-align:right;">
+            <button id="save-btn" class="btn-primary">Simpan Playlist</button>
+        </div>
+    </main>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module">
+        import { supabase } from '../utils/supabase.js';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        let allDestinations = [];
+        let selectedDestinations = []; // Array of destination objects
+
+        // INIT
+        (async () => {
+            if (id) {
+                document.getElementById('page-title').textContent = "Edit Playlist";
+                // Load Playlist Info
+                const { data: p } = await supabase.from('playlists').select('*').eq('id', id).single();
+                if (p) {
+                    document.getElementById('name').value = p.name;
+                    document.getElementById('slug').value = p.slug;
+                    document.getElementById('description').value = p.description;
+                }
+
+                // Load Items
+                const { data: items } = await supabase.from('playlist_items').select('destination_id, destinations(id, name)').eq('playlist_id', id).order('display_order');
+                if (items) {
+                    selectedDestinations = items.map(i => ({ id: i.destination_id, name: i.destinations.name }));
+                }
+            }
+
+            // Load All Dests
+            const { data: dests } = await supabase.from('destinations').select('id, name').order('name');
+            allDestinations = dests || [];
+
+            renderLists();
+        })();
+
+        function renderLists() {
+            // Render Left (All - Selected)
+            const leftList = document.getElementById('all-destinations');
+            leftList.innerHTML = allDestinations
+                .filter(d => !selectedDestinations.find(s => s.id === d.id))
+                .map(d => `
+                    <div class="list-item" onclick="window.addItem(${d.id})">
+                        <span>${d.name}</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                `).join('');
+
+            // Render Right (Selected)
+            const rightList = document.getElementById('playlist-items');
+            rightList.innerHTML = selectedDestinations.map((d, idx) => `
+                <div class="list-item">
+                    <span>${idx + 1}. ${d.name}</span>
+                    <i class="fa-solid fa-minus" onclick="window.removeItem(${d.id})" style="color:red; cursor:pointer;"></i>
+                </div>
+            `).join('');
+        }
+
+        window.addItem = (did) => {
+            const dest = allDestinations.find(d => d.id === did);
+            if (dest) {
+                selectedDestinations.push(dest);
+                renderLists();
+            }
+        };
+
+        window.removeItem = (did) => {
+            selectedDestinations = selectedDestinations.filter(d => d.id !== did);
+            renderLists();
+        };
+
+        // Auto Slug
+        document.getElementById('name').addEventListener('input', (e) => {
+            if (!id) {
+                document.getElementById('slug').value = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+            }
+        });
+
+        // SAVE
+        document.getElementById('save-btn').addEventListener('click', async () => {
+            const name = document.getElementById('name').value;
+            const slug = document.getElementById('slug').value;
+            const desc = document.getElementById('description').value;
+
+            let playlistId = id;
+
+            // 1. Upsert Playlist
+            if (id) {
+                await supabase.from('playlists').update({ name, slug, description: desc }).eq('id', id);
+            } else {
+                const { data, error } = await supabase.from('playlists').insert([{ name, slug, description: desc }]).select();
+                if (error) { alert(error.message); return; }
+                playlistId = data[0].id;
+            }
+
+            // 2. Sync Items (Delete all & Insert logic is easiest for MVP)
+            await supabase.from('playlist_items').delete().eq('playlist_id', playlistId);
+
+            if (selectedDestinations.length > 0) {
+                const itemsToInsert = selectedDestinations.map((d, idx) => ({
+                    playlist_id: playlistId,
+                    destination_id: d.id,
+                    display_order: idx
+                }));
+                const { error: itemsError } = await supabase.from('playlist_items').insert(itemsToInsert);
+                if (itemsError) console.error(itemsError);
+            }
+
+            alert("Playlist tersimpan!");
+            window.location.href = 'playlists.html';
+        });
+    </script>
+</body>
+
+</html>
