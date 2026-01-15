@@ -1,4 +1,4 @@
-import { renderNavbar } from '../components/Navbar.js';
+import { renderNavbar, initNavbar } from '../components/Navbar.js';
 import { renderFooter } from '../components/Footer.js';
 
 export function loadLayout(rootPath = '.') {
@@ -6,6 +6,9 @@ export function loadLayout(rootPath = '.') {
     const navbarRoot = document.getElementById('navbar-root');
     if (navbarRoot) {
         navbarRoot.innerHTML = renderNavbar(rootPath);
+        // Initialize Navbar Logic (Search, Theme, Auth, Mobile Menu)
+        // Delay slightly ensuring DOM is ready if needed, but usually sync is fine here since innerHTML is sync
+        initNavbar();
     }
 
     // 2. Inject Footer
@@ -22,35 +25,24 @@ export function loadLayout(rootPath = '.') {
         window.lucide.createIcons();
     }
 
-    // 5. Dispatch ready event for script.js to attach listeners (search, theme, etc.)
+    // 5. Dispatch ready event for any other scripts
+    window.isLayoutReady = true;
     document.dispatchEvent(new Event('layout:ready'));
 }
 
 function setActiveLink() {
     const path = window.location.pathname;
-    // Get the filename, default to index.html if empty path (root)
     let page = path.split("/").pop();
     if (page === "" || page === undefined) page = "index.html";
-
-    // Handle query params or anchors if present in pathname? No, pathname is just path.
-    // Ensure we match "detail-wisata.html" even if url is "detail-wisata.html?slug=..."
-    // (window.location.pathname usually doesn't include query, but let's be safe)
-
-    // Normalize page for matching
-    // If we are in a subfolder locally, page might be just the file name.
 
     const links = document.querySelectorAll('.nav-link');
     links.forEach(link => {
         link.classList.remove('active');
         const href = link.getAttribute('href');
-        // Simple matching: if href ends with the page name
-        // e.g. href="./index.html" matches page="index.html"
-        // href="destinasi.html" matches page="destinasi.html"
+        const cleanHref = href.replace(/^[./]+/, ''); // Remove ./ or ../
 
-        // Clean href of ./ or ../
-        const cleanHref = href.replace(/^[./]+/, '');
-
-        if (cleanHref === page) {
+        // Match exact or related (e.g. detail-wisata matches destinasi if we wanted, but sticking to 1:1)
+        if (cleanHref === page || (page.startsWith('detail-wisata') && cleanHref === 'detail-wisata.html')) {
             link.classList.add('active');
         }
     });
@@ -62,18 +54,12 @@ function setActiveLink() {
         const href = link.getAttribute('href');
         const cleanHref = href.replace(/^[./]+/, '');
 
-        if (cleanHref === page) {
+        if (cleanHref === page || (page.startsWith('detail-wisata') && cleanHref === 'detail-wisata.html')) {
             link.style.color = "var(--accent)";
         }
     });
 }
 
-// Auto-execution for convenience if imported as side-effect,
-// but usually script.js calls this or waits for it.
-// To be safe with the new modular approach, we rely on script.js importing and calling it,
-// OR we can auto-run if we suspect script.js expects it.
-// The previous layout.js had `document.addEventListener("DOMContentLoaded", loadLayout);`
-// We should keep that behavior but allow passing rootPath if needed.
-// By default, for root pages, it works without args.
-
+// Auto-run
 document.addEventListener("DOMContentLoaded", () => loadLayout());
+

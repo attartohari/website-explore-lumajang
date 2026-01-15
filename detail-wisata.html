@@ -22,378 +22,182 @@
 
   <!-- Main Style -->
   <link rel="stylesheet" href="style.css" />
+  <!-- Premium Detail Style -->
+  <link rel="stylesheet" href="assets/css/detail-premium.css" />
+
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <style>
-    /* Inline specific styles for details page to ensure immediate visual result, 
-         can be moved to style.css later */
-
-    .detail-hero {
-      height: 100vh;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding-bottom: 4rem;
-      color: white;
-      overflow: hidden;
-    }
-
-    .detail-overlay-info {
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-    }
-
-    .detail-hero-content {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 5%;
-    }
-
-    .hero-badges {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .badge-glass {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .section-nav {
-      position: sticky;
-      top: 80px;
-      /* Adjust based on navbar height */
-      background: var(--surface);
-      z-index: 90;
-      border-bottom: 1px solid var(--border);
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 1rem 0;
-    }
-
-    .section-nav ul {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-      padding: 0 5%;
-      margin: 0;
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-
-    .section-nav a {
-      font-weight: 500;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .section-nav a.active {
-      color: var(--accent);
-    }
-
-    /* LOGISTICS GRID */
-    .logistics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .log-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .log-card i {
-      font-size: 1.5rem;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .log-label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .log-value {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    /* TIMELINE VISIT FLOW */
-    .timeline-container {
-      position: relative;
-      padding-left: 2rem;
-      margin-top: 2rem;
-    }
-
-    .timeline-container::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 10px;
-      bottom: 10px;
-      width: 2px;
-      background: var(--border);
-    }
-
-    .timeline-item {
-      position: relative;
-      margin-bottom: 2.5rem;
-    }
-
-    .timeline-dot {
-      position: absolute;
-      left: -2rem;
-      top: 0;
-      width: 20px;
-      height: 20px;
-      background: var(--accent);
-      border-radius: 50%;
-      border: 4px solid var(--bg);
-      transform: translateX(-50%);
-      /* Center on line */
-      margin-left: 1px;
-    }
-
-    .timeline-content h4 {
-      margin-bottom: 0.5rem;
-      font-family: var(--font-display);
-    }
-
-    /* SPOT PHOTOS */
-    .spot-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .spot-card {
-      border-radius: 20px;
-      overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--border);
-    }
-
-    .spot-img {
-      height: 250px;
-      width: 100%;
-      object-fit: cover;
-    }
-
-    .spot-info {
-      padding: 1.5rem;
-    }
-
-    .tips-list li {
-      margin-bottom: 1rem;
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-
-    .tips-list i {
-      color: var(--accent);
-      margin-top: 5px;
-    }
-
-    /* Skeleton Loading */
-    .skeleton {
-      background: rgba(255, 255, 255, 0.05);
-      animation: pulse 1.5s infinite;
-      border-radius: 4px;
-    }
-
-    @keyframes pulse {
-      0% {
-        opacity: 0.6;
-      }
-
-      50% {
-        opacity: 1;
-      }
-
-      100% {
-        opacity: 0.6;
-      }
-    }
-  </style>
 </head>
 
-<body>
+<body class="detail-page">
   <!-- HEADER -->
   <div id="navbar-root"></div>
 
   <main id="detail-main">
-    <!-- SECTION 1: HERO DESTINASI -->
-    <section id="hero-detail" class="detail-hero">
-      <div class="hero-bg-layer" id="detail-hero-bg"></div>
-      <div class="detail-overlay-info"></div>
+    <!-- HERO SECTION -->
+    <section class="detail-hero">
+      <div id="hero-bg" class="detail-hero-bg"></div>
+      <div class="detail-overlay"></div>
 
-      <div class="detail-hero-content">
+      <div class="detail-content">
         <a href="destinasi.html" class="btn btn-outline" style="
               margin-bottom: 2rem;
               border-radius: 50px;
               padding: 0.5rem 1.5rem;
               font-size: 0.8rem;
+              border-color: rgba(255,255,255,0.3);
+              color: white;
               backdrop-filter: blur(5px);
             "><i class="fa-solid fa-arrow-left"></i> Kembali</a>
 
-        <div id="hero-data">
-          <!-- Data Injected Here -->
-          <div class="skeleton" style="height: 60px; width: 60%; margin-bottom: 1rem"></div>
-          <div class="skeleton" style="height: 20px; width: 40%; margin-bottom: 2rem"></div>
+        <div id="hero-badge-container" class="mb-2">
+          <!-- Badges injected here -->
+        </div>
+
+        <h1 id="hero-title" class="hero-title-large">Loading...</h1>
+        <p id="hero-desc" class="hero-short-desc">Sedang memuat informasi destinasi...</p>
+
+        <div class="hero-actions">
+          <a href="#map-section" class="btn btn-primary"><i class="fa-solid fa-location-dot"></i> Lihat Rute</a>
+          <a href="#spots-section" class="btn btn-outline" style="color:white; border-color:white;"><i
+              class="fa-solid fa-camera"></i> Spot Foto</a>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: RINGKASAN NILAI UTAMA -->
-    <section class="section">
+    <!-- CONTENT WRAPPER -->
+    <div class="section">
       <div class="container">
-        <div class="text-center" style="max-width: 800px; margin: 0 auto">
-          <span class="section-tag">Ringkasan</span>
-          <h2 class="section-title">Kenapa Wajib Kesini?</h2>
-          <div id="summary-content">
-            <div class="skeleton" style="height: 100px; width: 100%"></div>
+
+        <!-- INFO LOGISTICS -->
+        <div id="logistics-container" class="info-grid">
+          <!-- Info Cards injected here -->
+        </div>
+
+        <div class="content-layout">
+          <!-- LEFT COLUMN: Description & Spots -->
+          <div class="main-column">
+
+            <!-- DESCRIPTION -->
+            <div id="desc-container" class="mb-5">
+              <h2 class="section-title mb-2" style="font-size: 2rem;">Tentang Destinasi</h2>
+              <div id="rich-text-content" style="color: var(--text-muted); line-height: 1.8; margin-bottom: 2rem;">
+                <!-- Desc Content -->
+              </div>
+
+              <div id="highlight-box" class="highlight-box">
+                <h3><i class="fa-solid fa-star"></i> Kenapa Harus Kesini?</h3>
+                <p id="highlight-text">Loading highlight...</p>
+              </div>
+
+              <!-- TIMELINE / ALUR KUNJUNGAN -->
+              <div id="timeline-section" class="mb-5" style="display: none;">
+                <h3 class="section-title mb-4" style="font-size: 1.5rem;">Alur Kunjungan Ideal</h3>
+                <div id="timeline-container" class="timeline-wrapper">
+                  <!-- Timeline Items Injected Here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- SPOT PHOTOS -->
+            <div id="spots-section" class="mb-5">
+              <div class="section-header">
+                <span class="section-tag">Gallery</span>
+                <h2 class="section-title">Spot Foto Terbaik</h2>
+              </div>
+              <div id="spots-container" class="spot-grid-premium">
+                <!-- Spots injected here -->
+              </div>
+            </div>
+
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- SECTION 3: DESKRIPSI LENGKAP -->
-    <section class="section" style="background: var(--surface)">
-      <div class="container">
-        <div id="detailed-desc" class="glass-effect" style="padding: 3rem; border-radius: 20px">
-          <!-- Injected -->
-        </div>
-      </div>
-    </section>
+          <!-- RIGHT COLUMN: Map & Recommendations -->
+          <div class="sidebar-column">
 
-    <!-- SECTION 4: LOGISTIK CEPAT -->
-    <section class="section">
-      <div class="container">
-        <h3 class="section-title" style="font-size: 2rem; margin-bottom: 2rem">
-          Info Penting
-        </h3>
-        <div id="logistics-container" class="logistics-grid">
-          <!-- Injected -->
-        </div>
-      </div>
-    </section>
+            <!-- MAP CARD -->
+            <div id="map-section" class="sticky-top" style="top: 100px;">
+              <div
+                style="background: var(--surface); border: 1px solid var(--border); padding: 1rem; border-radius: 20px; margin-bottom: 2rem;">
+                <div id="map-detail"
+                  style="height: 300px; width: 100%; border-radius: 12px; margin-bottom: 1rem; z-index: 1;"></div>
+                <a id="gmaps-btn" href="#" target="_blank" class="btn btn-primary full-width">
+                  <i class="fa-solid fa-paper-plane"></i> Buka Google Maps
+                </a>
+              </div>
 
-    <!-- SECTION 5: SPOT FOTO -->
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Instagramable</span>
-          <h2 class="section-title">Spot Foto Terbaik</h2>
-        </div>
-        <div id="spots-container" class="spot-grid mt-2">
-          <!-- Injected -->
-        </div>
-      </div>
-    </section>
+              <!-- RECOMMENDATIONS -->
+              <div class="rec-section mb-4">
+                <h3
+                  style="font-size: 1.2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                  <i class="fa-solid fa-utensils" style="color: var(--accent); margin-right: 0.5rem;"></i> Kuliner &
+                  Istirahat
+                </h3>
+                <div id="rec-container" class="rec-list">
+                  <!-- Rec items injected here -->
+                </div>
+              </div>
 
-    <!-- SECTION 6: ALUR KUNJUNGAN -->
-    <section class="section" style="background: var(--surface)">
-      <div class="container">
-        <h3 class="section-title">Alur Kunjungan Ideal</h3>
-        <div id="timeline-container" class="timeline-container">
-          <!-- Injected -->
-        </div>
-      </div>
-    </section>
+              <!-- FACILITIES -->
+              <div class="rec-section">
+                <h3
+                  style="font-size: 1.2rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                  <i class="fa-solid fa-wifi" style="color: var(--accent); margin-right: 0.5rem;"></i> Fasilitas
+                </h3>
+                <div id="facilities-container" class="rec-list">
+                  <!-- Facilities list here -->
+                </div>
+              </div>
 
-    <!-- SECTION 7: KULINER -->
-    <section class="section">
-      <div class="container">
-        <div class="contact-wrapper glass-effect" style="grid-template-columns: 1fr">
-          <div class="contact-text">
-            <h2>Makan & Istirahat Disini</h2>
-            <p class="mb-2">Rekomendasi terbaik di sekitar lokasi.</p>
-            <div id="food-container" style="
-                  display: grid;
-                  gap: 1rem;
-                  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                  margin-top: 2rem;
-                ">
-              <!-- Injected -->
             </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- SECTION 8: PETA -->
-    <section class="section">
-      <div class="container">
-        <div id="map-detail" style="height: 400px; width: 100%; border-radius: 20px; z-index: 1"></div>
-        <div class="mt-2 text-center">
-          <a id="gmaps-btn" href="#" target="_blank" class="btn btn-primary"><i class="fa-solid fa-location-arrow"></i>
-            Buka Rute Google
-            Maps</a>
-        </div>
       </div>
-    </section>
+    </div>
 
-    <!-- SECTION 9: TIPS -->
-    <section class="section" style="background: var(--surface)">
+    <!-- RELATED DESTINATIONS -->
+    <section class="section" style="background: var(--surface); border-top: 1px solid var(--border);">
       <div class="container">
-        <div class="glass-effect" style="
-              padding: 3rem;
-              border-radius: 20px;
-              border-left: 5px solid var(--accent);
-            ">
-          <h3>
-            <i class="fa-solid fa-circle-exclamation"></i> Tips & Peringatan
-          </h3>
-          <ul id="tips-container" class="tips-list mt-2" style="list-style: none">
-            <!-- Injected -->
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 10: RELATED -->
-    <section class="section">
-      <div class="container">
-        <h2 class="section-title">Destinasi Serupa</h2>
+        <h2 class="section-title text-center mb-4">Destinasi Serupa</h2>
         <div id="related-container" class="category-grid-12"
-          style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))">
-          <!-- Injected -->
+          style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+          <!-- Related Items -->
         </div>
       </div>
     </section>
+
   </main>
 
   <div id="footer-root"></div>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox-modal" class="lightbox-modal">
+    <div class="lightbox-content">
+      <div class="lightbox-close" id="lb-close"><i class="fa-solid fa-xmark"></i></div>
+      <div class="lightbox-img-wrapper">
+        <img src="" alt="Spot Preview" id="lb-img" class="lightbox-img">
+      </div>
+      <div class="lightbox-details">
+        <h3 id="lb-title" class="lb-title">Spot Name</h3>
+        <div class="lb-meta">
+          <span id="lb-time"><i class="fa-regular fa-clock"></i> 08:00 - 10:00</span>
+        </div>
+        <p id="lb-desc" class="lb-desc">Description of the best angle and tips for this spot.</p>
+
+        <div class="lb-tip-box">
+          <i class="fa-solid fa-lightbulb"></i>
+          <p style="font-size: 0.9rem; margin:0;" id="lb-protip">Pro Tip: Use wide lens for best result.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script type="module" src="utils/layout.js"></script>
-  <script src="detail.js" type="module"></script>
-  <script type="module" src="script.js"></script> <!-- Core Script -->
+  <script type="module" src="detail.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 
 </html>

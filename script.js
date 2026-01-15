@@ -1,5 +1,5 @@
 import { supabase } from "./utils/supabase.js";
-import { destinations as localData } from "./destinations-data.js";
+// import { destinations as localData } from "./destinations-data.js"; // REMOVED: Deleted file
 import "./collections.js";
 
 // --- DATA FETCHING FOR SEARCH & HERO ---
@@ -31,95 +31,39 @@ async function initData() {
         distFromKull: "? km"
       }));
     } else {
-      throw new Error("Supabase data empty or error");
+      console.warn("Supabase data empty or error, using static fallback.");
+      destinations = []; // Keep empty, UI handles static
     }
   } catch (err) {
-    console.warn("Using local data fallback:", err.message);
-    destinations = Object.values(localData).map((d) => ({
-      nama: d.nama,
-      slug: d.slug,
-      kategori: d.kategori || [],
-      thumbnail: d.thumbnail,
-    }));
+    console.warn("Init Data Error:", err.message);
+    destinations = [];
   }
 }
-initData();
+// initData(); // Disabled to prevent unnecessary global fetching. Home page uses static/HTML data or specific fetchers.
 
 // --- AUTH LOGIC ---
-async function checkSession() {
-  const { data: { session }, error } = await supabase.auth.getSession();
-  updateAuthUI(session);
-}
-
-async function updateAuthUI(session) {
-  const container = document.getElementById("auth-container");
-  if (!container) return;
-
-  if (session) {
-    const { data: roleData } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", session.user.id)
-      .single();
-
-    const isAdmin = roleData && roleData.role === "admin";
-
-    container.innerHTML = `
-            ${isAdmin ? `<a href="admin/dashboard.html" class="nav-icon" title="Admin Dashboard"><i class="fa-solid fa-gauge-high"></i></a>` : ""}
-            <div class="auth-dropdown">
-                <button class="nav-icon" id="auth-btn" title="Akun">
-                    <i class="fa-solid fa-user-check" style="color: var(--accent);"></i>
-                </button>
-                <div class="auth-dropdown-menu">
-                    <span>${session.user.email}</span>
-                    <hr>
-                    <button id="logout-btn">Keluar</button>
-                </div>
-            </div>
-        `;
-
-    setTimeout(() => {
-      const logoutBtn = document.getElementById("logout-btn");
-      const authBtn = document.getElementById("auth-btn");
-      const menu = document.querySelector(".auth-dropdown-menu");
-
-      if (authBtn && menu) {
-        authBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          menu.classList.toggle("active");
-        });
-        document.addEventListener("click", () => menu.classList.remove("active"));
-      }
-
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", async () => {
-          await supabase.auth.signOut();
-          window.location.reload();
-        });
-      }
-    }, 100);
-  } else {
-    container.innerHTML = `
-            <a href="auth/login.html" class="nav-icon" title="Masuk">
-                <i class="fa-regular fa-user"></i>
-            </a>
-        `;
-  }
-}
+// --- AUTH LOGIC handled by Navbar.js ---
 
 // --- GLOBAL LISTENERS ---
 document.addEventListener("DOMContentLoaded", () => {
   if (window.lucide) {
     window.lucide.createIcons();
   }
-  checkSession();
+  // Navbar Init handled by layout.js -> Navbar.js
+
   initHomePage();
 });
 
-document.addEventListener('layout:ready', () => {
-  initNavbarListeners();
+function onLayoutReady() {
   initNewsletter();
-});
+  setupLegalModals();
+}
+
+if (window.isLayoutReady) {
+  onLayoutReady();
+} else {
+  document.addEventListener('layout:ready', onLayoutReady);
+}
 
 // --- HOME PAGE LOGIC ---
 function initHomePage() {
@@ -390,203 +334,19 @@ function initContactForm() {
   }
 }
 
-function initNavbarListeners() {
-  const menuToggle = document.getElementById("menu-toggle");
-  const mobileMenuOverlay = document.querySelector(".mobile-menu-overlay");
-  const closeMenu = document.querySelector(".close-menu");
-
-  if (menuToggle && mobileMenuOverlay) {
-    menuToggle.addEventListener("click", () => {
-      mobileMenuOverlay.classList.add("active");
-      document.body.classList.add("menu-open");
-    });
-  }
-  if (closeMenu && mobileMenuOverlay) {
-    closeMenu.addEventListener("click", () => {
-      mobileMenuOverlay.classList.remove("active");
-      document.body.classList.remove("menu-open");
-    });
-    mobileMenuOverlay.addEventListener("click", (e) => {
-      if (e.target === mobileMenuOverlay) {
-        mobileMenuOverlay.classList.remove("active");
-        document.body.classList.remove("menu-open");
-      }
-    });
-  }
-
-  const searchBtn = document.getElementById("search-btn");
-  const searchOverlay = document.querySelector(".search-overlay");
-  const closeSearch = document.querySelector(".close-search");
-  const globalSearchInput = document.getElementById("global-search");
-
-  if (searchBtn && searchOverlay) {
-    searchBtn.addEventListener("click", () => {
-      searchOverlay.classList.add("active");
-      if (globalSearchInput) globalSearchInput.focus();
-    });
-  }
-  if (closeSearch && searchOverlay) {
-    closeSearch.addEventListener("click", () => searchOverlay.classList.remove("active"));
-  }
-
-  setupSearchLogic();
-  setupLegalModals();
-  setupThemeToggle();
-}
-
-function setupThemeToggle() {
-  const themeToggle = document.getElementById("theme-toggle");
-  const html = document.documentElement;
-  const navbarLogo = document.querySelector(".navbar-logo");
-
-  const savedTheme = localStorage.getItem("theme") || "dark";
-  html.setAttribute("data-theme", savedTheme);
-  updateIcon(savedTheme, themeToggle, navbarLogo);
-
-  if (themeToggle) {
-    const newToggle = themeToggle.cloneNode(true);
-    themeToggle.parentNode.replaceChild(newToggle, themeToggle);
-
-    newToggle.addEventListener("click", () => {
-      const current = html.getAttribute("data-theme");
-      const next = current === "dark" ? "light" : "dark";
-      html.setAttribute("data-theme", next);
-      localStorage.setItem("theme", next);
-      updateIcon(next, newToggle, document.querySelector(".navbar-logo"));
-    });
-  }
-}
-
-function updateIcon(theme, toggleBtn, logoImg) {
-  if (!toggleBtn) return;
-  if (theme === "light") {
-    toggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-    if (logoImg) logoImg.src = "assets/images/ui/ireng.png";
-  } else {
-    toggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-    if (logoImg) logoImg.src = "assets/images/ui/putih.png";
-  }
-}
-
-function setupSearchLogic() {
-  const searchInput = document.getElementById("global-search");
-  const searchResultsContainer = document.getElementById("search-results-container");
-  const searchResultsWrapper = document.getElementById("search-results-wrapper");
-  const searchInitialState = document.getElementById("search-initial-state");
-  const searchNoResults = document.getElementById("search-no-results");
-  const recentSearchesContainer = document.getElementById("recent-searches");
-  const clearSearchBtn = document.getElementById("clear-search");
-
-  let recentSearches = JSON.parse(localStorage.getItem("recent_searches")) || [];
-
-  function renderRecentSearches() {
-    if (!recentSearchesContainer) return;
-    recentSearchesContainer.innerHTML = "";
-    if (recentSearches.length === 0) {
-      recentSearchesContainer.innerHTML = '<span style="color:var(--text-muted);font-size:0.8rem">Belum ada riwayat.</span>';
-      return;
-    }
-    recentSearches.forEach((term) => {
-      const chip = document.createElement("div");
-      chip.className = "recent-chip";
-      chip.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${term}`;
-      chip.addEventListener("click", () => {
-        if (searchInput) {
-          searchInput.value = term;
-          performSearch(term);
-        }
-      });
-      recentSearchesContainer.appendChild(chip);
-    });
-  }
-
-  function addToRecent(term) {
-    if (!term) return;
-    recentSearches = recentSearches.filter((t) => t !== term);
-    recentSearches.unshift(term);
-    if (recentSearches.length > 5) recentSearches.pop();
-    localStorage.setItem("recent_searches", JSON.stringify(recentSearches));
-    renderRecentSearches();
-  }
-
-  function performSearch(query) {
-    if (!query) {
-      if (searchInitialState) searchInitialState.classList.remove("hidden");
-      if (searchResultsWrapper) searchResultsWrapper.classList.add("hidden");
-      if (clearSearchBtn) clearSearchBtn.classList.add("hidden");
-      return;
-    }
-
-    if (clearSearchBtn) clearSearchBtn.classList.remove("hidden");
-    if (searchInitialState) searchInitialState.classList.add("hidden");
-    if (searchResultsWrapper) searchResultsWrapper.classList.remove("hidden");
-    if (searchResultsContainer) searchResultsContainer.innerHTML = "";
-    if (searchNoResults) searchNoResults.classList.add("hidden");
-
-    const lowerQuery = query.toLowerCase();
-
-    const results = destinations.filter((dest) => {
-      return (
-        dest.nama.toLowerCase().includes(lowerQuery) ||
-        (dest.kategori && dest.kategori.some((k) => k.toLowerCase().includes(lowerQuery))) ||
-        (dest.district && dest.district.toLowerCase().includes(lowerQuery)) ||
-        (dest.teaser && dest.teaser.toLowerCase().includes(lowerQuery))
-      );
-    });
-
-    if (results.length === 0) {
-      if (searchNoResults) searchNoResults.classList.remove("hidden");
-    } else {
-      results.forEach((dest) => {
-        const card = document.createElement("a");
-        card.className = "search-card";
-        card.href = `detail-wisata.html?slug=${dest.slug}`;
-        card.style.animation = "fadeIn 0.3s ease forwards";
-
-        card.innerHTML = `
-                  <img src="${dest.thumbnail && dest.thumbnail.startsWith("http") ? dest.thumbnail : dest.thumbnail || "https://placehold.co/60x60"}" alt="${dest.nama}" class="search-card-img" />
-                  <div class="search-card-content">
-                      <div class="search-card-title">${dest.nama}</div>
-                      <div class="search-card-badge">${dest.kategori && dest.kategori[0] ? dest.kategori[0] : "Wisata"}</div>
-                  </div>
-                  `;
-        card.addEventListener("click", () => addToRecent(query));
-        if (searchResultsContainer) searchResultsContainer.appendChild(card);
-      });
-    }
-  }
-
-  if (searchInput) {
-    renderRecentSearches();
-    searchInput.addEventListener("input", (e) => performSearch(e.target.value));
-
-    if (clearSearchBtn) {
-      clearSearchBtn.addEventListener("click", () => {
-        searchInput.value = "";
-        performSearch("");
-        searchInput.focus();
-      });
-    }
-
-    const searchOverlay = document.querySelector(".search-overlay");
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.target.classList.contains("active")) {
-          setTimeout(() => searchInput.focus(), 100);
-        }
-      });
-    });
-    if (searchOverlay) observer.observe(searchOverlay, { attributes: true, attributeFilter: ["class"] });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && searchOverlay.classList.contains("active")) {
-        searchOverlay.classList.remove("active");
-      }
-    });
-  }
-}
-
 function setupLegalModals() {
+  // ... logic needed or provided below ...
+  // Since I'm replacing chunk, I need to make sure I don't delete setupLegalModals logic if I only replace UP TO it.
+  // The previous range included `initNavbarListeners` and `setupThemeToggle`.
+  // My replacement logic REPLACES those functions with `setupLegalModals` call in listener, 
+  // and `setupLegalModals` FUNCTION DEFINITION needs to be preserved or re-added.
+  // In the original file, `setupLegalModals` was defined AFTER initNavbarListeners. 
+  // I will include its definition here to be safe or rely on the fact that I am replacing a chunk.
+  // Wait, the chunk replacement ends at 640.
+  // `initNavbarListeners` started at 393.
+  // `setupLegalModals` started at 589.
+  // So my replacement overwrites `setupLegalModals`. I MUST include it.
+
   console.log("Setting up Legal Modals (Delegated)...");
 
   if (window._legalModalsInitialized) return;

@@ -79,6 +79,12 @@
                     <textarea id="content" rows="15" placeholder="Tulis konten artikel di sini..."></textarea>
                 </div>
 
+                <!-- ADDED: Excerpt -->
+                <div class="form-group">
+                    <label>Excerpt (Ringkasan untuk kartu)</label>
+                    <textarea id="excerpt" rows="3" placeholder="Ringkasan singkat..."></textarea>
+                </div>
+
                 <!-- CHECKLIST BUILDER -->
                 <div class="form-group">
                     <label style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-list-check"></i>
@@ -114,6 +120,10 @@
                         <option value="Review">Review</option>
                         <option value="Berita">Berita</option>
                         <option value="Kuliner">Kuliner</option>
+                        <option value="Safety">Safety</option>
+                        <option value="Itinerary">Itinerary</option>
+                        <option value="Edukasi">Edukasi</option>
+                        <option value="Fotografi">Fotografi</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -124,21 +134,36 @@
                         <option value="archived">Archived</option>
                     </select>
                 </div>
+
+                <!-- ADDED: Featured Toggle -->
+                <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" id="is_featured" style="width:20px; height:20px;">
+                    <label for="is_featured" style="margin:0; cursor:pointer;">Tampilkan di "Pilihan"?
+                        (Featured)</label>
+                </div>
+
                 <div class="form-group">
                     <label>Cover Image</label>
+                    <input type="text" id="cover_url_manual" placeholder="Paste URL Image (atau upload bawah)"
+                        style="margin-bottom:5px;">
                     <input type="file" id="cover_file">
                     <input type="hidden" id="cover_path">
                     <img id="cover_preview"
                         style="width:100%; height:120px; object-fit:cover; margin-top:10px; display:none; border-radius:8px;">
                 </div>
 
-                <button id="save-btn" class="btn-save" style="width:100%;">Publish</button>
+                <div class="form-group">
+                    <label>Tags (Mood/Vibe) - Pisahkan koma</label>
+                    <input type="text" id="mood_tags" placeholder="e.g. Tenang, Extreme, Santai">
+                </div>
+
+                <button id="save-btn" class="btn-save" style="width:100%;">Simpan Artikel</button>
             </div>
         </div>
     </main>
 
     <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/tips.js"></script>
+    <script type="module" src="js/form-article.js"></script>
 </body>
 
 </html>

@@ -124,58 +124,7 @@
 
     <script type="module" src="utils/layout.js"></script>
     <script type="module" src="script.js"></script>
-
-    <script type="module">
-        import { supabase } from './utils/supabase.js';
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const slug = urlParams.get('slug');
-
-        async function loadArticle() {
-            if (!slug) return;
-
-            const { data: article, error } = await supabase.from('articles').select('*').eq('slug', slug).single();
-            if (error || !article) {
-                document.querySelector('main').innerHTML = '<div class="container section text-center"><h1>404 Artikel Tidak Ditemukan</h1></div>';
-                return;
-            }
-
-            document.title = `${article.title} - Explore Lumajang`;
-            document.getElementById('title').textContent = article.title;
-            document.getElementById('cat-badge').textContent = article.category;
-            document.getElementById('hero-bg').style.backgroundImage = `url('${article.cover_image}')`;
-            document.getElementById('content').innerHTML = article.content;
-
-            // Fetch Checklist
-            const { data: checklist } = await supabase.from('checklists').select('*').eq('article_id', article.id).single();
-
-            if (checklist && checklist.items && checklist.items.length > 0) {
-                renderPlanner(checklist);
-            }
-        }
-
-        function renderPlanner(checklist) {
-            const container = document.getElementById('planner-container');
-            container.innerHTML = `
-              <div class="planner-widget">
-                  <div class="planner-header">
-                      <div class="planner-title">📋 ${checklist.title}</div>
-                      <small>Checklist Persiapan</small>
-                  </div>
-                  <div id="planner-list">
-                      ${checklist.items.map((item, idx) => `
-                          <div class="planner-item" onclick="this.classList.toggle('checked')">
-                              <div class="planner-check"><i class="fa-solid fa-check"></i></div>
-                              <span>${item}</span>
-                          </div>
-                      `).join('')}
-                  </div>
-              </div>
-          `;
-        }
-
-        loadArticle();
-    </script>
+    <script type="module" src="js/detail-tips.js"></script>
 </body>
 
 </html>

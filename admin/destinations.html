@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Destinasi - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-style.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
+        <nav class="sidebar-nav">
+            <a href="home-manager.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i> Home Manager</a>
+            <a href="destinations.html" class="nav-item active"><i class="fa-solid fa-map-location-dot"></i>
+                Destinasi</a>
+            <a href="playlists.html" class="nav-item"><i class="fa-solid fa-list-ul"></i> Playlist</a>
+            <a href="tips.html" class="nav-item"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+            <a href="newsletter.html" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
+        </nav>
+        <button id="logout-btn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i>
+            Logout</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1 class="page-title">Manajemen Destinasi</h1>
+            <a href="form-destination.html" class="btn-primary"><i class="fa-solid fa-plus"></i> Tambah Destinasi</a>
+        </header>
+
+        <section class="content-section">
+            <div class="table-actions" style="margin-bottom: 1rem; display: flex; gap: 1rem;">
+                <input type="text" id="search-input" placeholder="Cari destinasi..."
+                    style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ddd; width: 100%; max-width: 300px;">
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Nama & Slug</th>
+                            <th>Kategori</th>
+                            <th>Status.</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dest-table-body">
+                        <tr>
+                            <td colspan="5" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/destinations.js"></script>
+</body>
+
+</html>

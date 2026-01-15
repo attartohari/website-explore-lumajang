@@ -13,57 +13,69 @@
 <body>
   <div id="navbar-root"></div>
 
-  <main style="padding-top: 100px; padding-bottom: 3rem; min-height: 80vh;">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h1 class="section-title">Tips & Panduan Wisata</h1>
-        <p class="section-desc-center">Informasi penting untuk perjalanan yang lebih aman dan nyaman.</p>
-      </div>
+  <main id="tips-main">
+    <!-- HERO -->
+    <section class="tips-hero">
+      <div class="container text-center">
+        <h1 class="hero-title">Tips & Panduan Wisata</h1>
+        <p class="hero-desc" style="max-width: 600px; margin: 0 auto;">
+          Kumpulan informasi penting, itinerary, dan panduan lengkap untuk pengalaman terbaik di Lumajang.
+        </p>
 
-      <div id="articles-grid" class="category-grid-12">
-        <div class="col-12 text-center text-muted">Loading articles...</div>
+        <!-- SEARCH & FILTER -->
+        <div class="search-filter-container mt-3">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="tips-search" placeholder="Cari artikel...">
+          </div>
+          <div class="filter-box">
+            <select id="tips-category">
+              <option value="All">Semua Kategori</option>
+              <option value="Panduan">Panduan</option>
+              <option value="Tips Hemat">Tips Hemat</option>
+              <option value="Safety">Safety</option>
+              <option value="Itinerary">Itinerary</option>
+              <option value="Edukasi">Edukasi</option>
+              <option value="Fotografi">Fotografi</option>
+            </select>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- FEATURED / PINNED -->
+    <section class="section" id="featured-section" style="padding-top: 2rem;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Rekomendasi</span>
+          <h2 class="section-title">Artikel Pilihan</h2>
+        </div>
+        <div id="featured-grid" class="featured-grid">
+          <!-- Injected -->
+        </div>
+      </div>
+    </section>
+
+    <!-- LATEST ARTICLES -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title mb-4">Semua Artikel</h2>
+        <div id="articles-grid" class="category-grid-12">
+          <!-- Injected -->
+        </div>
+
+        <div id="empty-state" class="text-center text-muted mt-5" style="display:none;">
+          <i class="fa-solid fa-file-circle-xmark" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+          <p>Tidak ada artikel ditemukan.</p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <div id="footer-root"></div>
 
   <script type="module" src="utils/layout.js"></script>
-  <script type="module" src="script.js"></script>
-
-  <script type="module">
-    import { supabase } from './utils/supabase.js';
-
-    async function loadArticles() {
-      // Fetch data
-      const { data, error } = await supabase
-        .from('articles')
-        .select('*')
-        .eq('status', 'published')
-        .order('created_at', { ascending: false });
-
-      const container = document.getElementById('articles-grid');
-
-      if (!data || data.length === 0) {
-        container.innerHTML = '<div class="col-12 text-center">Belum ada artikel.</div>';
-        return;
-      }
-
-      container.innerHTML = data.map(item => `
-            <a href="detail-tips.html?slug=${item.slug}" class="cat-card-new" style="display:block; text-decoration:none; padding:0; overflow:hidden;">
-                 <div style="height: 200px; overflow: hidden;">
-                    <img src="${item.cover_image || 'assets/images/placeholder.jpg'}" style="width: 100%; height: 100%; object-fit: cover; transition: 0.3s;">
-                 </div>
-                 <div style="padding: 1.5rem;">
-                     <span style="font-size: 0.8rem; color: var(--accent); text-transform:uppercase; letter-spacing:1px;">${item.category}</span>
-                     <h3 style="margin: 0.5rem 0; color: white;">${item.title}</h3>
-                 </div>
-            </a>
-        `).join('');
-    }
-
-    loadArticles();
-  </script>
+  <script type="module" src="js/tips.js"></script> <!-- Moved logic here -->
 </body>
 
 </html>

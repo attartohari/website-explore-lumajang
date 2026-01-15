@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Destinasi - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-style.css">
+    <style>
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .preview-box {
+            width: 100%;
+            height: 200px;
+            background: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #fff;
+            padding: 0.3rem 0.6rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .image-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .divider {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: 600;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="brand"><i class="fa-solid fa-compass"></i> Admin Panel</div>
+        <nav class="sidebar-nav">
+            <a href="home-manager.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i> Home Manager</a>
+            <a href="destinations.html" class="nav-item active"><i class="fa-solid fa-map-location-dot"></i>
+                Destinasi</a>
+            <a href="playlists.html" class="nav-item"><i class="fa-solid fa-list-ul"></i> Playlist</a>
+            <a href="tips.html" class="nav-item"><i class="fa-solid fa-lightbulb"></i> Tips & Artikel</a>
+            <a href="newsletter.html" class="nav-item"><i class="fa-solid fa-envelope"></i> Newsletter</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <a href="destinations.html" class="btn-icon"><i class="fa-solid fa-arrow-left"></i></a>
+                <h1 class="page-title" id="page-title">Tambah Destinasi</h1>
+            </div>
+            <div class="header-actions">
+                <button type="button" class="btn-secondary" id="btn-cancel">Batal</button>
+                <button type="submit" form="dest-form" class="btn-primary" id="btn-save">Simpan Perubahan</button>
+            </div>
+        </header>
+
+        <section class="content-section">
+            <form id="dest-form">
+                <div class="form-grid">
+                    <!-- BASIC INFO -->
+                    <div class="form-group">
+                        <label>Nama Destinasi</label>
+                        <input type="text" id="name" required placeholder="Contoh: Air Terjun Tumpak Sewu">
+                    </div>
+                    <div class="form-group">
+                        <label>Slug (URL) <small class="text-muted">(Auto-generated)</small></label>
+                        <input type="text" id="slug" required placeholder="tumpak-sewu">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kategori Utama</label>
+                        <select id="category">
+                            <option value="Wisata Alam">Wisata Alam</option>
+                            <option value="Air Terjun">Air Terjun</option>
+                            <option value="Pegunungan">Pegunungan</option>
+                            <option value="Pantai">Pantai</option>
+                            <option value="Danau">Danau</option>
+                            <option value="Sejarah">Sejarah</option>
+                            <option value="Kuliner">Kuliner</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="status">
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                    </div>
+
+                    <!-- META SPECS -->
+                    <div class="form-group">
+                        <label>Harga Tiket (Teks)</label>
+                        <input type="text" id="ticket_price" placeholder="Contoh: Rp 10.000/orang">
+                    </div>
+                    <div class="form-group">
+                        <label>Estimasi Waktu</label>
+                        <input type="text" id="est_time" placeholder="Contoh: 2-3 Jam">
+                    </div>
+                    <div class="form-group">
+                        <label>Tingkat Kesulitan</label>
+                        <select id="trek_level">
+                            <option value="Mudah">Mudah</option>
+                            <option value="Sedang">Sedang</option>
+                            <option value="Sulit">Sulit</option>
+                            <option value="Extreme">Extreme</option>
+                        </select>
+                    </div>
+
+                    <!-- LOCATION -->
+                    <div class="form-group">
+                        <label>Latitude</label>
+                        <input type="number" id="lat" step="any" placeholder="-8.xxxx">
+                    </div>
+                    <div class="form-group">
+                        <label>Longitude</label>
+                        <input type="number" id="lng" step="any" placeholder="113.xxxx">
+                    </div>
+
+                    <!-- MOODS -->
+                    <div class="form-group full-width">
+                        <label>Moods / Tags (Filter)</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="healing">
+                                Healing</label>
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="family">
+                                Family</label>
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="adventure">
+                                Adventure</label>
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="waterfall">
+                                Waterfall</label>
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="mountain">
+                                Mountain</label>
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="beach">
+                                Beach</label>
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="easy"> Easy
+                                Access</label>
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="budget"> Low
+                                Budget</label>
+                            <label class="checkbox-item"><input type="checkbox" name="moods" value="extreme">
+                                Extreme</label>
+                        </div>
+                    </div>
+
+                    <!-- IMAGES (Flexible: Local, Upload, or URL) -->
+                    <div class="form-group full-width">
+                        <label>Thumbnail Image</label>
+                        <div class="image-input-group">
+                            <select id="thumbnail_select" class="image-select">
+                                <option value="">-- Pilih dari Local Assets --</option>
+                            </select>
+                            <span class="divider">ATAU</span>
+                            <input type="file" id="thumbnail_file" accept="image/*">
+                            <span class="divider">ATAU</span>
+                            <input type="text" id="thumbnail_url" placeholder="Paste Custom URL (https://...)">
+                        </div>
+                        <div class="preview-box">
+                            <img id="thumbnail_preview" src="../assets/images/ui/placeholder.png">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Hero Image (Detail Header)</label>
+                        <div class="image-input-group">
+                            <select id="hero_select" class="image-select">
+                                <option value="">-- Pilih dari Local Assets --</option>
+                            </select>
+                            <span class="divider">ATAU</span>
+                            <input type="file" id="hero_file" accept="image/*">
+                            <span class="divider">ATAU</span>
+                            <input type="text" id="hero_url" placeholder="Paste Custom URL (https://...)">
+                        </div>
+                        <div class="preview-box">
+                            <img id="hero_preview" src="../assets/images/ui/placeholder.png">
+                        </div>
+                    </div>
+
+                    <!-- DESCRIPTIONS -->
+                    <div class="form-group full-width">
+                        <label>Deskripsi Singkat (Card Teaser)</label>
+                        <textarea id="short_desc" rows="3" placeholder="Ringkasan menarik untuk card..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Deskripsi Lengkap (Detail Page)</label>
+                        <textarea id="description" rows="6" placeholder="Penjelasan lengkap wisata..."></textarea>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script type="module" src="js/form-destination.js"></script>
+</body>
+
+</html>
